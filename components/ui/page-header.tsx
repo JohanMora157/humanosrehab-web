@@ -9,7 +9,7 @@ interface PageHeaderProps {
 
 export function PageHeader({ badge, title, description, bgImage }: PageHeaderProps) {
   return (
-    <section className="relative py-20 lg:py-28 text-white overflow-hidden bg-[#072B4F]">
+    <section className="relative pt-10 pb-14 lg:pt-14 lg:pb-20 text-white overflow-hidden bg-[#072B4F]">
       {/* Blurred image background layer (Carousel effect) */}
       {bgImage && (
         <div className="absolute inset-0 w-full h-full overflow-hidden select-none pointer-events-none">

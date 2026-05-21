@@ -5,7 +5,7 @@ import { Star, Calendar, Activity, CheckCircle, Shield } from "lucide-react"
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-transparent pt-24 pb-16 lg:pt-32 lg:pb-24">
+    <section className="relative overflow-hidden bg-transparent pt-4 pb-12 lg:pt-8 lg:pb-20">
       {/* Biomechanical active sensor nodes (postural analysis overlay) */}
       <div className="absolute top-[28%] left-[6%] pointer-events-none select-none hidden lg:block animate-float">
         <span className="relative flex h-3.5 w-3.5">
