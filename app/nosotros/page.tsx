@@ -17,6 +17,7 @@ export default function NosotrosPage() {
         badge="Sobre nosotros"
         title="Fisioterapia con enfoque humano y profesional"
         description="Acompañamos tu proceso de recuperación con tratamientos personalizados y un equipo comprometido con tu bienestar."
+        bgImage="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-pm1Y5QiXI4Md8qgc8KFxrZ2HKcx0h2.png"
       />
       <AboutContent />
       <ValuesSection />

@@ -16,6 +16,7 @@ export default function ServiciosPage() {
         badge="Nuestros servicios"
         title="Servicios para tu recuperación física"
         description="Ofrecemos tratamientos especializados para aliviar el dolor, recuperar movilidad y mejorar tu calidad de vida."
+        bgImage="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-uQhlmMcbHYP9AMQ8TbcGpEUG0A71Ud.png"
       />
       <ServicesGrid />
       <ConditionsSection />

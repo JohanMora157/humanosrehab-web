@@ -14,6 +14,7 @@ export default function AgendarCitaPage() {
         badge="Agendar cita"
         title="Agenda tu valoración fisioterapéutica"
         description="Cuéntanos qué sientes y te ayudaremos a encontrar el servicio más adecuado para tu recuperación."
+        bgImage="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-W7kul7TsRGLitaYXgTnfkQFW5QutbD.png"
       />
       <AppointmentForm />
     </PageLayout>

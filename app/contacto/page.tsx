@@ -15,6 +15,7 @@ export default function ContactoPage() {
         badge="Contacto"
         title="Estamos en Cali"
         description="Visítanos en nuestro consultorio o contáctanos para agendar tu cita."
+        bgImage="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-dsYNDGnE85fZdm7sTVQBW43BhvXFS2.png"
       />
       <ContactInfo />
       <MapSection />

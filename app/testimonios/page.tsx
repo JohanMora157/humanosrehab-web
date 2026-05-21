@@ -17,6 +17,7 @@ export default function TestimoniosPage() {
         badge="Opiniones verificadas"
         title="Pacientes que confían en Humanos"
         description="Conoce las experiencias de quienes han confiado en nosotros para su recuperación."
+        bgImage="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-y6Srx6vFmSfcjBAuMdHH3rmdpLNagd.png"
       />
       <TestimonialsStats />
       <TestimonialsGrid />
