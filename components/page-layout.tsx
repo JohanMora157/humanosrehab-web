@@ -1,6 +1,7 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
+import { Chatbot } from "@/components/chatbot"
 
 export default function PageLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -139,6 +140,7 @@ export default function PageLayout({ children }: { children: React.ReactNode }) 
       </main>
       <Footer />
       <WhatsAppButton />
+      <Chatbot />
     </>
   )
 }
