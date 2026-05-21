@@ -35,6 +35,29 @@ export default function PageLayout({ children }: { children: React.ReactNode }) 
           <circle cx="72" cy="420" r="3.5" fill="#1667B7" className="animate-pulse opacity-90" />
         </svg>
 
+        {/* TRANSVERSAL KINETIC CURVES 1 (Weaving across screen at ~28% height) */}
+        <svg className="absolute top-[28%] left-0 w-full h-[400px] fill-none pointer-events-none select-none opacity-80 z-0" viewBox="0 0 1440 400" preserveAspectRatio="none">
+          {/* Static main anatomical curve */}
+          <path d="M-40,100 C300,320 600,40 1000,360 C1200,440 1350,150 1480,250" stroke="#1667B7" strokeWidth="1" className="opacity-12" />
+          {/* Flowing energy pulse */}
+          <path d="M-40,100 C300,320 600,40 1000,360 C1200,440 1350,150 1480,250" stroke="#1667B7" strokeWidth="1.8" className="opacity-30 animate-flow-slow" strokeDasharray="120, 280" />
+          {/* Secondary dynamic fiber (Red Accent) */}
+          <path d="M-40,150 C280,360 580,90 980,310 C1180,390 1380,110 1480,200" stroke="#E63946" strokeWidth="0.8" className="opacity-15 animate-flow-fast" strokeDasharray="65, 220" />
+          {/* Reverse flowing dotted postural reference */}
+          <path d="M-40,120 C290,340 590,70 990,340 C1190,410 1370,130 1480,230" stroke="#1667B7" strokeWidth="0.8" strokeDasharray="3,3" className="opacity-15 animate-flow-reverse" />
+          
+          {/* Biomechanical Motion Nodes (Joint capture markers) */}
+          <g>
+            <circle cx="450" cy="200" r="4.5" fill="#E63946" className="animate-pulse opacity-70" />
+            <line x1="430" y1="200" x2="470" y2="200" stroke="#E63946" strokeWidth="0.5" strokeDasharray="2,2" className="opacity-40" />
+            <line x1="450" y1="180" x2="450" y2="220" stroke="#E63946" strokeWidth="0.5" strokeDasharray="2,2" className="opacity-40" />
+          </g>
+          <g>
+            <circle cx="1000" cy="360" r="3.5" fill="#1667B7" className="animate-pulse opacity-75" />
+            <line x1="980" y1="360" x2="1020" y2="360" stroke="#1667B7" strokeWidth="0.5" strokeDasharray="2,2" className="opacity-40" />
+          </g>
+        </svg>
+
         {/* Right-side kinetic curves & postural guide lines (middle third) */}
         <svg className="absolute top-[48%] right-0 h-[700px] w-40 fill-none pointer-events-none select-none opacity-90 animate-sway-right" viewBox="0 0 100 700" preserveAspectRatio="none">
           {/* Static anatomical line */}
@@ -52,6 +75,29 @@ export default function PageLayout({ children }: { children: React.ReactNode }) 
           <circle cx="28" cy="460" r="4.5" fill="#E63946" className="animate-pulse opacity-90" />
         </svg>
 
+        {/* TRANSVERSAL KINETIC CURVES 2 (Weaving across screen at ~58% height) */}
+        <svg className="absolute top-[58%] left-0 w-full h-[450px] fill-none pointer-events-none select-none opacity-80 z-0" viewBox="0 0 1440 450" preserveAspectRatio="none">
+          {/* Static main anatomical curve */}
+          <path d="M1480,100 C1140,320 840,40 500,380 C300,460 150,150 -40,250" stroke="#E63946" strokeWidth="1" className="opacity-12" />
+          {/* Flowing energy pulse */}
+          <path d="M1480,100 C1140,320 840,40 500,380 C300,460 150,150 -40,250" stroke="#E63946" strokeWidth="1.8" className="opacity-30 animate-flow-fast" strokeDasharray="140, 300" />
+          {/* Secondary dynamic fiber (Blue Accent) */}
+          <path d="M1480,150 C1120,360 820,90 480,330 C280,410 130,110 -40,200" stroke="#1667B7" strokeWidth="0.8" className="opacity-15 animate-flow-slow" strokeDasharray="75, 230" />
+          {/* Reverse flowing dotted postural reference */}
+          <path d="M1480,120 C1130,340 830,70 490,350 C290,440 140,130 -40,230" stroke="#E63946" strokeWidth="0.8" strokeDasharray="4,4" className="opacity-12 animate-flow-reverse" />
+          
+          {/* Biomechanical Motion Nodes (Joint capture markers) */}
+          <g>
+            <circle cx="950" cy="220" r="4.5" fill="#1667B7" className="animate-pulse opacity-70" />
+            <line x1="930" y1="220" x2="970" y2="220" stroke="#1667B7" strokeWidth="0.5" strokeDasharray="2,2" className="opacity-40" />
+            <line x1="950" y1="200" x2="950" y2="240" stroke="#1667B7" strokeWidth="0.5" strokeDasharray="2,2" className="opacity-40" />
+          </g>
+          <g>
+            <circle cx="350" cy="380" r="3.5" fill="#E63946" className="animate-pulse opacity-75" />
+            <line x1="330" y1="380" x2="370" y2="380" stroke="#E63946" strokeWidth="0.5" strokeDasharray="2,2" className="opacity-40" />
+          </g>
+        </svg>
+
         {/* Left-side kinetic curves & postural guide lines (lower third) */}
         <svg className="absolute top-[78%] left-0 h-[650px] w-36 fill-none pointer-events-none select-none opacity-95 animate-sway-left" viewBox="0 0 100 650" preserveAspectRatio="none">
           {/* Static anatomical line */}
@@ -67,6 +113,26 @@ export default function PageLayout({ children }: { children: React.ReactNode }) 
           <circle cx="32" cy="240" r="4.5" fill="#E63946" className="animate-pulse opacity-85" />
           <line x1="32" y1="240" x2="52" y2="240" stroke="#E63946" strokeWidth="0.5" strokeDasharray="2,2" className="opacity-60" />
           <circle cx="62" cy="440" r="3.5" fill="#1667B7" className="animate-pulse opacity-90" />
+        </svg>
+
+        {/* TRANSVERSAL KINETIC CURVES 3 (Weaving across screen at ~84% height) */}
+        <svg className="absolute top-[84%] left-0 w-full h-[400px] fill-none pointer-events-none select-none opacity-80 z-0" viewBox="0 0 1440 400" preserveAspectRatio="none">
+          {/* Static main anatomical curve */}
+          <path d="M-40,200 C300,50 700,350 1000,100 C1200,20 1350,300 1480,150" stroke="#1667B7" strokeWidth="1" className="opacity-12" />
+          {/* Flowing energy pulse */}
+          <path d="M-40,200 C300,50 700,350 1000,100 C1200,20 1350,300 1480,150" stroke="#1667B7" strokeWidth="1.8" className="opacity-30 animate-flow-slow" strokeDasharray="110, 260" />
+          {/* Secondary dynamic fiber (Red Accent) */}
+          <path d="M-40,240 C320,90 680,390 980,140 C1180,60 1370,340 1480,190" stroke="#E63946" strokeWidth="0.8" className="opacity-15 animate-flow-fast" strokeDasharray="70, 180" />
+          
+          {/* Biomechanical Motion Nodes (Joint capture markers) */}
+          <g>
+            <circle cx="700" cy="280" r="4.5" fill="#E63946" className="animate-pulse opacity-70" />
+            <line x1="680" y1="280" x2="720" y2="280" stroke="#E63946" strokeWidth="0.5" strokeDasharray="2,2" className="opacity-40" />
+            <line x1="700" y1="260" x2="700" y2="300" stroke="#E63946" strokeWidth="0.5" strokeDasharray="2,2" className="opacity-40" />
+          </g>
+          <g>
+            <circle cx="1200" cy="100" r="3.5" fill="#1667B7" className="animate-pulse opacity-75" />
+          </g>
         </svg>
 
         <div className="relative z-10">{children}</div>
