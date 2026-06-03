@@ -21,12 +21,12 @@ export default function TerminosYCondiciones() {
 
         <h2 style={styles.heading}>1. Identificación del responsable</h2>
         <p><strong>Nombre comercial:</strong> Humanos Rehabilitación y Fisioterapia Deportiva</p>
-        <p><strong>Titular o razón social:</strong> [Nombre completo o razón social]</p>
-        <p><strong>NIT / Cédula:</strong> [NIT o cédula]</p>
+        <p><strong>Titular o razón social:</strong> Julian Saenz</p>
+        <p><strong>NIT / Cédula:</strong> 16287822</p>
         <p><strong>Ciudad:</strong> Cali, Colombia</p>
-        <p><strong>Dirección:</strong> [Dirección física]</p>
-        <p><strong>Correo electrónico:</strong> [correo@dominio.com]</p>
-        <p><strong>Teléfono / WhatsApp:</strong> [número de contacto]</p>
+        <p><strong>Dirección:</strong> Av. 2d Nte. #24N-85, El Piloto</p>
+        <p><strong>Correo electrónico:</strong> humanosrehab@gmail.com</p>
+        <p><strong>Teléfono / WhatsApp:</strong> 3177995831</p>
         <p><strong>Sitio web:</strong> https://www.humanosrehab.com</p>
 
         <h2 style={styles.heading}>2. Objeto de los canales digitales</h2>
@@ -170,9 +170,9 @@ export default function TerminosYCondiciones() {
         <h2 style={styles.heading}>14. Contacto</h2>
         <p>Para preguntas sobre estos Términos y Condiciones, el usuario podrá comunicarse a:</p>
         <p><strong>Humanos Rehabilitación y Fisioterapia Deportiva</strong></p>
-        <p><strong>Correo electrónico:</strong> [correo@dominio.com]</p>
-        <p><strong>Teléfono / WhatsApp:</strong> [número de contacto]</p>
-        <p><strong>Dirección:</strong> [dirección física]</p>
+        <p><strong>Correo electrónico:</strong> humanosrehab@gmail.com</p>
+        <p><strong>Teléfono / WhatsApp:</strong> 3177995831</p>
+        <p><strong>Dirección:</strong> Av. 2d Nte. #24N-85, El Piloto</p>
         <p><strong>Ciudad:</strong> Cali, Colombia</p>
         <p><strong>Sitio web:</strong> https://www.humanosrehab.com</p>
 

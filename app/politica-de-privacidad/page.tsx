@@ -21,12 +21,12 @@ export default function PoliticaDePrivacidad() {
 
         <h2 style={styles.heading}>1. Responsable del tratamiento</h2>
         <p><strong>Nombre comercial:</strong> Humanos Rehabilitación y Fisioterapia Deportiva</p>
-        <p><strong>Titular o razón social:</strong> [Nombre completo o razón social]</p>
-        <p><strong>NIT / Cédula:</strong> [NIT o cédula]</p>
-        <p><strong>Dirección:</strong> [Dirección física]</p>
+        <p><strong>Titular o razón social:</strong> Julian Saenz</p>
+        <p><strong>Cédula:</strong> 16287822</p>
+        <p><strong>Dirección:</strong> Av. 2d Nte. #24N-85, El Piloto</p>
         <p><strong>Ciudad:</strong> Cali, Colombia</p>
-        <p><strong>Correo electrónico:</strong> [correo@dominio.com]</p>
-        <p><strong>Teléfono / WhatsApp:</strong> [número de contacto]</p>
+        <p><strong>Correo electrónico:</strong> humanosrehab@gmail.com</p>
+        <p><strong>Teléfono / WhatsApp:</strong> 3177995831</p>
         <p><strong>Sitio web:</strong> https://www.humanosrehab.com</p>
 
         <h2 style={styles.heading}>2. Datos personales que podemos recolectar</h2>
@@ -165,9 +165,9 @@ export default function PoliticaDePrivacidad() {
         <p>
           El titular podrá presentar consultas, reclamos, solicitudes de actualización, corrección, supresión o revocatoria de autorización a través de:
         </p>
-        <p><strong>Correo electrónico:</strong> [correo@dominio.com]</p>
-        <p><strong>WhatsApp o teléfono:</strong> [número de contacto]</p>
-        <p><strong>Dirección física:</strong> [dirección física]</p>
+        <p><strong>Correo electrónico:</strong> humanosrehab@gmail.com</p>
+        <p><strong>WhatsApp o teléfono:</strong> 3177995831</p>
+        <p><strong>Dirección física:</strong> Av. 2d Nte. #24N-85, El Piloto</p>
         <p>
           La solicitud deberá incluir nombre completo, número de identificación si aplica, medio de contacto, descripción clara de la solicitud
           y soportes necesarios. Si actúa mediante representante, deberá adjuntar documento que acredite la representación.
@@ -181,7 +181,7 @@ export default function PoliticaDePrivacidad() {
           Si un usuario desea solicitar la eliminación de datos personales asociados a su interacción con nuestras cuentas, sitio web, aplicación
           o canales conectados con TikTok, Facebook, Instagram, WhatsApp u otras plataformas, podrá enviar una solicitud al correo:
         </p>
-        <p><strong>[correo@dominio.com]</strong></p>
+        <p><strong>humanosrehab@gmail.com</strong></p>
         <p><strong>Asunto sugerido:</strong> Solicitud de eliminación de datos personales</p>
 
         <p>El mensaje debe indicar:</p>
@@ -247,7 +247,7 @@ export default function PoliticaDePrivacidad() {
         </p>
         <p>
           El usuario podrá solicitar en cualquier momento dejar de recibir comunicaciones comerciales o informativas no esenciales, escribiendo a:
-          <strong> [correo@dominio.com]</strong>
+          <strong> humanosrehab@gmail.com</strong>
         </p>
 
         <h2 style={styles.heading}>17. Menores de edad</h2>
@@ -272,9 +272,9 @@ export default function PoliticaDePrivacidad() {
         <h2 style={styles.heading}>19. Contacto</h2>
         <p>Para preguntas, solicitudes, reclamos o ejercicio de derechos relacionados con datos personales, el usuario podrá comunicarse a:</p>
         <p><strong>Humanos Rehabilitación y Fisioterapia Deportiva</strong></p>
-        <p><strong>Correo electrónico:</strong> [correo@dominio.com]</p>
-        <p><strong>Teléfono / WhatsApp:</strong> [número de contacto]</p>
-        <p><strong>Dirección:</strong> [dirección física]</p>
+        <p><strong>Correo electrónico:</strong> humanosrehab@gmail.com</p>
+        <p><strong>Teléfono / WhatsApp:</strong> 3177995831</p>
+        <p><strong>Dirección:</strong> Av. 2d Nte. #24N-85, El Piloto</p>
         <p><strong>Ciudad:</strong> Cali, Colombia</p>
         <p><strong>Sitio web:</strong> https://www.humanosrehab.com</p>
 
