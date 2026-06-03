@@ -4,7 +4,7 @@ export default function PoliticaDePrivacidad() {
       <article style={styles.card}>
         <h1 style={styles.title}>Política de Privacidad y Tratamiento de Datos Personales</h1>
         <p style={styles.meta}>
-          Humanos Rehabilitación y Fisioterapia Deportiva · Última actualización: [día] de [mes] de [año]
+          Humanos Rehabilitación y Fisioterapia Deportiva · Última actualización: 02 de junio de 2026
         </p>
 
         <p>
