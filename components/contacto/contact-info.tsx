@@ -58,14 +58,14 @@ export function ContactInfo() {
             </div>
             <div className="flex flex-col gap-2.5">
               <Button asChild className="w-full h-12 rounded-xl text-xs font-bold bg-white border-2 border-[#E63946]/20 text-[#E63946] hover:border-[#E63946] hover:bg-[#E63946]/5 hover:scale-[1.02] shadow-xs hover:shadow-md transition-all">
-                <a href="tel:+573177995831" className="flex items-center justify-center gap-2">
+                <a href="tel:+15556465891" className="flex items-center justify-center gap-2">
                   <Phone className="w-4 h-4 text-[#E63946]" />
-                  Llamar 317 799 5831
+                  Llamar +1 (555) 646-5891
                 </a>
               </Button>
               <Button asChild className="w-full h-12 rounded-xl text-xs font-bold bg-white border-2 border-[#25D366] text-[#1E9A4D] hover:bg-[#25D366] hover:text-white hover:border-[#25D366] hover:scale-[1.02] shadow-xs hover:shadow-md transition-all group">
                 <a
-                  href="https://wa.me/573177995831"
+                  href="https://wa.me/15556465891"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2"

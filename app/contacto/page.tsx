@@ -5,7 +5,7 @@ import { MapSection } from "@/components/contacto/map-section"
 
 export const metadata = {
   title: "Contacto | Humanos Fisioterapia y Rehabilitación Deportiva",
-  description: "Visítanos en Av. 2D Norte #24N-85, El Piloto, Cali. Teléfono: 317 799 5831. Atención con cita previa.",
+  description: "Visítanos en Av. 2D Norte #24N-85, El Piloto, Cali. Teléfono: +1 (555) 646-5891. Atención con cita previa.",
 }
 
 export default function ContactoPage() {
