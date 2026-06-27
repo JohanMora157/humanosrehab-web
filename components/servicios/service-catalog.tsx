@@ -1,10 +1,13 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import {
+  ArrowRight,
   Building2,
   Check,
   Dumbbell,
+  Gift,
   HeartPulse,
   ShieldPlus,
   Sparkles,
@@ -491,6 +494,41 @@ export function ServiceCatalog() {
             )
           })}
         </Accordion>
+
+        <div className="mt-8 overflow-hidden rounded-lg border border-primary/15 bg-white shadow-premium">
+          <div className="grid gap-0 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div className="p-5 sm:p-6 lg:p-8">
+              <div className="flex items-start gap-4">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[#E63946]/10 text-[#E63946]">
+                  <Gift className="h-5 w-5" />
+                </span>
+                <div>
+                  <p className="text-xs font-extrabold uppercase text-primary">
+                    Bonos y tarjetas de regalo
+                  </p>
+                  <h3 className="mt-1 font-heading text-2xl font-black text-foreground">
+                    Regala una consulta, un pack o un bono abierto
+                  </h3>
+                  <p className="mt-3 max-w-3xl text-sm font-medium leading-6 text-muted-foreground sm:text-base">
+                    Crea una tarjeta personalizada con el nombre de la persona, el servicio que
+                    quieres regalar y un mensaje corto. La tarjeta se descarga como imagen y la
+                    compra se confirma por WhatsApp.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-border/70 p-5 sm:p-6 lg:border-l lg:border-t-0 lg:p-8">
+              <Link
+                href="/tarjetas-regalo"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/15 transition hover:-translate-y-0.5 hover:bg-primary/95 lg:w-auto"
+              >
+                Crear tarjeta
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
 
         <div className="mt-8 flex items-center gap-3 border-l-2 border-primary pl-4 text-sm font-semibold leading-6 text-muted-foreground">
           <Sparkles className="h-5 w-5 shrink-0 text-primary" />
