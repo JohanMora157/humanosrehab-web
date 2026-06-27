@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Calendar, MessageCircle } from "lucide-react"
+import { Calendar } from "lucide-react"
 
 export function CTASection() {
   return (
@@ -44,7 +44,7 @@ export function CTASection() {
         </div>
 
         <p className="mt-8 text-sm text-primary-foreground/60">
-          Pago inicial de $80.000 COP para confirmar tu cita
+          Pago inicial de $65.000 COP para confirmar tu cita
         </p>
       </div>
     </section>

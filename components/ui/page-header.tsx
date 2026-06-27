@@ -43,11 +43,11 @@ export function PageHeader({ badge, title, description, bgImage }: PageHeaderPro
             {badge}
           </div>
         )}
-        <h1 className="font-heading text-4xl sm:text-5xl lg:text-[52px] font-black tracking-tight text-balance leading-none">
+        <h1 className="mx-auto max-w-[22rem] break-words font-heading text-4xl font-black leading-none tracking-tight text-balance sm:max-w-none sm:text-5xl lg:text-[52px]">
           {title}
         </h1>
         {description && (
-          <p className="mt-6 text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed font-semibold max-w-2xl mx-auto">
+          <p className="mx-auto mt-6 max-w-[20rem] break-words text-sm font-semibold leading-relaxed text-white/80 sm:max-w-2xl sm:text-base lg:text-lg">
             {description}
           </p>
         )}
