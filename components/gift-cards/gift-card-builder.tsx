@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 const giftOptions = [
   {
     label: "Consulta de valoración",
-    price: "$80.000 COP",
+    price: "$65.000 COP",
     detail: "Evaluación inicial y orientación del plan terapéutico.",
   },
   {
