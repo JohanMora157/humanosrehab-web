@@ -1,5 +1,5 @@
 export const HUMANOS_WHATSAPP_NUMBER =
-  process.env.NEXT_PUBLIC_HUMANOS_WHATSAPP_NUMBER || "15556465891"
+  process.env.NEXT_PUBLIC_HUMANOS_WHATSAPP_NUMBER || "573180810945"
 
 export type ParsedBotResponse =
   | {

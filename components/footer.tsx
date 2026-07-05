@@ -105,7 +105,7 @@ export function Footer() {
               <ul className="space-y-4">
                 <li>
                   <a
-                    href="tel:+15556465891"
+                    href="tel:+573177995831"
                     className="flex items-start gap-3.5 text-white/70 hover:text-white transition-colors group"
                   >
                     <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-white/80 group-hover:bg-[#E63946] group-hover:text-white transition-all shrink-0">
@@ -113,7 +113,7 @@ export function Footer() {
                     </div>
                     <div className="text-left">
                       <p className="text-[10px] text-white/40 font-bold uppercase">Llámanos</p>
-                      <p className="text-sm font-bold">+1 (555) 646-5891</p>
+                      <p className="text-sm font-bold">+57 317 7995831</p>
                     </div>
                   </a>
                 </li>

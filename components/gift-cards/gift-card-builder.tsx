@@ -141,7 +141,7 @@ export function GiftCardBuilder() {
       `De parte de: ${buyer}`,
     ].join("\n")
 
-    return `https://wa.me/15556465891?text=${encodeURIComponent(text)}`
+    return `https://wa.me/573180810945?text=${encodeURIComponent(text)}`
   }, [amount, buyer, giftType, recipient])
 
   const paymentUrl = useMemo(() => {
@@ -154,7 +154,7 @@ export function GiftCardBuilder() {
       "Por favor envíenme el link o instrucciones de pago.",
     ].join("\n")
 
-    return `https://wa.me/15556465891?text=${encodeURIComponent(text)}`
+    return `https://wa.me/573180810945?text=${encodeURIComponent(text)}`
   }, [amount, buyer, giftType, recipient])
 
   const updateField = (field: keyof GiftForm, value: string) => {
@@ -268,7 +268,7 @@ export function GiftCardBuilder() {
 
     context.fillStyle = "#5d6978"
     context.font = "500 20px Arial"
-    context.fillText("humanosrehab.com | WhatsApp +1 (555) 646-5891", 110, 765)
+    context.fillText("humanosrehab.com | WhatsApp +57 318 0810945", 110, 765)
 
     const link = document.createElement("a")
     link.href = canvas.toDataURL("image/png")

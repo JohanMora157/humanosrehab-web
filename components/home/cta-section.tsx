@@ -26,7 +26,7 @@ export function CTASection() {
           </Button>
           <Button asChild size="lg" className="rounded-2xl px-8 h-14 text-base font-bold bg-white text-primary border-2 border-transparent hover:bg-[#EBFBF0] hover:text-[#1E9A4D] hover:border-[#25D366] hover:scale-[1.02] shadow-lg transition-all group">
             <a
-              href="https://wa.me/15556465891?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita"
+              href="https://wa.me/573180810945?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2"

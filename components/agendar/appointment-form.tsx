@@ -61,7 +61,7 @@ export function AppointmentForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const whatsappMessage = `Hola, me gustaría agendar una cita.\n\nNombre: ${formData.name}\nTeléfono: ${formData.phone}\nMotivo: ${formData.reason}\nServicio: ${formData.service}\nDía preferido: ${formData.day}\n${formData.message ? `Mensaje: ${formData.message}` : ""}`
-    window.open(`https://wa.me/15556465891?text=${encodeURIComponent(whatsappMessage)}`, "_blank")
+    window.open(`https://wa.me/573180810945?text=${encodeURIComponent(whatsappMessage)}`, "_blank")
   }
 
   return (
@@ -116,7 +116,7 @@ export function AppointmentForm() {
                   <Input
                     id="phone"
                     type="tel"
-                    placeholder="Ej. (555) 646-5891"
+                    placeholder="Ej. 318 0810945"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     required
@@ -212,7 +212,7 @@ export function AppointmentForm() {
                   asChild
                 >
                   <a
-                    href="https://wa.me/15556465891?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita"
+                    href="https://wa.me/573180810945?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2"
