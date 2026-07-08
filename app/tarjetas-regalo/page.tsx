@@ -1,6 +1,6 @@
 import PageLayout from "@/components/page-layout"
 import { PageHeader } from "@/components/ui/page-header"
-import { GiftCardBuilder } from "@/components/gift-cards/gift-card-builder"
+import { GiftCardBuilderV2 } from "@/components/gift-cards/gift-card-builder-v2"
 
 export const metadata = {
   title: "Tarjetas de regalo | Humanos Fisioterapia y Rehabilitación Deportiva",
@@ -17,7 +17,7 @@ export default function TarjetasRegaloPage() {
         description="Crea una tarjeta personalizada para regalar consultas, sesiones, packs o un bono abierto."
         bgImage="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-y6Srx6vFmSfcjBAuMdHH3rmdpLNagd.png"
       />
-      <GiftCardBuilder />
+      <GiftCardBuilderV2 />
     </PageLayout>
   )
 }
