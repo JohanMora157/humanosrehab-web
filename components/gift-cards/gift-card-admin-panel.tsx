@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { CheckCircle2, Eye, EyeOff, LockKeyhole, RefreshCw, Search } from "lucide-react"
+import { CheckCircle2, Eye, EyeOff, LockKeyhole, RefreshCw, Search, Mail, ShieldCheck, Activity, Award, Hourglass } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -18,13 +18,14 @@ function formatDate(date?: string) {
 }
 
 function statusLabel(card: GiftCardRecord) {
-  if (card.claimStatus === "claimed") return "Reclamada"
+  if (card.claimStatus === "claimed") return "Redimida"
   if (card.paymentStatus !== "approved") return "Pago pendiente"
   if (card.cardStatus === "active") return "Activa"
   return card.cardStatus
 }
 
 export function GiftCardAdminPanel() {
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isUnlocked, setIsUnlocked] = useState(false)
   const [cards, setCards] = useState<GiftCardRecord[]>([])
@@ -54,7 +55,10 @@ export function GiftCardAdminPanel() {
 
     try {
       const response = await fetch("/api/gift-cards/admin/list", {
-        headers: { "x-admin-password": password },
+        headers: { 
+          "x-admin-email": email,
+          "x-admin-password": password 
+        },
         cache: "no-store",
       })
       const data = await response.json()
@@ -83,6 +87,7 @@ export function GiftCardAdminPanel() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "x-admin-email": email,
           "x-admin-password": password,
         },
         body: JSON.stringify({ id }),
@@ -95,170 +100,239 @@ export function GiftCardAdminPanel() {
       }
 
       setCards((current) => current.map((card) => (card.id === id ? data.giftCard : card)))
-      setMessage(`Tarjeta ${id} marcada como reclamada.`)
+      setMessage(`Tarjeta ${id} marcada como redimida.`)
     } catch {
       setMessage("No se pudo marcar la tarjeta.")
     }
   }
 
+  const totalCount = cards.length
+  const activeCount = cards.filter((c) => c.paymentStatus === "approved" && c.claimStatus !== "claimed").length
+  const claimedCount = cards.filter((c) => c.claimStatus === "claimed").length
+  const pendingCount = cards.filter((c) => c.paymentStatus !== "approved").length
+
+  function getStatusStyles(card: GiftCardRecord) {
+    if (card.claimStatus === "claimed") {
+      return "bg-[#f1f5f9] text-[#475569] border-[#e2e8f0]"
+    }
+    if (card.paymentStatus !== "approved") {
+      return "bg-[#fffbeb] text-[#d97706] border-[#fde68a]"
+    }
+    return "bg-[#f0fdf4] text-[#16a34a] border-[#bbf7d0]"
+  }
+
   return (
-    <section className="min-h-screen bg-background py-12">
-      <div
-        className={
-          isUnlocked
-            ? "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-            : "mx-auto flex min-h-[calc(100vh-6rem)] max-w-xl flex-col justify-center px-4 sm:px-6"
-        }
-      >
-        <div
-          className={
-            isUnlocked
-              ? "mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
-              : "mb-8 text-center"
-          }
-        >
-          <div>
-            <p className="text-xs font-extrabold uppercase text-primary">Panel interno</p>
-            <h1 className="font-heading text-3xl font-black text-foreground sm:text-4xl">
-              Tarjetas de regalo
-            </h1>
-            <p
-              className={
-                isUnlocked
-                  ? "mt-2 max-w-2xl text-sm font-semibold leading-6 text-muted-foreground"
-                  : "mx-auto mt-2 max-w-lg text-sm font-semibold leading-6 text-muted-foreground"
-              }
-            >
-              Consulta tarjetas activas, pendientes y reclamadas. Esta primera version queda
-              preparada para reemplazar la memoria local por Google Sheets.
-            </p>
-          </div>
-        </div>
+    <section className="relative min-h-screen bg-[#fafbfc] py-16 lg:py-24 overflow-hidden">
+      {/* Background Gradients & Grid */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
+      <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-[#E63946]/5 blur-3xl pointer-events-none" />
 
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {!isUnlocked ? (
-          <div className="mx-auto w-full max-w-md rounded-lg border border-border/70 bg-white p-6 shadow-premium">
-            <div className="mb-5 flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <LockKeyhole className="h-5 w-5" />
-              </span>
-              <div>
-                <p className="text-xs font-extrabold uppercase text-primary">Acceso privado</p>
-                <h2 className="font-heading text-xl font-black text-foreground">Ingresar</h2>
+          /* Login Card Form */
+          <div className="mx-auto flex min-h-[calc(100vh-14rem)] max-w-md flex-col justify-center">
+            <div className="relative overflow-hidden rounded-2xl border border-white/20 bg-white/70 p-8 shadow-premium backdrop-blur-md animate-fade-in-up">
+              <div className="mb-8 text-center">
+                <img src="/logo_azul.png" alt="Humanos Rehab" className="h-16 mx-auto mb-6 object-contain hover:scale-105 transition duration-300" />
+                <p className="text-xs font-black uppercase tracking-widest text-primary">Panel Administrativo</p>
+                <h2 className="mt-1 font-heading text-2xl font-black text-foreground">Acceso Seguro</h2>
+                <p className="mt-2 text-xs font-semibold text-muted-foreground">
+                  Ingresa tus credenciales del equipo para gestionar las tarjetas de regalo.
+                </p>
               </div>
+
+              <form
+                className="grid gap-4"
+                onSubmit={(event) => {
+                  event.preventDefault()
+                  loadCards()
+                }}
+              >
+                <div className="grid gap-2">
+                  <Label htmlFor="adminEmail" className="text-xs font-black uppercase tracking-wider text-foreground">
+                    Correo electrónico
+                  </Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      id="adminEmail"
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      placeholder="humanosrehab@gmail.com"
+                      className="h-12 rounded-xl border-border bg-white pl-10 focus-visible:ring-2 focus-visible:ring-primary/20"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid gap-2">
+                  <Label htmlFor="adminPassword" className="text-xs font-black uppercase tracking-wider text-foreground">
+                    Contraseña del equipo
+                  </Label>
+                  <div className="relative">
+                    <LockKeyhole className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      id="adminPassword"
+                      type={showPassword ? "text" : "password"}
+                      required
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                      placeholder="••••••••••••"
+                      className="h-12 rounded-xl border-border bg-white pl-10 pr-12 focus-visible:ring-2 focus-visible:ring-primary/20"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((current) => !current)}
+                      className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-primary/5 hover:text-primary focus:outline-none"
+                      aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                      title={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                    >
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <Button type="submit" disabled={isLoading} className="h-12 rounded-xl font-bold bg-primary hover:bg-[#051e36] text-white shadow-lg transition duration-200">
+                  {isLoading ? "Validando..." : "Entrar al panel"}
+                </Button>
+              </form>
+
+              {message ? (
+                <div className="mt-4 rounded-xl border border-destructive/25 bg-destructive/10 p-3 text-center text-xs font-bold text-destructive animate-fade-in-up">
+                  {message}
+                </div>
+              ) : null}
             </div>
-
-            <form
-              className="grid gap-3"
-              onSubmit={(event) => {
-                event.preventDefault()
-                loadCards()
-              }}
-            >
-              <Label htmlFor="adminPassword" className="text-sm font-extrabold text-foreground">
-                Contrasena del equipo
-              </Label>
-              <div className="relative">
-                <Input
-                  id="adminPassword"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  placeholder="HUMANOS_ADMIN_PASSWORD"
-                  className="h-12 rounded-xl bg-white pr-12"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((current) => !current)}
-                  className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-primary/5 hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-                  aria-label={showPassword ? "Ocultar contrasena" : "Mostrar contrasena"}
-                  title={showPassword ? "Ocultar contrasena" : "Mostrar contrasena"}
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-              <Button type="submit" disabled={isLoading} className="h-12 rounded-xl font-bold">
-                {isLoading ? "Entrando..." : "Entrar al panel"}
-              </Button>
-            </form>
-
-            {message ? <p className="mt-4 text-sm font-bold text-muted-foreground">{message}</p> : null}
           </div>
         ) : (
-          <div className="space-y-5">
-            {usingDefaultPassword ? (
-              <div className="rounded-lg border border-amber-500/25 bg-amber-500/10 p-4 text-sm font-bold text-foreground">
-                Estas usando la contrasena temporal de desarrollo: humanos-dev. Cambiala con
-                HUMANOS_ADMIN_PASSWORD antes de publicar.
+          /* Dashboard */
+          <div className="space-y-8 animate-fade-in-up">
+            {/* Header section with Logo and Title */}
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between border-b border-border/50 pb-6">
+              <div className="flex items-center gap-4">
+                <img src="/logo_azul.png" alt="Humanos Rehab" className="h-12 object-contain" />
+                <div className="h-8 w-px bg-border" />
+                <div>
+                  <p className="text-xs font-black uppercase tracking-widest text-primary">Administración</p>
+                  <h1 className="font-heading text-3xl font-black text-foreground">Tarjetas de Regalo</h1>
+                </div>
               </div>
-            ) : null}
 
-            <div className="grid gap-3 rounded-lg border border-border/70 bg-white p-4 shadow-sm sm:grid-cols-[1fr_auto]">
-              <div className="relative">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              {usingDefaultPassword ? (
+                <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-xs font-bold text-foreground max-w-md animate-float">
+                  Advertencia: Usando contraseña temporal de desarrollo. Configura HUMANOS_ADMIN_PASSWORD.
+                </div>
+              ) : null}
+            </div>
+
+            {/* Metrics cards grid */}
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                { label: "Total Tarjetas", value: totalCount, icon: Award, color: "text-blue-600 bg-blue-50 border-blue-100" },
+                { label: "Activas", value: activeCount, icon: Activity, color: "text-green-600 bg-green-50 border-green-100" },
+                { label: "Redimidas", value: claimedCount, icon: ShieldCheck, color: "text-purple-600 bg-purple-50 border-purple-100" },
+                { label: "Pago Pendiente", value: pendingCount, icon: Hourglass, color: "text-amber-600 bg-amber-50 border-amber-100" },
+              ].map((stat) => {
+                const Icon = stat.icon
+                return (
+                  <div key={stat.label} className="flex items-center justify-between rounded-2xl border border-border/80 bg-white p-5 shadow-premium transition duration-200 hover:scale-[1.02] hover:shadow-premium-hover">
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-wider text-muted-foreground">{stat.label}</p>
+                      <h3 className="mt-2 font-heading text-3xl font-black text-foreground">{stat.value}</h3>
+                    </div>
+                    <span className={`flex h-12 w-12 items-center justify-center rounded-xl border ${stat.color}`}>
+                      <Icon className="h-6 w-6" />
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Controls panel: Search and Refresh */}
+            <div className="flex flex-col gap-3 rounded-2xl border border-border/80 bg-white p-4 shadow-premium sm:flex-row">
+              <div className="relative flex-1">
+                <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Buscar por ID, comprador, destinatario o estado"
-                  className="h-12 rounded-xl bg-white pl-10"
+                  placeholder="Buscar por ID, comprador, destinatario o estado..."
+                  className="h-12 rounded-xl border-border bg-white pl-11 pr-4 focus-visible:ring-2 focus-visible:ring-primary/20"
                 />
               </div>
-              <Button type="button" variant="outline" onClick={loadCards} disabled={isLoading} className="h-12 rounded-xl">
-                <RefreshCw className="h-4 w-4" />
-                Actualizar
+              <Button type="button" variant="outline" onClick={loadCards} disabled={isLoading} className="h-12 rounded-xl px-6 font-bold shadow-sm hover:bg-slate-50 cursor-pointer">
+                <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
+                Actualizar Lista
               </Button>
             </div>
 
-            {message ? <p className="text-sm font-bold text-muted-foreground">{message}</p> : null}
+            {message ? (
+              <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 p-4 text-sm font-semibold text-foreground">
+                {message}
+              </div>
+            ) : null}
 
-            <div className="overflow-hidden rounded-lg border border-border/70 bg-white shadow-premium">
+            {/* Main Cards Table */}
+            <div className="overflow-hidden rounded-2xl border border-border/85 bg-white shadow-premium">
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[980px] text-left text-sm">
-                  <thead className="border-b border-border/70 bg-primary/5 text-xs uppercase text-primary">
+                  <thead className="border-b border-border/85 bg-slate-50/70 text-xs font-black uppercase tracking-wider text-slate-500">
                     <tr>
-                      <th className="px-4 py-3 font-black">ID</th>
-                      <th className="px-4 py-3 font-black">Comprador</th>
-                      <th className="px-4 py-3 font-black">Recibe</th>
-                      <th className="px-4 py-3 font-black">Regalo</th>
-                      <th className="px-4 py-3 font-black">Valor</th>
-                      <th className="px-4 py-3 font-black">Vence</th>
-                      <th className="px-4 py-3 font-black">Estado</th>
-                      <th className="px-4 py-3 font-black">Accion</th>
+                      <th className="px-6 py-4">ID</th>
+                      <th className="px-6 py-4">Comprador</th>
+                      <th className="px-6 py-4">Recibe</th>
+                      <th className="px-6 py-4">Regalo</th>
+                      <th className="px-6 py-4">Valor</th>
+                      <th className="px-6 py-4">Vence</th>
+                      <th className="px-6 py-4">Estado</th>
+                      <th className="px-6 py-4 text-right">Acción</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="divide-y divide-border/60">
                     {filteredCards.map((card) => (
-                      <tr key={card.id} className="border-b border-border/60 last:border-0">
-                        <td className="px-4 py-4 font-black text-foreground">{card.id}</td>
-                        <td className="px-4 py-4">
+                      <tr key={card.id} className="transition duration-150 hover:bg-slate-50/50">
+                        <td className="px-6 py-4 font-black text-foreground">{card.id}</td>
+                        <td className="px-6 py-4">
                           <p className="font-bold text-foreground">{card.buyerName}</p>
                           <p className="text-xs font-semibold text-muted-foreground">{card.buyerPhone}</p>
                         </td>
-                        <td className="px-4 py-4 font-bold text-foreground">{card.recipientName}</td>
-                        <td className="px-4 py-4 font-semibold text-muted-foreground">{card.giftType}</td>
-                        <td className="px-4 py-4 font-black text-foreground">{card.amount}</td>
-                        <td className="px-4 py-4 font-semibold text-muted-foreground">{formatDate(card.expiresAt)}</td>
-                        <td className="px-4 py-4">
-                          <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-black text-primary">
+                        <td className="px-6 py-4">
+                          <p className="font-bold text-foreground">{card.recipientName}</p>
+                          {card.recipientPhone ? (
+                            <p className="text-xs font-semibold text-muted-foreground">{card.recipientPhone}</p>
+                          ) : null}
+                        </td>
+                        <td className="px-6 py-4 font-semibold text-muted-foreground">{card.giftType}</td>
+                        <td className="px-6 py-4 font-black text-foreground">{card.amount}</td>
+                        <td className="px-6 py-4 font-semibold text-muted-foreground">{formatDate(card.expiresAt)}</td>
+                        <td className="px-6 py-4">
+                          <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-black tracking-wide ${getStatusStyles(card)}`}>
                             {statusLabel(card)}
                           </span>
                         </td>
-                        <td className="px-4 py-4">
+                        <td className="px-6 py-4 text-right">
                           <Button
                             type="button"
                             size="sm"
                             disabled={card.claimStatus === "claimed" || card.paymentStatus !== "approved"}
                             onClick={() => claimCard(card.id)}
+                            className={`rounded-xl font-bold transition duration-200 shadow-sm cursor-pointer ${
+                              card.claimStatus === "claimed"
+                                ? "bg-slate-100 text-slate-400 hover:bg-slate-100"
+                                : "bg-primary hover:bg-[#051e36] text-white hover:shadow-md"
+                            }`}
                           >
-                            <CheckCircle2 className="h-4 w-4" />
-                            Reclamar
+                            <CheckCircle2 className="h-4 w-4 mr-1.5" />
+                            {card.claimStatus === "claimed" ? "Redimida" : "Redimir"}
                           </Button>
                         </td>
                       </tr>
                     ))}
                     {filteredCards.length === 0 ? (
                       <tr>
-                        <td colSpan={8} className="px-4 py-10 text-center font-bold text-muted-foreground">
-                          No hay tarjetas para mostrar.
+                        <td colSpan={8} className="px-6 py-12 text-center font-bold text-muted-foreground">
+                          No hay tarjetas de regalo para mostrar.
                         </td>
                       </tr>
                     ) : null}

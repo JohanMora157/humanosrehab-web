@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const giftCard = createGiftCard({
+    const giftCard = await createGiftCard({
       buyerName,
       buyerPhone,
       recipientName,

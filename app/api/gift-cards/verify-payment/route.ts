@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const giftCard = approveGiftCardPayment(id, {
+    const giftCard = await approveGiftCardPayment(id, {
       paymentProvider: String(body.paymentProvider ?? "mercado_pago"),
       paymentId: body.paymentId ? String(body.paymentId) : undefined,
       preferenceId: body.preferenceId ? String(body.preferenceId) : undefined,

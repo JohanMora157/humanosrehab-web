@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Falta el ID de la tarjeta." }, { status: 400 })
   }
 
-  const giftCard = getGiftCard(id)
+  const giftCard = await getGiftCard(id)
 
   if (!giftCard) {
     return NextResponse.json({ error: "No encontramos esa tarjeta." }, { status: 404 })
