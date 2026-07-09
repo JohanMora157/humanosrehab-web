@@ -52,7 +52,8 @@ export async function GET(request: Request) {
     }
 
     const slotsData = await slotsRes.json()
-    const slots = slotsData?.data?.slots || []
+    const rawSlots: string[] = slotsData?.data?.slots || []
+    const slots = rawSlots.filter((slot) => slot.includes(":00") || slot.includes(":30"))
 
     return NextResponse.json({ slots })
   } catch (error) {
