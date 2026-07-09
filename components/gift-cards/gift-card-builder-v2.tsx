@@ -1,6 +1,7 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import {
   BadgeCheck,
   CreditCard,
@@ -67,6 +68,8 @@ type GiftForm = {
   recipientName: string
   giftType: string
   message: string
+  appointmentDate: string
+  appointmentTime: string
 }
 
 const defaultForm: GiftForm = {
@@ -75,6 +78,8 @@ const defaultForm: GiftForm = {
   recipientName: "",
   giftType: "Consulta de valoracion",
   message: "Un regalo para cuidar tu cuerpo, recuperar movimiento y sentirte mejor.",
+  appointmentDate: "",
+  appointmentTime: "",
 }
 
 function drawWrappedText(
@@ -145,12 +150,109 @@ function formatDate(date?: string) {
   }).format(new Date(date))
 }
 
+function getNextAvailableDates(count: number): { label: string; value: string }[] {
+  const dates: { label: string; value: string }[] = []
+  const today = new Date()
+  
+  let current = new Date(today)
+  current.setDate(current.getDate() + 1) // Inicia mañana
+
+  while (dates.length < count) {
+    const dayOfWeek = current.getDay()
+    if (dayOfWeek === 2 || dayOfWeek === 4 || dayOfWeek === 6) {
+      const day = String(current.getDate()).padStart(2, "0")
+      const month = String(current.getMonth() + 1).padStart(2, "0")
+      const year = current.getFullYear()
+      const apiValue = `${day}/${month}/${year}`
+
+      const label = new Intl.DateTimeFormat("es-CO", {
+        weekday: "long",
+        day: "2-digit",
+        month: "short",
+      }).format(current)
+      
+      const capitalizedLabel = label.charAt(0).toUpperCase() + label.slice(1)
+      dates.push({ label: capitalizedLabel, value: apiValue })
+    }
+    current.setDate(current.getDate() + 1)
+  }
+  return dates
+}
+
 export function GiftCardBuilderV2() {
   const [form, setForm] = useState<GiftForm>(defaultForm)
   const [giftCard, setGiftCard] = useState<GiftCardRecord | null>(null)
   const [isCreating, setIsCreating] = useState(false)
   const [isChecking, setIsChecking] = useState(false)
   const [statusMessage, setStatusMessage] = useState("")
+
+  const searchParams = useSearchParams()
+  const urlId = searchParams.get("id")
+  const urlStatus = searchParams.get("status")
+
+  const availableDates = useMemo(() => getNextAvailableDates(6), [])
+  const [availableSlots, setAvailableSlots] = useState<string[]>([])
+  const [isLoadingSlots, setIsLoadingSlots] = useState(false)
+
+  useEffect(() => {
+    if (urlId) {
+      const fetchCard = async () => {
+        try {
+          const response = await fetch(`/api/gift-cards/status?id=${encodeURIComponent(urlId)}`, {
+            cache: "no-store",
+          })
+          if (response.ok) {
+            const data = await response.json()
+            setGiftCard(data.giftCard)
+            setForm({
+              buyerName: data.giftCard.buyerName,
+              buyerPhone: data.giftCard.buyerPhone,
+              recipientName: data.giftCard.recipientName,
+              giftType: data.giftCard.giftType,
+              message: data.giftCard.message,
+              appointmentDate: data.giftCard.appointmentDate || "",
+              appointmentTime: data.giftCard.appointmentTime || "",
+            })
+            if (urlStatus === "success") {
+              setStatusMessage("¡Pago aprobado con éxito! Ya puedes descargar tu tarjeta activa abajo.")
+            } else if (urlStatus === "failure") {
+              setStatusMessage("El pago no pudo completarse. Por favor, intenta de nuevo.")
+            } else if (urlStatus === "pending") {
+              setStatusMessage("Tu pago está siendo procesado. La tarjeta se activará pronto.")
+            }
+          }
+        } catch (error) {
+          console.error("Error loading card from URL:", error)
+        }
+      }
+      fetchCard()
+    }
+  }, [urlId, urlStatus])
+
+  const handleDateChange = async (dateVal: string) => {
+    updateField("appointmentDate", dateVal)
+    updateField("appointmentTime", "")
+    setAvailableSlots([])
+
+    if (!dateVal) return
+
+    setIsLoadingSlots(true)
+    try {
+      const res = await fetch(`/api/gift-cards/slots?date=${encodeURIComponent(dateVal)}`, {
+        cache: "no-store",
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setAvailableSlots(data.slots || [])
+      } else {
+        console.error("Failed to fetch slots")
+      }
+    } catch (error) {
+      console.error("Error fetching slots:", error)
+    } finally {
+      setIsLoadingSlots(false)
+    }
+  }
 
   const recipient = form.recipientName.trim() || "Nombre del regalo"
   const buyer = form.buyerName.trim() || "Humanos Rehab"
@@ -164,19 +266,23 @@ export function GiftCardBuilderV2() {
   const isPaymentApproved = giftCard?.paymentStatus === "approved" && giftCard.cardStatus === "active"
 
   const whatsappUrl = useMemo(() => {
+    const dateVal = giftCard?.appointmentDate || form.appointmentDate
+    const timeVal = giftCard?.appointmentTime || form.appointmentTime
+
     const text = [
       "Hola, quisiera comprar una tarjeta de regalo en Humanos Rehab.",
       `Para: ${recipient}`,
       `Regalo: ${giftType}`,
       `Valor: ${amount}`,
       `De parte de: ${buyer}`,
+      dateVal && timeVal ? `Cita programada: ${dateVal} a las ${timeVal}` : null,
       buyerPhone ? `WhatsApp comprador: ${buyerPhone}` : null,
       giftCard?.id ? `ID tarjeta: ${giftCard.id}` : null,
       giftCard?.expiresAt ? `Vence: ${expiresAt}` : null,
     ].filter(Boolean).join("\n")
 
     return `https://wa.me/15556465891?text=${encodeURIComponent(text)}`
-  }, [amount, buyer, buyerPhone, expiresAt, giftCard?.expiresAt, giftCard?.id, giftType, recipient])
+  }, [amount, buyer, buyerPhone, expiresAt, giftCard?.expiresAt, giftCard?.id, giftType, recipient, form.appointmentDate, form.appointmentTime])
 
   const updateField = (field: keyof GiftForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }))
@@ -201,6 +307,8 @@ export function GiftCardBuilderV2() {
           giftType,
           amount,
           message,
+          appointmentDate: form.appointmentDate || undefined,
+          appointmentTime: form.appointmentTime || undefined,
         }),
       })
       const data = await response.json()
@@ -361,11 +469,23 @@ export function GiftCardBuilderV2() {
 
     context.fillStyle = "#072B4F"
     context.font = "700 22px Arial"
-    context.fillText(`De parte de: ${buyer}`, 110, 725)
+    context.fillText(`De parte de: ${buyer}`, 110, 705)
 
-    context.fillStyle = "#5d6978"
-    context.font = "500 20px Arial"
-    context.fillText("humanosrehab.com | WhatsApp +1 (555) 646-5891", 110, 765)
+    const dateVal = giftCard?.appointmentDate || form.appointmentDate
+    const timeVal = giftCard?.appointmentTime || form.appointmentTime
+    if (dateVal && timeVal) {
+      context.fillStyle = "#1667B7"
+      context.font = "900 22px Arial"
+      context.fillText(`Cita programada: ${dateVal} a las ${timeVal}`, 110, 740)
+
+      context.fillStyle = "#5d6978"
+      context.font = "500 20px Arial"
+      context.fillText("humanosrehab.com | WhatsApp +1 (555) 646-5891", 110, 775)
+    } else {
+      context.fillStyle = "#5d6978"
+      context.font = "500 20px Arial"
+      context.fillText("humanosrehab.com | WhatsApp +1 (555) 646-5891", 110, 755)
+    }
 
     const link = document.createElement("a")
     link.href = canvas.toDataURL("image/png")
@@ -454,6 +574,56 @@ export function GiftCardBuilderV2() {
             </div>
 
             <div className="grid gap-2">
+              <Label htmlFor="appointmentDate" className="text-sm font-extrabold text-foreground">
+                Elige la fecha de tu cita (Martes, Jueves o Sábados)
+              </Label>
+              <select
+                id="appointmentDate"
+                value={form.appointmentDate}
+                onChange={(event) => handleDateChange(event.target.value)}
+                className="h-12 w-full min-w-0 rounded-xl border border-input bg-white px-3 text-sm font-medium text-foreground shadow-xs outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15 cursor-pointer"
+              >
+                <option value="">-- Selecciona un día --</option>
+                {availableDates.map((d) => (
+                  <option key={d.value} value={d.value}>
+                    {d.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {form.appointmentDate ? (
+              <div className="grid gap-2">
+                <Label htmlFor="appointmentTime" className="text-sm font-extrabold text-foreground">
+                  Elige la hora de tu cita
+                </Label>
+                {isLoadingSlots ? (
+                  <div className="flex h-12 items-center gap-2 px-3 text-sm font-semibold text-muted-foreground">
+                    <RefreshCw className="h-4 w-4 animate-spin text-primary" />
+                    Consultando horarios disponibles...
+                  </div>
+                ) : (
+                  <select
+                    id="appointmentTime"
+                    value={form.appointmentTime}
+                    onChange={(event) => updateField("appointmentTime", event.target.value)}
+                    className="h-12 w-full min-w-0 rounded-xl border border-input bg-white px-3 text-sm font-medium text-foreground shadow-xs outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15 cursor-pointer"
+                  >
+                    <option value="">-- Selecciona una hora --</option>
+                    {availableSlots.map((slot) => (
+                      <option key={slot} value={slot}>
+                        {slot}
+                      </option>
+                    ))}
+                    {!isLoadingSlots && availableSlots.length === 0 ? (
+                      <option value="" disabled>No hay horarios disponibles para este día</option>
+                    ) : null}
+                  </select>
+                )}
+              </div>
+            ) : null}
+
+            <div className="grid gap-2">
               <Label htmlFor="message" className="text-sm font-extrabold text-foreground">
                 Mensaje corto
               </Label>
@@ -504,6 +674,11 @@ export function GiftCardBuilderV2() {
                       {giftType}
                     </p>
                     <p className="mt-2 text-xs font-bold text-muted-foreground">De parte de: {buyer}</p>
+                    {form.appointmentDate && form.appointmentTime ? (
+                      <p className="mt-1 text-xs font-black text-primary">
+                        Cita: {form.appointmentDate} a las {form.appointmentTime}
+                      </p>
+                    ) : null}
                   </div>
                   <div className="rounded-lg bg-[#E63946] px-4 py-3 text-white shadow-lg">
                     <p className="text-[10px] font-bold uppercase opacity-70">ID / vence</p>

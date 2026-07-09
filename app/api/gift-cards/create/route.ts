@@ -10,6 +10,8 @@ export async function POST(request: Request) {
     const giftType = String(body.giftType ?? "").trim()
     const amount = String(body.amount ?? "").trim()
     const message = String(body.message ?? "").trim()
+    const appointmentDate = body.appointmentDate ? String(body.appointmentDate).trim() : undefined
+    const appointmentTime = body.appointmentTime ? String(body.appointmentTime).trim() : undefined
 
     if (!buyerName || !buyerPhone || !recipientName || !giftType || !amount) {
       return NextResponse.json(
@@ -25,6 +27,8 @@ export async function POST(request: Request) {
       giftType,
       amount,
       message,
+      appointmentDate,
+      appointmentTime,
     })
 
     const notifications = await notifyGiftCardNotification("gift_card_created", giftCard).catch((error) => ({

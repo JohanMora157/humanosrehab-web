@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import PageLayout from "@/components/page-layout"
 import { PageHeader } from "@/components/ui/page-header"
 import { GiftCardBuilderV2 } from "@/components/gift-cards/gift-card-builder-v2"
@@ -17,7 +18,13 @@ export default function TarjetasRegaloPage() {
         description="Crea una tarjeta personalizada para regalar consultas, sesiones, packs o un bono abierto."
         bgImage="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-y6Srx6vFmSfcjBAuMdHH3rmdpLNagd.png"
       />
-      <GiftCardBuilderV2 />
+      <Suspense fallback={
+        <div className="flex justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </div>
+      }>
+        <GiftCardBuilderV2 />
+      </Suspense>
     </PageLayout>
   )
 }

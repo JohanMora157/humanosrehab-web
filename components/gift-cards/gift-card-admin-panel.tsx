@@ -303,7 +303,14 @@ export function GiftCardAdminPanel() {
                             <p className="text-xs font-semibold text-muted-foreground">{card.recipientPhone}</p>
                           ) : null}
                         </td>
-                        <td className="px-6 py-4 font-semibold text-muted-foreground">{card.giftType}</td>
+                        <td className="px-6 py-4">
+                          <p className="font-semibold text-muted-foreground">{card.giftType}</p>
+                          {card.appointmentDate && card.appointmentTime ? (
+                            <p className="text-[#1667B7] text-xs font-black mt-1">
+                              Cita: {card.appointmentDate} a las {card.appointmentTime}
+                            </p>
+                          ) : null}
+                        </td>
                         <td className="px-6 py-4 font-black text-foreground">{card.amount}</td>
                         <td className="px-6 py-4 font-semibold text-muted-foreground">{formatDate(card.expiresAt)}</td>
                         <td className="px-6 py-4">

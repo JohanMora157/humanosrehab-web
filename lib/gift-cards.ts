@@ -21,11 +21,20 @@ export type GiftCardRecord = {
   preferenceId?: string
   claimedAt?: string
   notes?: string
+  appointmentDate?: string
+  appointmentTime?: string
 }
 
 export type GiftCardInput = Pick<
   GiftCardRecord,
-  "buyerName" | "buyerPhone" | "recipientName" | "giftType" | "amount" | "message"
+  | "buyerName"
+  | "buyerPhone"
+  | "recipientName"
+  | "giftType"
+  | "amount"
+  | "message"
+  | "appointmentDate"
+  | "appointmentTime"
 >
 
 const globalStore = globalThis as typeof globalThis & {
@@ -136,6 +145,8 @@ function mapSheetToRecord(row: any): GiftCardRecord {
     preferenceId: row.preference_id || row.preferenceId || undefined,
     claimedAt: row.fecha_reclamada || row.claimedAt || undefined,
     notes: row.observaciones || row.notes || undefined,
+    appointmentDate: row.fecha_cita || row.appointmentDate || undefined,
+    appointmentTime: row.hora_cita || row.appointmentTime || undefined,
   }
 }
 
@@ -180,6 +191,8 @@ function mapRecordToSheet(record: GiftCardRecord) {
     preferenceId: record.preferenceId || "",
     claimedAt: record.claimedAt || "",
     notes: record.notes || "",
+    appointmentDate: record.appointmentDate || "",
+    appointmentTime: record.appointmentTime || "",
     
     id_tarjeta: record.id,
     fecha_creacion: record.createdAt,
@@ -199,6 +212,8 @@ function mapRecordToSheet(record: GiftCardRecord) {
     preference_id: record.preferenceId || "",
     fecha_reclamada: record.claimedAt || "",
     observaciones: record.notes || "",
+    fecha_cita: record.appointmentDate || "",
+    hora_cita: record.appointmentTime || "",
     ultima_actualizacion: new Date().toISOString().split("T")[0],
   }
 }
@@ -228,6 +243,8 @@ function mapUpdatesToSheet(updates: Partial<GiftCardRecord>) {
   add("preferenceId", "preference_id", updates.preferenceId)
   add("claimedAt", "fecha_reclamada", updates.claimedAt)
   add("notes", "observaciones", updates.notes)
+  add("appointmentDate", "fecha_cita", updates.appointmentDate)
+  add("appointmentTime", "hora_cita", updates.appointmentTime)
 
   if (updates.paymentStatus !== undefined) {
     mapped.paymentStatus = updates.paymentStatus
