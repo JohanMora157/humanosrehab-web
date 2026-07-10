@@ -68,7 +68,7 @@ export async function POST(request: Request) {
               },
             ],
             external_reference: giftCard.id,
-            notification_url: "https://n8n.globalautomate.co/webhook/mercadopago-gift-card",
+            notification_url: "https://n8n.globalautomate.co/webhook-test/mercadopago-gift-card",
             back_urls: {
               success: `${domain}/tarjetas-regalo?status=success&id=${giftCard.id}`,
               pending: `${domain}/tarjetas-regalo?status=pending&id=${giftCard.id}`,
