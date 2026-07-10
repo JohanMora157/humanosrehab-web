@@ -312,7 +312,7 @@ export function GiftCardBuilderV2() {
       setGiftCard(data.giftCard)
       setCheckoutUrl(data.checkoutUrl)
       if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl
+        window.open(data.checkoutUrl, "_blank")
       } else {
         setStatusMessage("Tarjeta creada. La descarga se habilita cuando Mercado Pago apruebe el pago.")
       }
@@ -519,8 +519,9 @@ export function GiftCardBuilderV2() {
 
   return (
     <section className="border-b border-border/50 bg-transparent py-16 lg:py-24">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
-        <div className="rounded-lg border border-border/70 bg-white p-5 shadow-premium sm:p-6 lg:p-8">
+      <div className={`mx-auto grid gap-8 px-4 sm:px-6 lg:px-8 ${isPaymentApproved ? 'grid-cols-1 max-w-2xl' : 'max-w-7xl lg:grid-cols-[0.9fr_1.1fr]'}`}>
+        {!isPaymentApproved ? (
+          <div className="rounded-lg border border-border/70 bg-white p-5 shadow-premium sm:p-6 lg:p-8">
           <div className="mb-6 flex items-center gap-3">
             <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary">
               <Gift className="h-5 w-5" />
@@ -659,10 +660,24 @@ export function GiftCardBuilderV2() {
                 className="min-h-28 rounded-xl bg-white"
               />
             </div>
+
+            <div className="rounded-xl border border-primary/10 bg-primary/5 p-4 text-xs font-semibold leading-relaxed text-muted-foreground mt-2">
+              ℹ️ Una vez realizado el pago, la tarjeta de regalo le llegará automáticamente por WhatsApp tanto al comprador como a la persona que recibe el regalo.
+            </div>
           </div>
         </div>
+        ) : null}
 
         <div className="space-y-5">
+          {isPaymentApproved ? (
+            <div className="text-center mb-6 animate-fade-in-up">
+              <p className="text-xs font-black uppercase tracking-widest text-[#E63946]">Bono de Bienestar</p>
+              <h2 className="mt-1 font-heading text-3xl font-black text-foreground">¡Tienes una Tarjeta de Regalo!</h2>
+              <p className="mt-2 text-sm font-semibold text-muted-foreground">
+                Descárgala a continuación para guardarla o presentarla en tu cita.
+              </p>
+            </div>
+          ) : null}
           <div className="relative overflow-hidden rounded-lg border border-border/70 bg-white p-5 shadow-premium sm:p-6 lg:p-8">
             <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-[#1667B7]/10 blur-3xl" />
             <div className="absolute bottom-0 left-0 h-44 w-44 rounded-full bg-[#E63946]/10 blur-3xl" />
@@ -730,7 +745,7 @@ export function GiftCardBuilderV2() {
                     asChild
                     className="h-12 rounded-xl bg-[#009EE3] hover:bg-[#008FC7] font-bold text-white shadow-lg cursor-pointer"
                   >
-                    <a href={checkoutUrl} target="_self" className="flex items-center justify-center gap-2">
+                    <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
                       <CreditCard className="h-4 w-4" />
                       Pagar con Mercado Pago
                     </a>
