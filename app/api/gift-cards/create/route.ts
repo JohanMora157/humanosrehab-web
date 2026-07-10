@@ -49,8 +49,8 @@ export async function POST(request: Request) {
       try {
         const parsedPrice = parseAmountToNumber(amount)
         const host = request.headers.get("host") || "localhost:3000"
-        const protocol = host.startsWith("localhost") ? "http" : "https"
-        const domain = `${protocol}://${host}`
+        const isLocal = host.includes("localhost") || host.includes("127.0.0.1")
+        const domain = isLocal ? "https://humanosrehab.com" : `https://${host}`
 
         const mpRes = await fetch("https://api.mercadopago.com/checkout/preferences", {
           method: "POST",
@@ -68,7 +68,7 @@ export async function POST(request: Request) {
               },
             ],
             external_reference: giftCard.id,
-            notification_url: "https://n8n.globalautomate.co/webhook/mercadopago-humanos",
+            notification_url: "https://n8n.globalautomate.co/webhook/mercadopago-gift-card",
             back_urls: {
               success: `${domain}/tarjetas-regalo?status=success&id=${giftCard.id}`,
               pending: `${domain}/tarjetas-regalo?status=pending&id=${giftCard.id}`,
