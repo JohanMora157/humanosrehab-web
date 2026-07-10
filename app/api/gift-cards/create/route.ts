@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     }))
 
     let checkoutUrl: string | null = null
-    const mpToken = process.env.MERCADO_PAGO_ACCESS_TOKEN || "APP_USR-5937169679297290-062518-0a6bd19ff13147203c8c287175d8cf4b-3497419399"
+    const mpToken = process.env.MERCADO_PAGO_ACCESS_TOKEN || "APP_USR-4312659900832870-062518-ce38c9df0192e20ca0930bde2421758f-3496607711"
 
     if (mpToken) {
       try {
