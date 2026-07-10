@@ -50,7 +50,7 @@ export async function POST(request: Request) {
         const parsedPrice = parseAmountToNumber(amount)
         const host = request.headers.get("host") || "localhost:3000"
         const isLocal = host.includes("localhost") || host.includes("127.0.0.1")
-        const domain = isLocal ? "https://humanosrehab.com" : `https://${host}`
+        const domain = isLocal ? `http://${host}` : `https://${host}`
 
         const mpRes = await fetch("https://api.mercadopago.com/checkout/preferences", {
           method: "POST",
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
               pending: `${domain}/tarjetas-regalo?status=pending&id=${giftCard.id}`,
               failure: `${domain}/tarjetas-regalo?status=failure&id=${giftCard.id}`,
             },
-            auto_return: "approved",
+            auto_return: isLocal ? undefined : "approved",
             metadata: {
               celular: buyerPhone,
               nombre_completo: buyerName,
