@@ -317,10 +317,10 @@ export async function getGiftCard(id: string) {
 export async function listGiftCards() {
   const sheetResult = await fetchFromSheet("list")
   if (sheetResult && Array.isArray(sheetResult.cards)) {
-    const cards = sheetResult.cards.map(mapSheetToRecord)
+    const cards: GiftCardRecord[] = sheetResult.cards.map(mapSheetToRecord)
     store.clear()
-    cards.forEach((card) => store.set(card.id, card))
-    return cards.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    cards.forEach((card: GiftCardRecord) => store.set(card.id, card))
+    return cards.sort((a: GiftCardRecord, b: GiftCardRecord) => b.createdAt.localeCompare(a.createdAt))
   }
   return Array.from(store.values()).sort((a, b) => b.createdAt.localeCompare(a.createdAt))
 }

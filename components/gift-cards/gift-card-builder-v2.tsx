@@ -8,7 +8,6 @@ import {
   Download,
   Gift,
   Lock,
-  MessageCircle,
   RefreshCw,
   Send,
   UserRound,
@@ -265,25 +264,6 @@ export function GiftCardBuilderV2() {
   const expiresAt = formatDate(giftCard?.expiresAt)
   const isPaymentApproved = giftCard?.paymentStatus === "approved" && giftCard.cardStatus === "active"
 
-  const whatsappUrl = useMemo(() => {
-    const dateVal = giftCard?.appointmentDate || form.appointmentDate
-    const timeVal = giftCard?.appointmentTime || form.appointmentTime
-
-    const text = [
-      "Hola, quisiera comprar una tarjeta de regalo en Humanos Rehab.",
-      `Para: ${recipient}`,
-      `Regalo: ${giftType}`,
-      `Valor: ${amount}`,
-      `De parte de: ${buyer}`,
-      dateVal && timeVal ? `Cita programada: ${dateVal} a las ${timeVal}` : null,
-      buyerPhone ? `WhatsApp comprador: ${buyerPhone}` : null,
-      giftCard?.id ? `ID tarjeta: ${giftCard.id}` : null,
-      giftCard?.expiresAt ? `Vence: ${expiresAt}` : null,
-    ].filter(Boolean).join("\n")
-
-    return `https://wa.me/15556465891?text=${encodeURIComponent(text)}`
-  }, [amount, buyer, buyerPhone, expiresAt, giftCard?.expiresAt, giftCard?.id, giftType, recipient, form.appointmentDate, form.appointmentTime])
-
   const updateField = (field: keyof GiftForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }))
     setStatusMessage("")
@@ -373,14 +353,17 @@ export function GiftCardBuilderV2() {
 
     context.scale(scale, scale)
 
+    const dateVal = giftCard?.appointmentDate || form.appointmentDate
+    const timeVal = giftCard?.appointmentTime || form.appointmentTime
+
     const gradient = context.createLinearGradient(0, 0, 1400, 900)
-    gradient.addColorStop(0, "#ffffff")
-    gradient.addColorStop(0.52, "#f5f9fc")
-    gradient.addColorStop(1, "#eaf4ff")
+    gradient.addColorStop(0, "#f8fbff")
+    gradient.addColorStop(0.46, "#ffffff")
+    gradient.addColorStop(1, "#e9f4ff")
     context.fillStyle = gradient
     context.fillRect(0, 0, 1400, 900)
 
-    context.strokeStyle = "rgba(22, 103, 183, 0.12)"
+    context.strokeStyle = "rgba(22, 103, 183, 0.10)"
     context.lineWidth = 1
     for (let x = 0; x < 1400; x += 60) {
       context.beginPath()
@@ -395,25 +378,38 @@ export function GiftCardBuilderV2() {
       context.stroke()
     }
 
-    context.fillStyle = "#072B4F"
-    roundedRect(context, 70, 70, 1260, 760, 44)
+    context.fillStyle = "rgba(7, 43, 79, 0.10)"
+    roundedRect(context, 78, 84, 1260, 760, 44)
+    context.fill()
+
+    context.fillStyle = "#082E52"
+    roundedRect(context, 70, 70, 1260, 760, 46)
     context.fill()
 
     const cardGradient = context.createLinearGradient(90, 90, 1310, 810)
     cardGradient.addColorStop(0, "#ffffff")
-    cardGradient.addColorStop(0.68, "#f7fbff")
-    cardGradient.addColorStop(1, "#edf6ff")
+    cardGradient.addColorStop(0.56, "#fbfdff")
+    cardGradient.addColorStop(1, "#eaf5ff")
     context.fillStyle = cardGradient
     roundedRect(context, 92, 92, 1216, 716, 36)
     context.fill()
 
+    context.strokeStyle = "rgba(219, 171, 87, 0.60)"
+    context.lineWidth = 2
+    roundedRect(context, 116, 116, 1168, 668, 28)
+    context.stroke()
+
     context.fillStyle = "rgba(22, 103, 183, 0.09)"
     context.beginPath()
-    context.arc(1170, 180, 190, 0, Math.PI * 2)
+    context.arc(1165, 185, 210, 0, Math.PI * 2)
+    context.fill()
+    context.fillStyle = "rgba(219, 171, 87, 0.14)"
+    context.beginPath()
+    context.arc(1120, 710, 155, 0, Math.PI * 2)
     context.fill()
     context.fillStyle = "rgba(230, 57, 70, 0.08)"
     context.beginPath()
-    context.arc(1120, 720, 150, 0, Math.PI * 2)
+    context.arc(1005, 640, 95, 0, Math.PI * 2)
     context.fill()
 
     try {
@@ -426,38 +422,51 @@ export function GiftCardBuilderV2() {
     }
 
     context.fillStyle = "#E63946"
-    roundedRect(context, 110, 230, 170, 38, 19)
+    roundedRect(context, 112, 224, 182, 42, 21)
     context.fill()
     context.fillStyle = "#ffffff"
-    context.font = "700 18px Arial"
-    context.fillText("GIFT CARD", 140, 255)
+    context.font = "800 17px Arial"
+    context.fillText("GIFT CARD", 146, 251)
 
     context.fillStyle = "#17212f"
-    context.font = "900 72px Arial"
-    drawWrappedText(context, "Un regalo para moverse mejor", 110, 355, 690, 80)
+    context.font = "900 68px Arial"
+    drawWrappedText(context, "Un regalo para moverse mejor", 112, 352, 665, 76)
+
+    context.fillStyle = "#DBAB57"
+    roundedRect(context, 114, 495, 116, 6, 3)
+    context.fill()
 
     context.fillStyle = "#5d6978"
-    context.font = "500 30px Arial"
-    drawWrappedText(context, message, 112, 550, 700, 42)
+    context.font = "500 28px Arial"
+    drawWrappedText(context, message, 112, 560, 690, 40)
 
+    context.fillStyle = "rgba(7, 43, 79, 0.08)"
+    roundedRect(context, 848, 218, 400, 440, 30)
+    context.fill()
     context.fillStyle = "#ffffff"
     roundedRect(context, 835, 205, 400, 440, 30)
     context.fill()
     context.strokeStyle = "rgba(7, 43, 79, 0.12)"
+    context.lineWidth = 1
     context.stroke()
+    context.fillStyle = "#082E52"
+    roundedRect(context, 835, 205, 400, 74, 30)
+    context.fill()
+    context.fillRect(835, 249, 400, 38)
 
-    context.fillStyle = "#072B4F"
-    context.font = "700 24px Arial"
-    context.fillText("Para", 885, 280)
+    context.fillStyle = "#ffffff"
+    context.font = "800 20px Arial"
+    context.fillText("Para", 885, 253)
     context.font = "900 40px Arial"
+    context.fillStyle = "#082E52"
     drawWrappedText(context, recipient, 885, 350, 300, 48)
 
     context.fillStyle = "#1667B7"
     context.font = "800 26px Arial"
     drawWrappedText(context, giftType, 885, 505, 300, 34)
 
-    context.fillStyle = "rgba(22, 103, 183, 0.08)"
-    roundedRect(context, 875, 575, 310, 42, 21)
+    context.fillStyle = "rgba(219, 171, 87, 0.18)"
+    roundedRect(context, 875, 575, 310, 44, 22)
     context.fill()
     context.fillStyle = "#072B4F"
     context.font = "800 16px Arial"
@@ -469,22 +478,20 @@ export function GiftCardBuilderV2() {
 
     context.fillStyle = "#072B4F"
     context.font = "700 22px Arial"
-    context.fillText(`De parte de: ${buyer}`, 110, 705)
+    context.fillText(`De parte de: ${buyer}`, 110, 690)
 
-    const dateVal = giftCard?.appointmentDate || form.appointmentDate
-    const timeVal = giftCard?.appointmentTime || form.appointmentTime
     if (dateVal && timeVal) {
       context.fillStyle = "#1667B7"
       context.font = "900 22px Arial"
-      context.fillText(`Cita programada: ${dateVal} a las ${timeVal}`, 110, 740)
+      context.fillText(`Cita programada: ${dateVal} a las ${timeVal}`, 110, 728)
 
       context.fillStyle = "#5d6978"
       context.font = "500 20px Arial"
-      context.fillText("humanosrehab.com | WhatsApp +1 (555) 646-5891", 110, 775)
+      context.fillText("humanosrehab.com | WhatsApp +1 (555) 646-5891", 110, 768)
     } else {
       context.fillStyle = "#5d6978"
       context.font = "500 20px Arial"
-      context.fillText("humanosrehab.com | WhatsApp +1 (555) 646-5891", 110, 755)
+      context.fillText("humanosrehab.com | WhatsApp +1 (555) 646-5891", 110, 735)
     }
 
     const link = document.createElement("a")
@@ -643,13 +650,15 @@ export function GiftCardBuilderV2() {
             <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-[#1667B7]/10 blur-3xl" />
             <div className="absolute bottom-0 left-0 h-44 w-44 rounded-full bg-[#E63946]/10 blur-3xl" />
 
-            <div className="relative aspect-[1.55] overflow-hidden rounded-lg border-[6px] border-primary bg-white shadow-2xl shadow-primary/15">
+            <div className="relative aspect-[1.55] overflow-hidden rounded-lg border-[8px] border-primary bg-white shadow-2xl shadow-primary/20">
+              <div className="absolute inset-3 z-10 rounded-md border border-[#DBAB57]/50" />
               <div className="absolute inset-0 bg-grid-pattern opacity-70" />
-              <div className="absolute inset-0 bg-gradient-to-br from-white via-[#f8fbff] to-[#edf6ff]" />
-              <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[#1667B7]/10" />
-              <div className="absolute -bottom-20 right-20 h-52 w-52 rounded-full bg-[#E63946]/10" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white via-[#fbfdff] to-[#eaf5ff]" />
+              <div className="absolute -right-14 -top-16 h-60 w-60 rounded-full bg-[#1667B7]/10" />
+              <div className="absolute -bottom-20 right-20 h-52 w-52 rounded-full bg-[#DBAB57]/20" />
+              <div className="absolute bottom-12 right-8 h-24 w-24 rounded-full bg-[#E63946]/10" />
 
-              <div className="relative flex h-full flex-col justify-between p-5 sm:p-8">
+              <div className="relative z-20 flex h-full flex-col justify-between p-5 sm:p-8">
                 <div className="flex items-start justify-between gap-4">
                   <img src="/logo_azul.png" alt="Humanos Rehab" className="h-12 w-auto sm:h-14" />
                   <span className="rounded-full bg-[#E63946] px-3 py-1 text-[10px] font-black uppercase tracking-wide text-white sm:text-xs">
@@ -657,33 +666,34 @@ export function GiftCardBuilderV2() {
                   </span>
                 </div>
 
-                <div className="max-w-[65%]">
+                <div className="max-w-[64%] -translate-y-1">
                   <p className="text-xs font-extrabold uppercase text-primary">Para</p>
                   <h3 className="mt-1 break-words font-heading text-2xl font-black leading-tight text-foreground sm:text-4xl">
                     {recipient}
                   </h3>
+                  <div className="mt-3 h-1.5 w-16 rounded-full bg-[#DBAB57]" />
                   <p className="mt-4 break-words text-xs font-semibold leading-relaxed text-muted-foreground sm:text-sm">
                     {message}
                   </p>
                 </div>
 
-                <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
+                <div className="grid -translate-y-3 gap-2 sm:grid-cols-[1fr_auto] sm:items-end">
                   <div>
                     <p className="text-xs font-extrabold uppercase text-primary">Regalo</p>
-                    <p className="mt-1 break-words font-heading text-lg font-black text-foreground sm:text-2xl">
+                    <p className="mt-1 break-words font-heading text-base font-black leading-tight text-foreground sm:text-xl">
                       {giftType}
                     </p>
-                    <p className="mt-2 text-xs font-bold text-muted-foreground">De parte de: {buyer}</p>
+                    <p className="mt-1 text-xs font-bold text-muted-foreground">De parte de: {buyer}</p>
                     {form.appointmentDate && form.appointmentTime ? (
                       <p className="mt-1 text-xs font-black text-primary">
                         Cita: {form.appointmentDate} a las {form.appointmentTime}
                       </p>
                     ) : null}
                   </div>
-                  <div className="rounded-lg bg-[#E63946] px-4 py-3 text-white shadow-lg">
-                    <p className="text-[10px] font-bold uppercase opacity-70">ID / vence</p>
+                  <div className="rounded-lg border border-[#DBAB57]/50 bg-primary px-4 py-3 text-white shadow-lg shadow-primary/20 sm:min-w-48">
+                    <p className="text-[10px] font-bold uppercase text-[#DBAB57]">ID / vence</p>
                     <p className="max-w-44 break-words text-xs font-black sm:text-sm">{cardId}</p>
-                    <p className="mt-1 text-[10px] font-bold opacity-80">{expiresAt}</p>
+                    <p className="mt-1 text-[10px] font-bold text-white/80">{expiresAt}</p>
                   </div>
                 </div>
               </div>
@@ -754,18 +764,6 @@ export function GiftCardBuilderV2() {
               </Button>
             </div>
 
-            <div className="relative mt-3">
-              <Button
-                asChild
-                variant="outline"
-                className="h-12 w-full rounded-xl border-[#25D366] font-bold text-[#1E9A4D] hover:bg-[#EBFBF0]"
-              >
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="h-4 w-4" />
-                  Confirmar por WhatsApp
-                </a>
-              </Button>
-            </div>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
