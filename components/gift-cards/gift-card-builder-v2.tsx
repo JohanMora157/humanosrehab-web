@@ -192,6 +192,7 @@ export function GiftCardBuilderV2() {
   const availableDates = useMemo(() => getNextAvailableDates(6), [])
   const [availableSlots, setAvailableSlots] = useState<string[]>([])
   const [isLoadingSlots, setIsLoadingSlots] = useState(false)
+  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null)
 
   useEffect(() => {
     if (urlId) {
@@ -203,6 +204,7 @@ export function GiftCardBuilderV2() {
           if (response.ok) {
             const data = await response.json()
             setGiftCard(data.giftCard)
+            setCheckoutUrl(data.checkoutUrl)
             setForm({
               buyerName: data.giftCard.buyerName,
               buyerPhone: data.giftCard.buyerPhone,
@@ -264,6 +266,15 @@ export function GiftCardBuilderV2() {
   const expiresAt = formatDate(giftCard?.expiresAt)
   const isPaymentApproved = giftCard?.paymentStatus === "approved" && giftCard.cardStatus === "active"
 
+  const isFormComplete = Boolean(
+    form.buyerName.trim() &&
+    form.buyerPhone.trim() &&
+    form.recipientName.trim() &&
+    form.giftType.trim() &&
+    form.appointmentDate.trim() &&
+    form.appointmentTime.trim()
+  )
+
   const updateField = (field: keyof GiftForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }))
     setStatusMessage("")
@@ -299,7 +310,12 @@ export function GiftCardBuilderV2() {
       }
 
       setGiftCard(data.giftCard)
-      setStatusMessage("Tarjeta creada. La descarga se habilita cuando Mercado Pago apruebe el pago.")
+      setCheckoutUrl(data.checkoutUrl)
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl
+      } else {
+        setStatusMessage("Tarjeta creada. La descarga se habilita cuando Mercado Pago apruebe el pago.")
+      }
     } catch {
       setStatusMessage("No se pudo crear la tarjeta. Intenta de nuevo.")
     } finally {
@@ -325,6 +341,7 @@ export function GiftCardBuilderV2() {
       }
 
       setGiftCard(data.giftCard)
+      setCheckoutUrl(data.checkoutUrl)
       setStatusMessage(
         data.giftCard.paymentStatus === "approved"
           ? "Pago aprobado. Ya puedes descargar la tarjeta activa."
@@ -699,26 +716,49 @@ export function GiftCardBuilderV2() {
               </div>
             </div>
 
-            <div className="relative mt-5 rounded-lg border border-primary/15 bg-primary/5 p-4">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-xs font-extrabold uppercase text-primary">Total a pagar</p>
-                  <p className="font-heading text-2xl font-black text-foreground">{amount}</p>
-                  <p className="mt-1 text-xs font-semibold text-muted-foreground">
-                    El valor no aparece en la tarjeta descargada.
-                  </p>
+            {giftCard && giftCard.paymentStatus !== "approved" && checkoutUrl ? (
+              <div className="relative mt-5 rounded-lg border border-[#009EE3]/15 bg-[#009EE3]/5 p-4 animate-fade-in-up">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-xs font-extrabold uppercase text-[#009EE3]">Pago Pendiente</p>
+                    <p className="font-heading text-2xl font-black text-foreground">{amount}</p>
+                    <p className="mt-1 text-xs font-semibold text-muted-foreground">
+                      Tu solicitud de tarjeta está registrada. Págala para activarla.
+                    </p>
+                  </div>
+                  <Button
+                    asChild
+                    className="h-12 rounded-xl bg-[#009EE3] hover:bg-[#008FC7] font-bold text-white shadow-lg cursor-pointer"
+                  >
+                    <a href={checkoutUrl} target="_self" className="flex items-center justify-center gap-2">
+                      <CreditCard className="h-4 w-4" />
+                      Pagar con Mercado Pago
+                    </a>
+                  </Button>
                 </div>
-                <Button
-                  type="button"
-                  onClick={createGiftCardRequest}
-                  disabled={isCreating}
-                  className="h-12 rounded-xl bg-[#E63946] font-bold hover:bg-[#d92f3d]"
-                >
-                  <CreditCard className="h-4 w-4" />
-                  {isCreating ? "Creando..." : "Crear solicitud"}
-                </Button>
               </div>
-            </div>
+            ) : !giftCard ? (
+              <div className="relative mt-5 rounded-lg border border-primary/15 bg-primary/5 p-4">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-xs font-extrabold uppercase text-primary">Total a pagar</p>
+                    <p className="font-heading text-2xl font-black text-foreground">{amount}</p>
+                    <p className="mt-1 text-xs font-semibold text-muted-foreground">
+                      El valor no aparece en la tarjeta descargada.
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={createGiftCardRequest}
+                    disabled={!isFormComplete || isCreating}
+                    className="h-12 rounded-xl bg-[#E63946] font-bold hover:bg-[#d92f3d] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    <CreditCard className="h-4 w-4" />
+                    {isCreating ? "Procesando..." : "Proceder al Pago"}
+                  </Button>
+                </div>
+              </div>
+            ) : null}
 
             <div className="relative mt-5 rounded-lg border border-border/70 bg-white p-4">
               <div className="grid gap-3 sm:grid-cols-3">

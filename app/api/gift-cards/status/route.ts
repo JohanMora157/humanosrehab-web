@@ -15,5 +15,9 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "No encontramos esa tarjeta." }, { status: 404 })
   }
 
-  return NextResponse.json({ giftCard })
+  const checkoutUrl = giftCard.preferenceId && giftCard.paymentStatus !== "approved"
+    ? `https://www.mercadopago.com.co/checkout/v1/redirect?pref_id=${giftCard.preferenceId}`
+    : null
+
+  return NextResponse.json({ giftCard, checkoutUrl })
 }
