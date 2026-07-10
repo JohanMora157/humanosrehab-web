@@ -37,7 +37,7 @@ const steps = [
   {
     icon: CreditCard,
     title: "3. Abono de Reserva",
-    description: "Realiza el pago de $80.000 COP para asegurar tu bloque.",
+    description: "Realiza el pago de $85.000 COP para asegurar tu bloque.",
     color: "text-[#E63946] border-[#E63946]/20 bg-[#E63946]/5"
   },
   {
@@ -233,7 +233,7 @@ export function AppointmentForm() {
               <div className="mt-8 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex gap-3.5 items-start">
                 <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5 flex-none" />
                 <p className="text-xs sm:text-sm text-foreground font-semibold leading-relaxed">
-                  <strong className="text-amber-700 font-extrabold">Importante:</strong> Para confirmar y bloquear de manera definitiva tu espacio reservado en la agenda clínica, se requiere un abono inicial de <span className="text-primary font-black">$80.000 COP</span>.
+                  <strong className="text-amber-700 font-extrabold">Importante:</strong> Para confirmar y bloquear de manera definitiva tu espacio reservado en la agenda clínica, se requiere un abono inicial de <span className="text-primary font-black">$85.000 COP</span>.
                 </p>
               </div>
             </form>
