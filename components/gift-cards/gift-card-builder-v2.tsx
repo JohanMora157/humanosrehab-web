@@ -775,49 +775,64 @@ export function GiftCardBuilderV2() {
               </div>
             ) : null}
 
-            <div className="relative mt-5 rounded-lg border border-border/70 bg-white p-4">
-              <div className="grid gap-3 sm:grid-cols-3">
-                <div>
-                  <p className="text-[10px] font-extrabold uppercase text-muted-foreground">ID</p>
-                  <p className="break-words text-sm font-black text-foreground">{cardId}</p>
+            {!isPaymentApproved ? (
+              <div className="relative mt-5 rounded-lg border border-border/70 bg-white p-4">
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div>
+                    <p className="text-[10px] font-extrabold uppercase text-muted-foreground">ID</p>
+                    <p className="break-words text-sm font-black text-foreground">{cardId}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-extrabold uppercase text-muted-foreground">Pago</p>
+                    <p className="text-sm font-black text-foreground">
+                      {giftCard?.paymentStatus === "approved" ? "Aprobado" : "Pendiente"}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-extrabold uppercase text-muted-foreground">Vence</p>
+                    <p className="text-sm font-black text-foreground">{expiresAt}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-[10px] font-extrabold uppercase text-muted-foreground">Pago</p>
-                  <p className="text-sm font-black text-foreground">
-                    {giftCard?.paymentStatus === "approved" ? "Aprobado" : "Pendiente"}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-[10px] font-extrabold uppercase text-muted-foreground">Vence</p>
-                  <p className="text-sm font-black text-foreground">{expiresAt}</p>
-                </div>
+                {statusMessage ? (
+                  <p className="mt-3 text-xs font-bold leading-relaxed text-muted-foreground">{statusMessage}</p>
+                ) : null}
               </div>
-              {statusMessage ? (
-                <p className="mt-3 text-xs font-bold leading-relaxed text-muted-foreground">{statusMessage}</p>
-              ) : null}
-            </div>
+            ) : null}
 
-            <div className="relative mt-5 grid gap-3 sm:grid-cols-2">
-              <Button
-                type="button"
-                onClick={downloadGiftCard}
-                disabled={!isPaymentApproved}
-                className="h-12 rounded-xl font-bold"
-              >
-                {isPaymentApproved ? <Download className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
-                {isPaymentApproved ? "Descargar tarjeta" : "Descarga bloqueada"}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={checkPaymentStatus}
-                disabled={!giftCard || isChecking}
-                className="h-12 rounded-xl font-bold"
-              >
-                <RefreshCw className="h-4 w-4" />
-                {isChecking ? "Revisando..." : "Revisar pago"}
-              </Button>
-            </div>
+            {isPaymentApproved ? (
+              <div className="relative mt-5">
+                <Button
+                  type="button"
+                  onClick={downloadGiftCard}
+                  className="h-12 w-full rounded-xl bg-primary hover:bg-primary/95 text-white font-bold flex items-center justify-center gap-2 shadow-lg cursor-pointer"
+                >
+                  <Download className="h-4 w-4" />
+                  Descargar tarjeta
+                </Button>
+              </div>
+            ) : (
+              <div className="relative mt-5 grid gap-3 sm:grid-cols-2">
+                <Button
+                  type="button"
+                  onClick={downloadGiftCard}
+                  disabled={!isPaymentApproved}
+                  className="h-12 rounded-xl font-bold"
+                >
+                  {isPaymentApproved ? <Download className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+                  {isPaymentApproved ? "Descargar tarjeta" : "Descarga bloqueada"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={checkPaymentStatus}
+                  disabled={!giftCard || isChecking}
+                  className="h-12 rounded-xl font-bold"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                  {isChecking ? "Revisando..." : "Revisar pago"}
+                </Button>
+              </div>
+            )}
 
           </div>
 
