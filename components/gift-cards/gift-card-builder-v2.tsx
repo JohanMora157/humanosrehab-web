@@ -378,143 +378,144 @@ export function GiftCardBuilderV2() {
     const dateVal = giftCard?.appointmentDate || form.appointmentDate
     const timeVal = giftCard?.appointmentTime || form.appointmentTime
 
+    // 1. Draw beautiful clean gradient matching the HTML preview
     const gradient = context.createLinearGradient(0, 0, 1400, 900)
-    gradient.addColorStop(0, "#f8fbff")
-    gradient.addColorStop(0.46, "#ffffff")
-    gradient.addColorStop(1, "#e9f4ff")
+    gradient.addColorStop(0, "#ffffff")
+    gradient.addColorStop(0.56, "#fbfdff")
+    gradient.addColorStop(1, "#eaf5ff")
     context.fillStyle = gradient
     context.fillRect(0, 0, 1400, 900)
 
-    context.strokeStyle = "rgba(22, 103, 183, 0.10)"
+    // 2. Draw grid pattern (subtle 5% opacity blue lines)
+    context.strokeStyle = "rgba(22, 103, 183, 0.05)"
     context.lineWidth = 1
-    for (let x = 0; x < 1400; x += 60) {
+    for (let x = 0; x < 1400; x += 50) {
       context.beginPath()
       context.moveTo(x, 0)
       context.lineTo(x, 900)
       context.stroke()
     }
-    for (let y = 0; y < 900; y += 60) {
+    for (let y = 0; y < 900; y += 50) {
       context.beginPath()
       context.moveTo(0, y)
       context.lineTo(1400, y)
       context.stroke()
     }
 
-    context.fillStyle = "rgba(7, 43, 79, 0.10)"
-    roundedRect(context, 78, 84, 1260, 760, 44)
-    context.fill()
-
-    context.fillStyle = "#082E52"
-    roundedRect(context, 70, 70, 1260, 760, 46)
-    context.fill()
-
-    const cardGradient = context.createLinearGradient(90, 90, 1310, 810)
-    cardGradient.addColorStop(0, "#ffffff")
-    cardGradient.addColorStop(0.56, "#fbfdff")
-    cardGradient.addColorStop(1, "#eaf5ff")
-    context.fillStyle = cardGradient
-    roundedRect(context, 92, 92, 1216, 716, 36)
-    context.fill()
-
-    context.strokeStyle = "rgba(219, 171, 87, 0.60)"
-    context.lineWidth = 2
-    roundedRect(context, 116, 116, 1168, 668, 28)
-    context.stroke()
-
-    context.fillStyle = "rgba(22, 103, 183, 0.09)"
+    // 3. Draw background bubbles
+    context.fillStyle = "rgba(22, 103, 183, 0.08)"
     context.beginPath()
-    context.arc(1165, 185, 210, 0, Math.PI * 2)
+    context.arc(1200, 150, 220, 0, Math.PI * 2)
     context.fill()
+
     context.fillStyle = "rgba(219, 171, 87, 0.14)"
     context.beginPath()
-    context.arc(1120, 710, 155, 0, Math.PI * 2)
-    context.fill()
-    context.fillStyle = "rgba(230, 57, 70, 0.08)"
-    context.beginPath()
-    context.arc(1005, 640, 95, 0, Math.PI * 2)
+    context.arc(1050, 750, 180, 0, Math.PI * 2)
     context.fill()
 
+    context.fillStyle = "rgba(230, 57, 70, 0.06)"
+    context.beginPath()
+    context.arc(950, 620, 100, 0, Math.PI * 2)
+    context.fill()
+
+    // 4. Draw outer gold border
+    context.strokeStyle = "rgba(219, 171, 87, 0.50)"
+    context.lineWidth = 3
+    roundedRect(context, 40, 40, 1320, 820, 36)
+    context.stroke()
+
+    // 5. Draw logo
     try {
       const logo = await loadImage("/logo_azul.png")
-      context.drawImage(logo, 110, 118, 210, 70)
+      context.drawImage(logo, 100, 100, 240, 80)
     } catch {
-      context.fillStyle = "#072B4F"
-      context.font = "700 34px Arial"
-      context.fillText("Humanos Rehab", 110, 160)
+      context.fillStyle = "#082E52"
+      context.font = "700 36px Arial"
+      context.fillText("Humanos Rehab", 100, 150)
     }
 
+    // 6. Draw red "GIFT CARD" badge on the right
     context.fillStyle = "#E63946"
-    roundedRect(context, 112, 224, 182, 42, 21)
+    roundedRect(context, 1090, 105, 210, 54, 27)
     context.fill()
+    
     context.fillStyle = "#ffffff"
-    context.font = "800 17px Arial"
-    context.fillText("GIFT CARD", 146, 251)
+    context.font = "900 18px Arial"
+    context.textAlign = "center"
+    context.fillText("GIFT CARD", 1195, 138)
+    context.textAlign = "left" // Reset text align to default
 
+    // 7. Draw "Para" section
+    context.fillStyle = "#1667B7"
+    context.font = "800 24px Arial"
+    context.fillText("PARA", 100, 260)
+
+    // 8. Draw Recipient name
     context.fillStyle = "#17212f"
-    context.font = "900 68px Arial"
-    drawWrappedText(context, "Un regalo para moverse mejor", 112, 352, 665, 76)
+    context.font = "900 52px Arial"
+    drawWrappedText(context, recipient, 100, 330, 720, 60)
 
+    // 9. Draw gold separator line
     context.fillStyle = "#DBAB57"
-    roundedRect(context, 114, 495, 116, 6, 3)
+    roundedRect(context, 100, 385, 120, 8, 4)
     context.fill()
 
+    // 10. Draw Message
     context.fillStyle = "#5d6978"
     context.font = "500 28px Arial"
-    drawWrappedText(context, message, 112, 560, 690, 40)
+    drawWrappedText(context, message, 100, 445, 720, 42)
 
-    context.fillStyle = "rgba(7, 43, 79, 0.08)"
-    roundedRect(context, 848, 218, 400, 440, 30)
-    context.fill()
-    context.fillStyle = "#ffffff"
-    roundedRect(context, 835, 205, 400, 440, 30)
-    context.fill()
-    context.strokeStyle = "rgba(7, 43, 79, 0.12)"
-    context.lineWidth = 1
-    context.stroke()
-    context.fillStyle = "#082E52"
-    roundedRect(context, 835, 205, 400, 74, 30)
-    context.fill()
-    context.fillRect(835, 249, 400, 38)
-
-    context.fillStyle = "#ffffff"
-    context.font = "800 20px Arial"
-    context.fillText("Para", 885, 253)
-    context.font = "900 40px Arial"
-    context.fillStyle = "#082E52"
-    drawWrappedText(context, recipient, 885, 350, 300, 48)
-
+    // 11. Draw "Regalo" section
     context.fillStyle = "#1667B7"
-    context.font = "800 26px Arial"
-    drawWrappedText(context, giftType, 885, 505, 300, 34)
+    context.font = "800 22px Arial"
+    context.fillText("REGALO", 100, 620)
 
-    context.fillStyle = "rgba(219, 171, 87, 0.18)"
-    roundedRect(context, 875, 575, 310, 44, 22)
-    context.fill()
-    context.fillStyle = "#072B4F"
-    context.font = "800 16px Arial"
-    context.fillText(cardId, 920, 602)
+    // 12. Draw Gift service type
+    context.fillStyle = "#17212f"
+    context.font = "900 36px Arial"
+    drawWrappedText(context, giftType, 100, 670, 720, 46)
 
+    // 13. Draw Buyer
     context.fillStyle = "#5d6978"
-    context.font = "700 16px Arial"
-    context.fillText(`Vence: ${expiresAt}`, 910, 635)
+    context.font = "700 24px Arial"
+    context.fillText(`De parte de: ${buyer}`, 100, 715)
 
-    context.fillStyle = "#072B4F"
-    context.font = "700 22px Arial"
-    context.fillText(`De parte de: ${buyer}`, 110, 690)
-
+    // 14. Draw Cita if scheduled
+    let finalFooterY = 770
     if (dateVal && timeVal) {
       context.fillStyle = "#1667B7"
-      context.font = "900 22px Arial"
-      context.fillText(`Cita programada: ${dateVal} a las ${timeVal}`, 110, 728)
-
-      context.fillStyle = "#5d6978"
-      context.font = "500 20px Arial"
-      context.fillText("humanosrehab.com | WhatsApp +1 (555) 646-5891", 110, 768)
-    } else {
-      context.fillStyle = "#5d6978"
-      context.font = "500 20px Arial"
-      context.fillText("humanosrehab.com | WhatsApp +1 (555) 646-5891", 110, 735)
+      context.font = "900 24px Arial"
+      context.fillText(`Cita programada: ${dateVal} a las ${timeVal}`, 100, 755)
+      finalFooterY = 805
     }
+
+    // 15. Draw Footer (Social media details)
+    context.fillStyle = "#5d6978"
+    context.font = "700 18px Arial"
+    context.fillText("humanosrehab.com  |  WhatsApp: +57 315 812 4416  |  Instagram: @humanosrehab  |  TikTok: @humanosrehab", 100, finalFooterY)
+
+    // 16. Draw Blue Badge (ID / Vence) on the bottom right
+    context.fillStyle = "#082E52"
+    roundedRect(context, 880, 560, 420, 220, 20)
+    context.fill()
+
+    context.strokeStyle = "rgba(219, 171, 87, 0.50)"
+    context.lineWidth = 2
+    roundedRect(context, 880, 560, 420, 220, 20)
+    context.stroke()
+
+    // ID / Vence text inside the badge
+    context.fillStyle = "#DBAB57"
+    context.font = "800 20px Arial"
+    context.fillText("ID / VENCE", 920, 615)
+
+    context.fillStyle = "#ffffff"
+    context.font = "900 32px Arial"
+    context.fillText(cardId, 920, 675)
+
+    context.fillStyle = "rgba(255, 255, 255, 0.8)"
+    context.font = "700 22px Arial"
+    context.fillText(`Vence: ${expiresAt}`, 920, 730)
 
     const link = document.createElement("a")
     link.href = canvas.toDataURL("image/png")
