@@ -386,8 +386,8 @@ export function GiftCardBuilderV2() {
     context.fillStyle = gradient
     context.fillRect(0, 0, 1400, 900)
 
-    // 2. Draw grid pattern (subtle 5% opacity blue lines)
-    context.strokeStyle = "rgba(22, 103, 183, 0.05)"
+    // 2. Draw grid pattern (subtle 15% opacity blue lines)
+    context.strokeStyle = "rgba(22, 103, 183, 0.15)"
     context.lineWidth = 1
     for (let x = 0; x < 1400; x += 50) {
       context.beginPath()
@@ -424,10 +424,10 @@ export function GiftCardBuilderV2() {
     roundedRect(context, 40, 40, 1320, 820, 36)
     context.stroke()
 
-    // 5. Draw logo
+    // 5. Draw logo (larger)
     try {
       const logo = await loadImage("/logo_azul.png")
-      context.drawImage(logo, 100, 100, 240, 80)
+      context.drawImage(logo, 100, 90, 280, 93)
     } catch {
       context.fillStyle = "#082E52"
       context.font = "700 36px Arial"
@@ -489,33 +489,33 @@ export function GiftCardBuilderV2() {
       finalFooterY = 805
     }
 
-    // 15. Draw Footer (Social media details)
+    // 15. Draw Footer (Social media details with new format)
     context.fillStyle = "#5d6978"
-    context.font = "700 18px Arial"
-    context.fillText("humanosrehab.com  |  WhatsApp: +57 315 812 4416  |  Instagram: @humanosrehab  |  TikTok: @humanosrehab", 100, finalFooterY)
+    context.font = "700 16px Arial"
+    context.fillText("humanosrehab.com  |  WhatsApp: +57 317 799 5831  |  Instagram/TikTok: @humanosrehab", 100, finalFooterY)
 
-    // 16. Draw Blue Badge (ID / Vence) on the bottom right
+    // 16. Draw Blue Badge (ID / Vence) shifted and resized to avoid overlap
     context.fillStyle = "#082E52"
-    roundedRect(context, 880, 560, 420, 220, 20)
+    roundedRect(context, 900, 570, 400, 200, 20)
     context.fill()
 
     context.strokeStyle = "rgba(219, 171, 87, 0.50)"
     context.lineWidth = 2
-    roundedRect(context, 880, 560, 420, 220, 20)
+    roundedRect(context, 900, 570, 400, 200, 20)
     context.stroke()
 
     // ID / Vence text inside the badge
     context.fillStyle = "#DBAB57"
     context.font = "800 20px Arial"
-    context.fillText("ID / VENCE", 920, 615)
+    context.fillText("ID / VENCE", 940, 625)
 
     context.fillStyle = "#ffffff"
     context.font = "900 32px Arial"
-    context.fillText(cardId, 920, 675)
+    context.fillText(cardId, 940, 685)
 
     context.fillStyle = "rgba(255, 255, 255, 0.8)"
     context.font = "700 22px Arial"
-    context.fillText(`Vence: ${expiresAt}`, 920, 730)
+    context.fillText(`Vence: ${expiresAt}`, 940, 740)
 
     const link = document.createElement("a")
     link.href = canvas.toDataURL("image/png")
