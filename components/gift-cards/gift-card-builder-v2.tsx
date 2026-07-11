@@ -386,8 +386,8 @@ export function GiftCardBuilderV2() {
     context.fillStyle = gradient
     context.fillRect(0, 0, 1400, 900)
 
-    // 2. Draw grid pattern (subtle 15% opacity blue lines)
-    context.strokeStyle = "rgba(22, 103, 183, 0.15)"
+    // 2. Draw grid pattern (subtle 25% opacity blue lines)
+    context.strokeStyle = "rgba(22, 103, 183, 0.25)"
     context.lineWidth = 1
     for (let x = 0; x < 1400; x += 50) {
       context.beginPath()
@@ -427,7 +427,7 @@ export function GiftCardBuilderV2() {
     // 5. Draw logo (larger)
     try {
       const logo = await loadImage("/logo_azul.png")
-      context.drawImage(logo, 100, 90, 280, 93)
+      context.drawImage(logo, 100, 80, 340, 113)
     } catch {
       context.fillStyle = "#082E52"
       context.font = "700 36px Arial"
@@ -494,28 +494,28 @@ export function GiftCardBuilderV2() {
     context.font = "700 16px Arial"
     context.fillText("humanosrehab.com  |  WhatsApp: +57 317 799 5831  |  Instagram/TikTok: @humanosrehab", 100, finalFooterY)
 
-    // 16. Draw Blue Badge (ID / Vence) shifted and resized to avoid overlap
+    // 16. Draw Blue Badge (ID / Vence) shifted and resized to avoid overlap and contain ID text
     context.fillStyle = "#082E52"
-    roundedRect(context, 900, 570, 400, 200, 20)
+    roundedRect(context, 860, 530, 430, 190, 20)
     context.fill()
 
     context.strokeStyle = "rgba(219, 171, 87, 0.50)"
     context.lineWidth = 2
-    roundedRect(context, 900, 570, 400, 200, 20)
+    roundedRect(context, 860, 530, 430, 190, 20)
     context.stroke()
 
     // ID / Vence text inside the badge
     context.fillStyle = "#DBAB57"
     context.font = "800 20px Arial"
-    context.fillText("ID / VENCE", 940, 625)
+    context.fillText("ID / VENCE", 900, 580)
 
     context.fillStyle = "#ffffff"
     context.font = "900 32px Arial"
-    context.fillText(cardId, 940, 685)
+    context.fillText(cardId, 900, 638)
 
     context.fillStyle = "rgba(255, 255, 255, 0.8)"
     context.font = "700 22px Arial"
-    context.fillText(`Vence: ${expiresAt}`, 940, 740)
+    context.fillText(`Vence: ${expiresAt}`, 900, 685)
 
     const link = document.createElement("a")
     link.href = canvas.toDataURL("image/png")
