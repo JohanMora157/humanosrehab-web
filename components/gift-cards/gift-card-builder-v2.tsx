@@ -65,6 +65,7 @@ type GiftForm = {
   buyerName: string
   buyerPhone: string
   recipientName: string
+  recipientPhone: string
   giftType: string
   message: string
   appointmentDate: string
@@ -75,6 +76,7 @@ const defaultForm: GiftForm = {
   buyerName: "",
   buyerPhone: "",
   recipientName: "",
+  recipientPhone: "",
   giftType: "Consulta de valoracion",
   message: "Un regalo para cuidar tu cuerpo, recuperar movimiento y sentirte mejor.",
   appointmentDate: "",
@@ -209,6 +211,7 @@ export function GiftCardBuilderV2() {
               buyerName: data.giftCard.buyerName,
               buyerPhone: data.giftCard.buyerPhone,
               recipientName: data.giftCard.recipientName,
+              recipientPhone: data.giftCard.recipientPhone || "",
               giftType: data.giftCard.giftType,
               message: data.giftCard.message,
               appointmentDate: data.giftCard.appointmentDate || "",
@@ -270,6 +273,7 @@ export function GiftCardBuilderV2() {
     form.buyerName.trim() &&
     form.buyerPhone.trim() &&
     form.recipientName.trim() &&
+    form.recipientPhone.trim() &&
     form.giftType.trim() &&
     form.appointmentDate.trim() &&
     form.appointmentTime.trim()
@@ -295,6 +299,7 @@ export function GiftCardBuilderV2() {
           buyerName: buyer,
           buyerPhone,
           recipientName: recipient,
+          recipientPhone: form.recipientPhone.trim(),
           giftType,
           amount,
           message,
@@ -568,6 +573,19 @@ export function GiftCardBuilderV2() {
                 value={form.recipientName}
                 onChange={(event) => updateField("recipientName", event.target.value)}
                 placeholder="Ej. Andres"
+                className="h-12 rounded-xl bg-white"
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="recipientPhone" className="text-sm font-extrabold text-foreground">
+                WhatsApp de la persona especial (para enviarle la tarjeta)
+              </Label>
+              <Input
+                id="recipientPhone"
+                value={form.recipientPhone}
+                onChange={(event) => updateField("recipientPhone", event.target.value)}
+                placeholder="Ej. +57 300 000 0000"
                 className="h-12 rounded-xl bg-white"
               />
             </div>

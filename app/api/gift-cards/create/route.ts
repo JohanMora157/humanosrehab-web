@@ -13,15 +13,16 @@ export async function POST(request: Request) {
     const buyerName = String(body.buyerName ?? "").trim()
     const buyerPhone = normalizePhone(String(body.buyerPhone ?? ""))
     const recipientName = String(body.recipientName ?? "").trim()
+    const recipientPhone = normalizePhone(String(body.recipientPhone ?? ""))
     const giftType = String(body.giftType ?? "").trim()
     const amount = String(body.amount ?? "").trim()
     const message = String(body.message ?? "").trim()
     const appointmentDate = body.appointmentDate ? String(body.appointmentDate).trim() : undefined
     const appointmentTime = body.appointmentTime ? String(body.appointmentTime).trim() : undefined
 
-    if (!buyerName || !buyerPhone || !recipientName || !giftType || !amount) {
+    if (!buyerName || !buyerPhone || !recipientName || !recipientPhone || !giftType || !amount) {
       return NextResponse.json(
-        { error: "Completa comprador, WhatsApp, destinatario, regalo y valor." },
+        { error: "Completa comprador, WhatsApp, destinatario, WhatsApp destinatario, regalo y valor." },
         { status: 400 },
       )
     }
@@ -30,6 +31,7 @@ export async function POST(request: Request) {
       buyerName,
       buyerPhone,
       recipientName,
+      recipientPhone,
       giftType,
       amount,
       message,
@@ -68,7 +70,7 @@ export async function POST(request: Request) {
               },
             ],
             external_reference: giftCard.id,
-            notification_url: "https://n8n.globalautomate.co/webhook-test/mercadopago-gift-card",
+            notification_url: "https://n8n.globalautomate.co/webhook/mercadopago-gift-card",
             back_urls: {
               success: `${domain}/tarjetas-regalo?status=success&id=${giftCard.id}`,
               pending: `${domain}/tarjetas-regalo?status=pending&id=${giftCard.id}`,
@@ -79,6 +81,8 @@ export async function POST(request: Request) {
               celular: buyerPhone,
               nombre_completo: buyerName,
               destinatario: recipientName,
+              telefono_destinario: recipientPhone,
+              telefono_destinatario: recipientPhone,
               tipo_bono: giftType,
               fecha_cita: appointmentDate || "",
               hora_cita: appointmentTime || "",
