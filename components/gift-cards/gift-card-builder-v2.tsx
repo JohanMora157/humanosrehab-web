@@ -65,6 +65,7 @@ type GiftForm = {
   buyerName: string
   buyerPhone: string
   recipientName: string
+  recipientPhone: string
   giftType: string
   message: string
   appointmentDate: string
@@ -75,6 +76,7 @@ const defaultForm: GiftForm = {
   buyerName: "",
   buyerPhone: "",
   recipientName: "",
+  recipientPhone: "",
   giftType: "Consulta de valoracion",
   message: "Un regalo para cuidar tu cuerpo, recuperar movimiento y sentirte mejor.",
   appointmentDate: "",
@@ -192,6 +194,7 @@ export function GiftCardBuilderV2() {
   const availableDates = useMemo(() => getNextAvailableDates(6), [])
   const [availableSlots, setAvailableSlots] = useState<string[]>([])
   const [isLoadingSlots, setIsLoadingSlots] = useState(false)
+  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null)
 
   useEffect(() => {
     if (urlId) {
@@ -203,10 +206,12 @@ export function GiftCardBuilderV2() {
           if (response.ok) {
             const data = await response.json()
             setGiftCard(data.giftCard)
+            setCheckoutUrl(data.checkoutUrl)
             setForm({
               buyerName: data.giftCard.buyerName,
               buyerPhone: data.giftCard.buyerPhone,
               recipientName: data.giftCard.recipientName,
+              recipientPhone: data.giftCard.recipientPhone || "",
               giftType: data.giftCard.giftType,
               message: data.giftCard.message,
               appointmentDate: data.giftCard.appointmentDate || "",
@@ -264,6 +269,16 @@ export function GiftCardBuilderV2() {
   const expiresAt = formatDate(giftCard?.expiresAt)
   const isPaymentApproved = giftCard?.paymentStatus === "approved" && giftCard.cardStatus === "active"
 
+  const isFormComplete = Boolean(
+    form.buyerName.trim() &&
+    form.buyerPhone.trim() &&
+    form.recipientName.trim() &&
+    form.recipientPhone.trim() &&
+    form.giftType.trim() &&
+    form.appointmentDate.trim() &&
+    form.appointmentTime.trim()
+  )
+
   const updateField = (field: keyof GiftForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }))
     setStatusMessage("")
@@ -284,6 +299,7 @@ export function GiftCardBuilderV2() {
           buyerName: buyer,
           buyerPhone,
           recipientName: recipient,
+          recipientPhone: form.recipientPhone.trim(),
           giftType,
           amount,
           message,
@@ -299,7 +315,12 @@ export function GiftCardBuilderV2() {
       }
 
       setGiftCard(data.giftCard)
-      setStatusMessage("Tarjeta creada. La descarga se habilita cuando Mercado Pago apruebe el pago.")
+      setCheckoutUrl(data.checkoutUrl)
+      if (data.checkoutUrl) {
+        window.open(data.checkoutUrl, "_blank")
+      } else {
+        setStatusMessage("Tarjeta creada. La descarga se habilita cuando Mercado Pago apruebe el pago.")
+      }
     } catch {
       setStatusMessage("No se pudo crear la tarjeta. Intenta de nuevo.")
     } finally {
@@ -325,6 +346,7 @@ export function GiftCardBuilderV2() {
       }
 
       setGiftCard(data.giftCard)
+      setCheckoutUrl(data.checkoutUrl)
       setStatusMessage(
         data.giftCard.paymentStatus === "approved"
           ? "Pago aprobado. Ya puedes descargar la tarjeta activa."
@@ -356,143 +378,144 @@ export function GiftCardBuilderV2() {
     const dateVal = giftCard?.appointmentDate || form.appointmentDate
     const timeVal = giftCard?.appointmentTime || form.appointmentTime
 
+    // 1. Draw beautiful clean gradient matching the HTML preview
     const gradient = context.createLinearGradient(0, 0, 1400, 900)
-    gradient.addColorStop(0, "#f8fbff")
-    gradient.addColorStop(0.46, "#ffffff")
-    gradient.addColorStop(1, "#e9f4ff")
+    gradient.addColorStop(0, "#ffffff")
+    gradient.addColorStop(0.56, "#fbfdff")
+    gradient.addColorStop(1, "#eaf5ff")
     context.fillStyle = gradient
     context.fillRect(0, 0, 1400, 900)
 
-    context.strokeStyle = "rgba(22, 103, 183, 0.10)"
+    // 2. Draw grid pattern (subtle 25% opacity blue lines)
+    context.strokeStyle = "rgba(22, 103, 183, 0.25)"
     context.lineWidth = 1
-    for (let x = 0; x < 1400; x += 60) {
+    for (let x = 0; x < 1400; x += 50) {
       context.beginPath()
       context.moveTo(x, 0)
       context.lineTo(x, 900)
       context.stroke()
     }
-    for (let y = 0; y < 900; y += 60) {
+    for (let y = 0; y < 900; y += 50) {
       context.beginPath()
       context.moveTo(0, y)
       context.lineTo(1400, y)
       context.stroke()
     }
 
-    context.fillStyle = "rgba(7, 43, 79, 0.10)"
-    roundedRect(context, 78, 84, 1260, 760, 44)
-    context.fill()
-
-    context.fillStyle = "#082E52"
-    roundedRect(context, 70, 70, 1260, 760, 46)
-    context.fill()
-
-    const cardGradient = context.createLinearGradient(90, 90, 1310, 810)
-    cardGradient.addColorStop(0, "#ffffff")
-    cardGradient.addColorStop(0.56, "#fbfdff")
-    cardGradient.addColorStop(1, "#eaf5ff")
-    context.fillStyle = cardGradient
-    roundedRect(context, 92, 92, 1216, 716, 36)
-    context.fill()
-
-    context.strokeStyle = "rgba(219, 171, 87, 0.60)"
-    context.lineWidth = 2
-    roundedRect(context, 116, 116, 1168, 668, 28)
-    context.stroke()
-
-    context.fillStyle = "rgba(22, 103, 183, 0.09)"
+    // 3. Draw background bubbles
+    context.fillStyle = "rgba(22, 103, 183, 0.08)"
     context.beginPath()
-    context.arc(1165, 185, 210, 0, Math.PI * 2)
+    context.arc(1200, 150, 220, 0, Math.PI * 2)
     context.fill()
+
     context.fillStyle = "rgba(219, 171, 87, 0.14)"
     context.beginPath()
-    context.arc(1120, 710, 155, 0, Math.PI * 2)
-    context.fill()
-    context.fillStyle = "rgba(230, 57, 70, 0.08)"
-    context.beginPath()
-    context.arc(1005, 640, 95, 0, Math.PI * 2)
+    context.arc(1050, 750, 180, 0, Math.PI * 2)
     context.fill()
 
+    context.fillStyle = "rgba(230, 57, 70, 0.06)"
+    context.beginPath()
+    context.arc(950, 620, 100, 0, Math.PI * 2)
+    context.fill()
+
+    // 4. Draw outer gold border
+    context.strokeStyle = "rgba(219, 171, 87, 0.50)"
+    context.lineWidth = 3
+    roundedRect(context, 40, 40, 1320, 820, 36)
+    context.stroke()
+
+    // 5. Draw logo (larger)
     try {
       const logo = await loadImage("/logo_azul.png")
-      context.drawImage(logo, 110, 118, 210, 70)
+      context.drawImage(logo, 100, 80, 340, 113)
     } catch {
-      context.fillStyle = "#072B4F"
-      context.font = "700 34px Arial"
-      context.fillText("Humanos Rehab", 110, 160)
+      context.fillStyle = "#082E52"
+      context.font = "700 36px Arial"
+      context.fillText("Humanos Rehab", 100, 150)
     }
 
+    // 6. Draw red "GIFT CARD" badge on the right
     context.fillStyle = "#E63946"
-    roundedRect(context, 112, 224, 182, 42, 21)
+    roundedRect(context, 1090, 105, 210, 54, 27)
     context.fill()
+    
     context.fillStyle = "#ffffff"
-    context.font = "800 17px Arial"
-    context.fillText("GIFT CARD", 146, 251)
+    context.font = "900 18px Arial"
+    context.textAlign = "center"
+    context.fillText("GIFT CARD", 1195, 138)
+    context.textAlign = "left" // Reset text align to default
 
+    // 7. Draw "Para" section
+    context.fillStyle = "#1667B7"
+    context.font = "800 24px Arial"
+    context.fillText("PARA", 100, 260)
+
+    // 8. Draw Recipient name
     context.fillStyle = "#17212f"
-    context.font = "900 68px Arial"
-    drawWrappedText(context, "Un regalo para moverse mejor", 112, 352, 665, 76)
+    context.font = "900 52px Arial"
+    drawWrappedText(context, recipient, 100, 330, 720, 60)
 
+    // 9. Draw gold separator line
     context.fillStyle = "#DBAB57"
-    roundedRect(context, 114, 495, 116, 6, 3)
+    roundedRect(context, 100, 385, 120, 8, 4)
     context.fill()
 
+    // 10. Draw Message
     context.fillStyle = "#5d6978"
     context.font = "500 28px Arial"
-    drawWrappedText(context, message, 112, 560, 690, 40)
+    drawWrappedText(context, message, 100, 445, 720, 42)
 
-    context.fillStyle = "rgba(7, 43, 79, 0.08)"
-    roundedRect(context, 848, 218, 400, 440, 30)
-    context.fill()
-    context.fillStyle = "#ffffff"
-    roundedRect(context, 835, 205, 400, 440, 30)
-    context.fill()
-    context.strokeStyle = "rgba(7, 43, 79, 0.12)"
-    context.lineWidth = 1
-    context.stroke()
-    context.fillStyle = "#082E52"
-    roundedRect(context, 835, 205, 400, 74, 30)
-    context.fill()
-    context.fillRect(835, 249, 400, 38)
-
-    context.fillStyle = "#ffffff"
-    context.font = "800 20px Arial"
-    context.fillText("Para", 885, 253)
-    context.font = "900 40px Arial"
-    context.fillStyle = "#082E52"
-    drawWrappedText(context, recipient, 885, 350, 300, 48)
-
+    // 11. Draw "Regalo" section
     context.fillStyle = "#1667B7"
-    context.font = "800 26px Arial"
-    drawWrappedText(context, giftType, 885, 505, 300, 34)
+    context.font = "800 22px Arial"
+    context.fillText("REGALO", 100, 620)
 
-    context.fillStyle = "rgba(219, 171, 87, 0.18)"
-    roundedRect(context, 875, 575, 310, 44, 22)
-    context.fill()
-    context.fillStyle = "#072B4F"
-    context.font = "800 16px Arial"
-    context.fillText(cardId, 920, 602)
+    // 12. Draw Gift service type
+    context.fillStyle = "#17212f"
+    context.font = "900 36px Arial"
+    drawWrappedText(context, giftType, 100, 670, 720, 46)
 
+    // 13. Draw Buyer
     context.fillStyle = "#5d6978"
-    context.font = "700 16px Arial"
-    context.fillText(`Vence: ${expiresAt}`, 910, 635)
+    context.font = "700 24px Arial"
+    context.fillText(`De parte de: ${buyer}`, 100, 715)
 
-    context.fillStyle = "#072B4F"
-    context.font = "700 22px Arial"
-    context.fillText(`De parte de: ${buyer}`, 110, 690)
-
+    // 14. Draw Cita if scheduled
+    let finalFooterY = 770
     if (dateVal && timeVal) {
       context.fillStyle = "#1667B7"
-      context.font = "900 22px Arial"
-      context.fillText(`Cita programada: ${dateVal} a las ${timeVal}`, 110, 728)
-
-      context.fillStyle = "#5d6978"
-      context.font = "500 20px Arial"
-      context.fillText("humanosrehab.com | WhatsApp +1 (555) 646-5891", 110, 768)
-    } else {
-      context.fillStyle = "#5d6978"
-      context.font = "500 20px Arial"
-      context.fillText("humanosrehab.com | WhatsApp +1 (555) 646-5891", 110, 735)
+      context.font = "900 24px Arial"
+      context.fillText(`Cita programada: ${dateVal} a las ${timeVal}`, 100, 755)
+      finalFooterY = 805
     }
+
+    // 15. Draw Footer (Social media details with new format)
+    context.fillStyle = "#5d6978"
+    context.font = "700 16px Arial"
+    context.fillText("humanosrehab.com  |  WhatsApp: +57 317 799 5831  |  Instagram/TikTok: @humanosrehab", 100, finalFooterY)
+
+    // 16. Draw Blue Badge (ID / Vence) shifted and resized to avoid overlap and contain ID text
+    context.fillStyle = "#082E52"
+    roundedRect(context, 860, 530, 430, 190, 20)
+    context.fill()
+
+    context.strokeStyle = "rgba(219, 171, 87, 0.50)"
+    context.lineWidth = 2
+    roundedRect(context, 860, 530, 430, 190, 20)
+    context.stroke()
+
+    // ID / Vence text inside the badge
+    context.fillStyle = "#DBAB57"
+    context.font = "800 20px Arial"
+    context.fillText("ID / VENCE", 900, 580)
+
+    context.fillStyle = "#ffffff"
+    context.font = "900 32px Arial"
+    context.fillText(cardId, 900, 638)
+
+    context.fillStyle = "rgba(255, 255, 255, 0.8)"
+    context.font = "700 22px Arial"
+    context.fillText(`Vence: ${expiresAt}`, 900, 685)
 
     const link = document.createElement("a")
     link.href = canvas.toDataURL("image/png")
@@ -502,8 +525,9 @@ export function GiftCardBuilderV2() {
 
   return (
     <section className="border-b border-border/50 bg-transparent py-16 lg:py-24">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
-        <div className="rounded-lg border border-border/70 bg-white p-5 shadow-premium sm:p-6 lg:p-8">
+      <div className={`mx-auto grid gap-8 px-4 sm:px-6 lg:px-8 ${isPaymentApproved ? 'grid-cols-1 max-w-2xl' : 'max-w-7xl lg:grid-cols-[0.9fr_1.1fr]'}`}>
+        {!isPaymentApproved ? (
+          <div className="rounded-lg border border-border/70 bg-white p-5 shadow-premium sm:p-6 lg:p-8">
           <div className="mb-6 flex items-center gap-3">
             <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary">
               <Gift className="h-5 w-5" />
@@ -550,6 +574,19 @@ export function GiftCardBuilderV2() {
                 value={form.recipientName}
                 onChange={(event) => updateField("recipientName", event.target.value)}
                 placeholder="Ej. Andres"
+                className="h-12 rounded-xl bg-white"
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="recipientPhone" className="text-sm font-extrabold text-foreground">
+                WhatsApp de la persona especial (para enviarle la tarjeta)
+              </Label>
+              <Input
+                id="recipientPhone"
+                value={form.recipientPhone}
+                onChange={(event) => updateField("recipientPhone", event.target.value)}
+                placeholder="Ej. +57 300 000 0000"
                 className="h-12 rounded-xl bg-white"
               />
             </div>
@@ -642,10 +679,24 @@ export function GiftCardBuilderV2() {
                 className="min-h-28 rounded-xl bg-white"
               />
             </div>
+
+            <div className="rounded-xl border border-primary/10 bg-primary/5 p-4 text-xs font-semibold leading-relaxed text-muted-foreground mt-2">
+              ℹ️ Una vez realizado el pago, la tarjeta de regalo le llegará automáticamente por WhatsApp tanto al comprador como a la persona que recibe el regalo.
+            </div>
           </div>
         </div>
+        ) : null}
 
         <div className="space-y-5">
+          {isPaymentApproved ? (
+            <div className="text-center mb-6 animate-fade-in-up">
+              <p className="text-xs font-black uppercase tracking-widest text-[#E63946]">Bono de Bienestar</p>
+              <h2 className="mt-1 font-heading text-3xl font-black text-foreground">¡Tienes una Tarjeta de Regalo!</h2>
+              <p className="mt-2 text-sm font-semibold text-muted-foreground">
+                Descárgala a continuación para guardarla o presentarla en tu cita.
+              </p>
+            </div>
+          ) : null}
           <div className="relative overflow-hidden rounded-lg border border-border/70 bg-white p-5 shadow-premium sm:p-6 lg:p-8">
             <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-[#1667B7]/10 blur-3xl" />
             <div className="absolute bottom-0 left-0 h-44 w-44 rounded-full bg-[#E63946]/10 blur-3xl" />
@@ -699,70 +750,108 @@ export function GiftCardBuilderV2() {
               </div>
             </div>
 
-            <div className="relative mt-5 rounded-lg border border-primary/15 bg-primary/5 p-4">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-xs font-extrabold uppercase text-primary">Total a pagar</p>
-                  <p className="font-heading text-2xl font-black text-foreground">{amount}</p>
-                  <p className="mt-1 text-xs font-semibold text-muted-foreground">
-                    El valor no aparece en la tarjeta descargada.
-                  </p>
+            {giftCard && giftCard.paymentStatus !== "approved" && checkoutUrl ? (
+              <div className="relative mt-5 rounded-lg border border-[#009EE3]/15 bg-[#009EE3]/5 p-4 animate-fade-in-up">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-xs font-extrabold uppercase text-[#009EE3]">Pago Pendiente</p>
+                    <p className="font-heading text-2xl font-black text-foreground">{amount}</p>
+                    <p className="mt-1 text-xs font-semibold text-muted-foreground">
+                      Tu solicitud de tarjeta está registrada. Págala para activarla.
+                    </p>
+                  </div>
+                  <Button
+                    asChild
+                    className="h-12 rounded-xl bg-[#009EE3] hover:bg-[#008FC7] font-bold text-white shadow-lg cursor-pointer"
+                  >
+                    <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                      <CreditCard className="h-4 w-4" />
+                      Pagar con Mercado Pago
+                    </a>
+                  </Button>
                 </div>
+              </div>
+            ) : !giftCard ? (
+              <div className="relative mt-5 rounded-lg border border-primary/15 bg-primary/5 p-4">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-xs font-extrabold uppercase text-primary">Total a pagar</p>
+                    <p className="font-heading text-2xl font-black text-foreground">{amount}</p>
+                    <p className="mt-1 text-xs font-semibold text-muted-foreground">
+                      El valor no aparece en la tarjeta descargada.
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={createGiftCardRequest}
+                    disabled={!isFormComplete || isCreating}
+                    className="h-12 rounded-xl bg-[#E63946] font-bold hover:bg-[#d92f3d] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    <CreditCard className="h-4 w-4" />
+                    {isCreating ? "Procesando..." : "Proceder al Pago"}
+                  </Button>
+                </div>
+              </div>
+            ) : null}
+
+            {!isPaymentApproved ? (
+              <div className="relative mt-5 rounded-lg border border-border/70 bg-white p-4">
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div>
+                    <p className="text-[10px] font-extrabold uppercase text-muted-foreground">ID</p>
+                    <p className="break-words text-sm font-black text-foreground">{cardId}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-extrabold uppercase text-muted-foreground">Pago</p>
+                    <p className="text-sm font-black text-foreground">
+                      {giftCard?.paymentStatus === "approved" ? "Aprobado" : "Pendiente"}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-extrabold uppercase text-muted-foreground">Vence</p>
+                    <p className="text-sm font-black text-foreground">{expiresAt}</p>
+                  </div>
+                </div>
+                {statusMessage ? (
+                  <p className="mt-3 text-xs font-bold leading-relaxed text-muted-foreground">{statusMessage}</p>
+                ) : null}
+              </div>
+            ) : null}
+
+            {isPaymentApproved ? (
+              <div className="relative mt-5">
                 <Button
                   type="button"
-                  onClick={createGiftCardRequest}
-                  disabled={isCreating}
-                  className="h-12 rounded-xl bg-[#E63946] font-bold hover:bg-[#d92f3d]"
+                  onClick={downloadGiftCard}
+                  className="h-12 w-full rounded-xl bg-primary hover:bg-primary/95 text-white font-bold flex items-center justify-center gap-2 shadow-lg cursor-pointer"
                 >
-                  <CreditCard className="h-4 w-4" />
-                  {isCreating ? "Creando..." : "Crear solicitud"}
+                  <Download className="h-4 w-4" />
+                  Descargar tarjeta
                 </Button>
               </div>
-            </div>
-
-            <div className="relative mt-5 rounded-lg border border-border/70 bg-white p-4">
-              <div className="grid gap-3 sm:grid-cols-3">
-                <div>
-                  <p className="text-[10px] font-extrabold uppercase text-muted-foreground">ID</p>
-                  <p className="break-words text-sm font-black text-foreground">{cardId}</p>
-                </div>
-                <div>
-                  <p className="text-[10px] font-extrabold uppercase text-muted-foreground">Pago</p>
-                  <p className="text-sm font-black text-foreground">
-                    {giftCard?.paymentStatus === "approved" ? "Aprobado" : "Pendiente"}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-[10px] font-extrabold uppercase text-muted-foreground">Vence</p>
-                  <p className="text-sm font-black text-foreground">{expiresAt}</p>
-                </div>
+            ) : (
+              <div className="relative mt-5 grid gap-3 sm:grid-cols-2">
+                <Button
+                  type="button"
+                  onClick={downloadGiftCard}
+                  disabled={!isPaymentApproved}
+                  className="h-12 rounded-xl font-bold"
+                >
+                  {isPaymentApproved ? <Download className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+                  {isPaymentApproved ? "Descargar tarjeta" : "Descarga bloqueada"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={checkPaymentStatus}
+                  disabled={!giftCard || isChecking}
+                  className="h-12 rounded-xl font-bold"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                  {isChecking ? "Revisando..." : "Revisar pago"}
+                </Button>
               </div>
-              {statusMessage ? (
-                <p className="mt-3 text-xs font-bold leading-relaxed text-muted-foreground">{statusMessage}</p>
-              ) : null}
-            </div>
-
-            <div className="relative mt-5 grid gap-3 sm:grid-cols-2">
-              <Button
-                type="button"
-                onClick={downloadGiftCard}
-                disabled={!isPaymentApproved}
-                className="h-12 rounded-xl font-bold"
-              >
-                {isPaymentApproved ? <Download className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
-                {isPaymentApproved ? "Descargar tarjeta" : "Descarga bloqueada"}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={checkPaymentStatus}
-                disabled={!giftCard || isChecking}
-                className="h-12 rounded-xl font-bold"
-              >
-                <RefreshCw className="h-4 w-4" />
-                {isChecking ? "Revisando..." : "Revisar pago"}
-              </Button>
-            </div>
+            )}
 
           </div>
 
