@@ -21,7 +21,7 @@ import type { GiftCardRecord } from "@/lib/gift-cards"
 const giftOptions = [
   {
     label: "Consulta de valoracion",
-    price: "$80.000 COP",
+    price: "$805.000 COP",
     detail: "Evaluacion inicial y orientacion del plan terapeutico.",
   },
   {
