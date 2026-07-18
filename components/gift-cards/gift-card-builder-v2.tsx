@@ -180,8 +180,22 @@ function getNextAvailableDates(count: number): { label: string; value: string }[
   return dates
 }
 
+const countryPrefixes = ["507", "593", "57", "1", "34", "52", "54", "56", "58", "51"]
+
+function splitPhone(fullPhone: string): { prefix: string; number: string } {
+  const clean = fullPhone.replace(/[^\d]/g, "")
+  for (const prefix of countryPrefixes) {
+    if (clean.startsWith(prefix)) {
+      return { prefix, number: clean.slice(prefix.length) }
+    }
+  }
+  return { prefix: "57", number: clean }
+}
+
 export function GiftCardBuilderV2() {
   const [form, setForm] = useState<GiftForm>(defaultForm)
+  const [buyerPrefix, setBuyerPrefix] = useState("57")
+  const [recipientPrefix, setRecipientPrefix] = useState("57")
   const [giftCard, setGiftCard] = useState<GiftCardRecord | null>(null)
   const [isCreating, setIsCreating] = useState(false)
   const [isChecking, setIsChecking] = useState(false)
@@ -207,11 +221,17 @@ export function GiftCardBuilderV2() {
             const data = await response.json()
             setGiftCard(data.giftCard)
             setCheckoutUrl(data.checkoutUrl)
+            
+            const parsedBuyer = splitPhone(data.giftCard.buyerPhone)
+            const parsedRecipient = splitPhone(data.giftCard.recipientPhone || "")
+            setBuyerPrefix(parsedBuyer.prefix)
+            setRecipientPrefix(parsedRecipient.prefix)
+
             setForm({
               buyerName: data.giftCard.buyerName,
-              buyerPhone: data.giftCard.buyerPhone,
+              buyerPhone: parsedBuyer.number,
               recipientName: data.giftCard.recipientName,
-              recipientPhone: data.giftCard.recipientPhone || "",
+              recipientPhone: parsedRecipient.number,
               giftType: data.giftCard.giftType,
               message: data.giftCard.message,
               appointmentDate: data.giftCard.appointmentDate || "",
@@ -260,7 +280,8 @@ export function GiftCardBuilderV2() {
 
   const recipient = form.recipientName.trim() || "Nombre del regalo"
   const buyer = form.buyerName.trim() || "Humanos Rehab"
-  const buyerPhone = form.buyerPhone.trim()
+  const buyerPhone = `${buyerPrefix}${form.buyerPhone.replace(/[^\d]/g, "").trim()}`
+  const recipientPhone = `${recipientPrefix}${form.recipientPhone.replace(/[^\d]/g, "").trim()}`
   const giftType = form.giftType || "Bono de regalo"
   const selectedGift = giftOptions.find((option) => option.label === giftType) || giftOptions[0]
   const amount = selectedGift.price
@@ -299,7 +320,7 @@ export function GiftCardBuilderV2() {
           buyerName: buyer,
           buyerPhone,
           recipientName: recipient,
-          recipientPhone: form.recipientPhone.trim(),
+          recipientPhone,
           giftType,
           amount,
           message,
@@ -556,13 +577,31 @@ export function GiftCardBuilderV2() {
               <Label htmlFor="buyerPhone" className="text-sm font-extrabold text-foreground">
                 WhatsApp para confirmar la compra
               </Label>
-              <Input
-                id="buyerPhone"
-                value={form.buyerPhone}
-                onChange={(event) => updateField("buyerPhone", event.target.value)}
-                placeholder="Ej. +57 300 000 0000"
-                className="h-12 rounded-xl bg-white"
-              />
+              <div className="flex gap-2">
+                <select
+                  value={buyerPrefix}
+                  onChange={(e) => setBuyerPrefix(e.target.value)}
+                  className="h-12 rounded-xl bg-white border border-border px-3 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                >
+                  <option value="57">+57 (Col)</option>
+                  <option value="1">+1 (USA/Can)</option>
+                  <option value="34">+34 (Esp)</option>
+                  <option value="52">+52 (Mex)</option>
+                  <option value="54">+54 (Arg)</option>
+                  <option value="56">+56 (Chl)</option>
+                  <option value="58">+58 (Ven)</option>
+                  <option value="507">+507 (Pan)</option>
+                  <option value="51">+51 (Per)</option>
+                  <option value="593">+593 (Ecu)</option>
+                </select>
+                <Input
+                  id="buyerPhone"
+                  value={form.buyerPhone}
+                  onChange={(event) => updateField("buyerPhone", event.target.value)}
+                  placeholder="Ej. 300 000 0000"
+                  className="h-12 rounded-xl bg-white flex-1"
+                />
+              </div>
             </div>
 
             <div className="grid gap-2">
@@ -582,13 +621,31 @@ export function GiftCardBuilderV2() {
               <Label htmlFor="recipientPhone" className="text-sm font-extrabold text-foreground">
                 WhatsApp de la persona especial (para enviarle la tarjeta)
               </Label>
-              <Input
-                id="recipientPhone"
-                value={form.recipientPhone}
-                onChange={(event) => updateField("recipientPhone", event.target.value)}
-                placeholder="Ej. +57 300 000 0000"
-                className="h-12 rounded-xl bg-white"
-              />
+              <div className="flex gap-2">
+                <select
+                  value={recipientPrefix}
+                  onChange={(e) => setRecipientPrefix(e.target.value)}
+                  className="h-12 rounded-xl bg-white border border-border px-3 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                >
+                  <option value="57">+57 (Col)</option>
+                  <option value="1">+1 (USA/Can)</option>
+                  <option value="34">+34 (Esp)</option>
+                  <option value="52">+52 (Mex)</option>
+                  <option value="54">+54 (Arg)</option>
+                  <option value="56">+56 (Chl)</option>
+                  <option value="58">+58 (Ven)</option>
+                  <option value="507">+507 (Pan)</option>
+                  <option value="51">+51 (Per)</option>
+                  <option value="593">+593 (Ecu)</option>
+                </select>
+                <Input
+                  id="recipientPhone"
+                  value={form.recipientPhone}
+                  onChange={(event) => updateField("recipientPhone", event.target.value)}
+                  placeholder="Ej. 300 000 0000"
+                  className="h-12 rounded-xl bg-white flex-1"
+                />
+              </div>
             </div>
 
             <div className="grid gap-2">
