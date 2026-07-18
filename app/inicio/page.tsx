@@ -1,3 +1,4 @@
+// Trigger de despliegue - Humanos Rehab
 import PageLayout from "@/components/page-layout"
 import { HeroSection } from "@/components/home/hero-section"
 import { BrandIntro } from "@/components/home/brand-intro"
