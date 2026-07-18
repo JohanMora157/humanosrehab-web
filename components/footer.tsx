@@ -12,6 +12,7 @@ const footerLinks = {
   empresa: [
     { label: "Sobre nosotros", href: "/nosotros" },
     { label: "Testimonios", href: "/testimonios" },
+    { label: "Tarjetas de regalo", href: "/tarjetas-regalo" },
     { label: "Agendar cita", href: "/agendar-cita" },
     { label: "Contacto", href: "/contacto" },
   ],
