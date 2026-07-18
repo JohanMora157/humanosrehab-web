@@ -1,0 +1,419 @@
+{
+  "name": "Humanos Rehab - Tarjetas de regalo",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Importa este flujo y reemplaza: 1) URL del Webhook en GIFT_CARD_NOTIFICATION_URL, 2) credenciales de Google Sheets, 3) Spreadsheet ID, 4) URLs/tokens del proveedor de WhatsApp. Eventos esperados: gift_card_created, gift_card_payment_approved, gift_card_claimed.",
+        "height": 220,
+        "width": 420
+      },
+      "id": "sticky-setup",
+      "name": "Instrucciones",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -760,
+        -220
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "humanos/gift-card-notifications",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-gift-card",
+      "name": "Recibir evento tarjeta",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -760,
+        100
+      ],
+      "webhookId": "REEMPLAZAR-AL-IMPORTAR"
+    },
+    {
+      "parameters": {
+        "jsCode": "const payload = $json.body ?? $json;\nconst giftCard = payload.giftCard ?? {};\nconst event = payload.event ?? \"unknown\";\n\nreturn [\n  {\n    json: {\n      event,\n      source: payload.source ?? \"humanosrehab-web\",\n      receivedAt: payload.timestamp ?? new Date().toISOString(),\n      id: giftCard.id ?? \"\",\n      createdAt: giftCard.createdAt ?? \"\",\n      expiresAt: giftCard.expiresAt ?? \"\",\n      paymentStatus: giftCard.paymentStatus ?? \"pending\",\n      cardStatus: giftCard.cardStatus ?? \"inactive\",\n      claimStatus: giftCard.claimStatus ?? \"pending\",\n      buyerName: giftCard.buyerName ?? \"\",\n      buyerPhone: giftCard.buyerPhone ?? \"\",\n      recipientName: giftCard.recipientName ?? \"\",\n      giftType: giftCard.giftType ?? \"\",\n      amount: giftCard.amount ?? \"\",\n      message: giftCard.message ?? \"\",\n      paymentProvider: giftCard.paymentProvider ?? \"\",\n      paymentId: giftCard.paymentId ?? \"\",\n      preferenceId: giftCard.preferenceId ?? \"\",\n      claimedAt: giftCard.claimedAt ?? \"\",\n      notes: giftCard.notes ?? \"\",\n      teamMessage: [\n        \"Nueva actualizacion de tarjeta de regalo\",\n        `Evento: ${event}`,\n        `ID: ${giftCard.id ?? \"\"}`,\n        `Comprador: ${giftCard.buyerName ?? \"\"}`,\n        `WhatsApp comprador: ${giftCard.buyerPhone ?? \"\"}`,\n        `Recibe: ${giftCard.recipientName ?? \"\"}`,\n        `Regalo: ${giftCard.giftType ?? \"\"}`,\n        `Valor: ${giftCard.amount ?? \"\"}`,\n        `Pago: ${giftCard.paymentStatus ?? \"pending\"}`,\n        `Reclamo: ${giftCard.claimStatus ?? \"pending\"}`\n      ].join(\"\\n\"),\n      buyerApprovedMessage: [\n        \"Hola, tu tarjeta de regalo de Humanos Rehab fue activada.\",\n        `ID: ${giftCard.id ?? \"\"}`,\n        `Para: ${giftCard.recipientName ?? \"\"}`,\n        `Regalo: ${giftCard.giftType ?? \"\"}`,\n        `Vence: ${giftCard.expiresAt ?? \"\"}`,\n        \"Puedes compartirla con la persona que recibira el regalo.\"\n      ].join(\"\\n\")\n    }\n  }\n];"
+      },
+      "id": "code-normalize",
+      "name": "Normalizar datos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -520,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.event }}",
+                    "rightValue": "gift_card_created",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.event }}",
+                    "rightValue": "gift_card_payment_approved",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.event }}",
+                    "rightValue": "gift_card_claimed",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "switch-event",
+      "name": "Separar por evento",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        -280,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REEMPLAZAR_SPREADSHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Tarjetas",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id_tarjeta": "={{ $json.id }}",
+            "fecha_creacion": "={{ $json.createdAt }}",
+            "fecha_vencimiento": "={{ $json.expiresAt }}",
+            "estado_pago": "={{ $json.paymentStatus }}",
+            "estado_tarjeta": "={{ $json.cardStatus }}",
+            "estado_reclamo": "={{ $json.claimStatus }}",
+            "nombre_comprador": "={{ $json.buyerName }}",
+            "telefono_comprador": "={{ $json.buyerPhone }}",
+            "nombre_destinatario": "={{ $json.recipientName }}",
+            "tipo_bono": "={{ $json.giftType }}",
+            "valor": "={{ $json.amount }}",
+            "mensaje": "={{ $json.message }}",
+            "payment_provider": "={{ $json.paymentProvider }}",
+            "payment_id": "={{ $json.paymentId }}",
+            "preference_id": "={{ $json.preferenceId }}",
+            "fecha_reclamada": "={{ $json.claimedAt }}",
+            "observaciones": "={{ $json.notes }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "sheets-append-created",
+      "name": "Google Sheets - Crear tarjeta",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        0,
+        -120
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REEMPLAZAR_CREDENCIAL_GOOGLE",
+          "name": "Google Sheets OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REEMPLAZAR_SPREADSHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Eventos",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fecha_evento": "={{ $json.receivedAt }}",
+            "evento": "={{ $json.event }}",
+            "id_tarjeta": "={{ $json.id }}",
+            "estado_pago": "={{ $json.paymentStatus }}",
+            "estado_tarjeta": "={{ $json.cardStatus }}",
+            "estado_reclamo": "={{ $json.claimStatus }}",
+            "payment_id": "={{ $json.paymentId }}",
+            "preference_id": "={{ $json.preferenceId }}",
+            "observaciones": "={{ $json.notes }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "sheets-log-event",
+      "name": "Google Sheets - Log evento",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        260,
+        100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REEMPLAZAR_CREDENCIAL_GOOGLE",
+          "name": "Google Sheets OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Para actualizaciones de pago/reclamo, este template registra el evento en la hoja Eventos. Si quieres que la hoja Tarjetas quede siempre actualizada por fila, agrega despues de este nodo un Lookup por id_tarjeta y luego un Update Row sobre la hoja Tarjetas.",
+        "height": 180,
+        "width": 380
+      },
+      "id": "sticky-update-note",
+      "name": "Nota actualizacion Sheets",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        180,
+        -220
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://REEMPLAZAR_PROVEEDOR_WHATSAPP/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer REEMPLAZAR_TOKEN_WHATSAPP"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"to\": \"={{ $json.buyerPhone }}\",\n  \"message\": \"={{ $json.buyerApprovedMessage }}\"\n}",
+        "options": {}
+      },
+      "id": "notify-buyer",
+      "name": "WhatsApp comprador - Pago aprobado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://REEMPLAZAR_PROVEEDOR_WHATSAPP/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer REEMPLAZAR_TOKEN_WHATSAPP"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"to\": \"REEMPLAZAR_WHATSAPP_EQUIPO\",\n  \"message\": \"={{ $json.teamMessage }}\"\n}",
+        "options": {}
+      },
+      "id": "notify-team",
+      "name": "WhatsApp equipo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        520,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"ok\": true,\n  \"event\": \"{{ $json.event }}\",\n  \"id\": \"{{ $json.id }}\"\n}",
+        "options": {}
+      },
+      "id": "respond-ok",
+      "name": "Responder OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        780,
+        100
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Recibir evento tarjeta": {
+      "main": [
+        [
+          {
+            "node": "Normalizar datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar datos": {
+      "main": [
+        [
+          {
+            "node": "Separar por evento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separar por evento": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Crear tarjeta",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "WhatsApp comprador - Pago aprobado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets - Log evento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Crear tarjeta": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log evento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp comprador - Pago aprobado": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log evento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Log evento": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp equipo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp equipo": {
+      "main": [
+        [
+          {
+            "node": "Responder OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "REEMPLAZAR_VERSION_ID",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "REEMPLAZAR_WORKFLOW_ID",
+  "tags": []
+}
