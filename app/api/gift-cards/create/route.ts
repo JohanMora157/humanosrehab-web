@@ -4,7 +4,7 @@ import { createGiftCard, normalizePhone, notifyGiftCardNotification } from "@/li
 function parseAmountToNumber(amountStr: string): number {
   const clean = amountStr.replace(/[^0-9]/g, "")
   const num = parseInt(clean, 10)
-  return isNaN(num) ? 80000 : num
+  return isNaN(num) ? 65000 : num
 }
 
 export async function POST(request: Request) {
