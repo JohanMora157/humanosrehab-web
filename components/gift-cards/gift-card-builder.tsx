@@ -9,44 +9,59 @@ import { Textarea } from "@/components/ui/textarea"
 
 const giftOptions = [
   {
-    label: "Consulta de valoración",
+    label: "Consulta de Valoración",
     price: "$65.000 COP",
     detail: "Evaluación inicial y orientación del plan terapéutico.",
   },
   {
-    label: "Sesión individual de fisioterapia",
-    price: "$120.000 COP",
+    label: "Consulta Online",
+    price: "$125.000 COP",
+    detail: "Atención y orientación fisioterapéutica remota personalizada.",
+  },
+  {
+    label: "Sesión individual de Fisioterapia",
+    price: "$100.000 COP",
     detail: "Una sesión personalizada de fisioterapia integral.",
   },
   {
-    label: "Pack de 3 sesiones",
-    price: "$330.000 COP",
-    detail: "Ideal para iniciar un proceso corto de recuperación.",
+    label: "Sesión Premium de Fisioterapia",
+    price: "$210.000 COP",
+    detail: "Sesión avanzada con mayor tiempo de atención especializada.",
   },
   {
-    label: "Pack de 5 sesiones",
-    price: "$520.000 COP",
-    detail: "Continuidad terapéutica con seguimiento progresivo.",
+    label: "Pack de 3 sesiones de fisioterapia",
+    price: "$210.000 COP",
+    detail: "Programa de 3 sesiones enfocado en alivio y recuperación corta.",
   },
   {
-    label: "Sesión Premium",
-    price: "$180.000 COP",
-    detail: "Sesión avanzada con mayor tiempo de atención.",
+    label: "Pack de 5 sesiones de fisioterapia",
+    price: "$315.000 COP",
+    detail: "Programa terapéutico de 5 sesiones con seguimiento continuo.",
   },
   {
-    label: "Tratamiento completo",
-    price: "$950.000 COP",
-    detail: "Plan referencial para procesos de varias sesiones.",
+    label: "Pack de 10 sesiones de fisioterapia",
+    price: "$590.000 COP",
+    detail: "Plan intensivo de 10 sesiones para rehabilitación integral.",
   },
   {
-    label: "Acondicionamiento físico",
-    price: "$280.000 COP",
-    detail: "Programa base de fuerza, movilidad y resistencia.",
+    label: "Sesión de Sueroterapia",
+    price: "$210.000 COP",
+    detail: "Terapia de suero de soporte para hidratación y recuperación.",
   },
   {
-    label: "Bono abierto",
-    price: "Desde $100.000 COP",
-    detail: "Bono flexible para definir el servicio después.",
+    label: "Pack de Sueroterapia",
+    price: "$630.000 COP",
+    detail: "Programa de sueroterapia de varias sesiones de alta efectividad.",
+  },
+  {
+    label: "Masaje descontracturante",
+    price: "$200.000 COP",
+    detail: "Masaje focalizado para liberar tensión muscular acumulada.",
+  },
+  {
+    label: "Descarga muscular completa",
+    price: "$210.000 COP",
+    detail: "Terapia profunda para descarga y relajación muscular total.",
   },
 ]
 
@@ -60,7 +75,7 @@ type GiftForm = {
 const defaultForm: GiftForm = {
   buyerName: "",
   recipientName: "",
-  giftType: "Consulta de valoración",
+  giftType: "Consulta de Valoración",
   message: "Un regalo para cuidar tu cuerpo, recuperar movimiento y sentirte mejor.",
 }
 
