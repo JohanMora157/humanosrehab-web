@@ -68,38 +68,37 @@ const serviceSections: ServiceSection[] = [
           {
             title: "Consulta de valoración",
             description:
-              "Evaluación fisioterapéutica integral que incluye anamnesis, análisis del dolor, valoración del movimiento, postura, fuerza, control motor y funcionalidad, complementada con pruebas clínicas específicas. A partir de esta valoración se establece un diagnóstico fisioterapéutico y un plan de intervención individualizado, orientado a la causa del problema.",
+              "Puede ser presencial o virtual. La valoración presencial tiene un valor de $65.000 y la valoración virtual de $80.000. Incluye evaluación fisioterapéutica completa, anamnesis, análisis del dolor, valoración del movimiento, postura, fuerza, control motor y pruebas clínicas específicas. Su resultado permite establecer un diagnóstico fisioterapéutico y un plan de intervención individualizado.",
             objective: "Definir el diagnóstico fisioterapéutico y el plan terapéutico.",
             note: "Es la puerta de entrada a nuestro universo de recuperación.",
           },
           {
             title: "Sesión individual",
             description:
-              "Sesión de fisioterapia personalizada dirigida por nuestro terapeuta de cabecera y ejecutada por profesionales expertos del equipo. Integra terapia manual, ejercicio terapéutico y reeducación del movimiento, ajustados a la evolución clínica del paciente.",
+              "Fisioterapia personalizada que integra terapia manual, ejercicio terapéutico y reeducación del movimiento, ajustada a la evolución del paciente.",
             objective: "Restaurar la función y reducir el dolor de forma progresiva.",
           },
           {
             title: "Sesión Premium",
             description:
-              "Intervención avanzada con mayor tiempo terapéutico y abordaje integral, ejecutada exclusivamente por el fisioterapeuta Julián Sáenz. Indicada en casos complejos o dolor persistente; integra terapia manual profunda, liberación miofascial, neuromodulación y ejercicio correctivo.",
+              "Intervención avanzada de mayor duración, ejecutada exclusivamente por el Prof. Julian Sáenz. Indicada en casos complejos o dolor persistente. Integra terapia manual profunda, liberación miofascial, neuromodulación y ejercicio correctivo.",
             objective: "Optimizar la recuperación funcional en casos de mayor complejidad.",
           },
           {
             title: "Pack de 3 sesiones",
-            description:
-              "Programa de corta duración enfocado en prevención de lesiones y educación terapéutica. Incluye análisis del movimiento, corrección de hábitos, ejercicio específico y estrategias de autogestión del dolor y la carga física.",
+            description: "Enfocado en prevención y educación terapéutica.",
             objective: "Promover la prevención y la autogestión responsable.",
           },
           {
             title: "Pack de 5 sesiones",
             description:
-              "Programa terapéutico estructurado que permite continuidad en el tratamiento y seguimiento clínico. Indicado en fases iniciales de rehabilitación o patologías de complejidad leve a moderada.",
+              "Para continuidad en fases iniciales de rehabilitación o patologías leves a moderadas.",
             objective: "Consolidar los avances iniciales del proceso terapéutico.",
           },
           {
             title: "Pack de 10 sesiones",
             description:
-              "Plan intensivo recomendado en lesiones crónicas, procesos postquirúrgicos o disfunciones complejas. Permite reevaluaciones periódicas y ajustes progresivos del tratamiento.",
+              "Plan intensivo para lesiones crónicas, postquirúrgicos o disfunciones complejas, con reevaluaciones periódicas.",
             objective: "Consolidar la recuperación funcional a mediano plazo.",
           },
         ],
