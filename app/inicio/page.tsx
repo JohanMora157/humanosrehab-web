@@ -11,8 +11,8 @@ export default function InicioPage() {
   return (
     <PageLayout>
       <HeroSection />
-      <BrandIntro />
       <ServicesPreview />
+      <BrandIntro />
       <TestimonialsPreview />
       <GiftCardsSection />
       <CTASection />
