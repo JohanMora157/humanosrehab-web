@@ -26,9 +26,14 @@ export function HeroSection() {
         </span>
       </div>
 
-      {/* Decorative colored glow overlays */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#1667B7]/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4 pointer-events-none" />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: "linear-gradient(110deg, rgba(22, 103, 183, 0.045), transparent 55%, rgba(7, 43, 79, 0.025))",
+          maskImage: "linear-gradient(to bottom, black 55%, transparent 100%)",
+        }}
+      />
       
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">

@@ -2,11 +2,15 @@ import { Activity, ShieldCheck, HeartHandshake, Award } from "lucide-react"
 
 export function BrandIntro() {
   return (
-    <section className="relative overflow-hidden bg-transparent py-16 lg:py-24 border-y border-border/50">
-      {/* Decorative patterns */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full bg-grid-pattern opacity-30 pointer-events-none" />
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-[#1667B7]/5 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative overflow-hidden bg-transparent py-16 lg:py-24">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: "linear-gradient(110deg, rgba(7, 43, 79, 0.035), transparent 55%, rgba(22, 103, 183, 0.035))",
+          maskImage: "linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)",
+        }}
+      />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
