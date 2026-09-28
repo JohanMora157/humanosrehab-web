@@ -30,6 +30,7 @@ export type GiftCardInput = Pick<
   | "buyerName"
   | "buyerPhone"
   | "recipientName"
+  | "recipientPhone"
   | "giftType"
   | "amount"
   | "message"

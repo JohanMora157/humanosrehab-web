@@ -42,7 +42,7 @@ export function HeroSection() {
               </div>
               
               <h1 className="font-heading text-4xl sm:text-5xl lg:text-[52px] font-black tracking-tight text-foreground leading-[1.08] text-balance">
-                Fisioterapia y <span className="text-[#1667B7] text-glow">rehabilitación deportiva</span> en Cali
+                <span className="text-[#1667B7] text-glow">Fisioterapia</span> y <span className="text-[#1667B7] text-glow">rehabilitación deportiva</span> en Cali
               </h1>
               
               <p className="mt-6 text-base sm:text-lg text-muted-foreground leading-relaxed font-semibold max-w-xl mx-auto lg:mx-0 opacity-90 delay-100">
