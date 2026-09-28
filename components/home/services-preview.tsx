@@ -1,29 +1,8 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
-
-const services = [
-  {
-    title: "Fisioterapia general",
-    description: "Evaluación y tratamiento integral de condiciones musculoesqueléticas.",
-    color: "bg-primary/10 text-primary",
-  },
-  {
-    title: "Rehabilitación deportiva",
-    description: "Recuperación de lesiones y mejora del rendimiento atlético.",
-    color: "bg-ring/10 text-ring",
-  },
-  {
-    title: "Terapia manual",
-    description: "Técnicas especializadas para aliviar el dolor y restaurar función.",
-    color: "bg-accent/10 text-accent",
-  },
-  {
-    title: "Masaje terapéutico",
-    description: "Alivio de tensión muscular y promoción de la recuperación.",
-    color: "bg-primary/10 text-primary",
-  },
-]
+import { serviceSections } from "@/lib/service-catalog"
 
 export function ServicesPreview() {
   return (
@@ -31,7 +10,7 @@ export function ServicesPreview() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
           <div>
-            <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Nuestros servicios</p>
+            <p className="text-sm font-semibold text-primary uppercase mb-3">Nuestros servicios</p>
             <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground text-balance">
               Tratamientos para tu<br /><span className="text-[#1667B7] text-glow">recuperación física</span>
             </h2>
@@ -44,23 +23,35 @@ export function ServicesPreview() {
           </Button>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service, index) => (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
+          {serviceSections.map((service, index) => (
             <Link
-              key={service.title}
-              href="/servicios"
-              className="group relative bg-white rounded-3xl p-6 border border-border/50 hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300"
+              key={service.id}
+              href={`/servicios?servicio=${service.id}#${service.id}`}
+              className={`group flex min-w-0 flex-col overflow-hidden rounded-lg border border-border/60 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-xl hover:shadow-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${index < 3 ? "lg:col-span-2" : "lg:col-span-3"}`}
             >
-              <div className={`inline-flex items-center justify-center w-12 h-12 rounded-2xl ${service.color} mb-4`}>
-                <span className="font-heading font-bold text-lg">{String(index + 1).padStart(2, "0")}</span>
+              <div className="relative aspect-[16/9] overflow-hidden">
+                <Image
+                  src={service.image}
+                  alt={service.imageAlt}
+                  fill
+                  sizes={index < 3 ? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" : "(max-width: 640px) 100vw, 50vw"}
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <span className="absolute left-4 top-4 rounded-md bg-white/95 px-3 py-1.5 font-heading text-sm font-bold text-primary shadow-sm">
+                  {service.number}
+                </span>
               </div>
-              <h3 className="font-heading text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                {service.title}
-              </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {service.description}
-              </p>
-              <ArrowRight className="absolute bottom-6 right-6 w-5 h-5 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+              <div className="flex flex-1 flex-col p-5 sm:p-6">
+                <h3 className="font-heading text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                  {service.title}
+                </h3>
+                <p className="mt-2 text-muted-foreground text-sm leading-relaxed">{service.summary}</p>
+                <span className="mt-5 flex items-center gap-2 text-sm font-bold text-primary">
+                  Conocer servicio
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </div>
             </Link>
           ))}
         </div>

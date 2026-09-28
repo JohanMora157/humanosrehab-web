@@ -61,7 +61,7 @@ export function GiftCardsSection() {
           </div>
 
           {/* Right Column: Gift Card Mockup */}
-          <div className="relative flex justify-center lg:justify-end animate-fade-in">
+          <div className="relative isolate flex justify-center lg:justify-end animate-fade-in">
             {/* Visual background grids */}
             <div className="absolute inset-0 bg-grid-pattern opacity-10 -rotate-3 scale-110 pointer-events-none" />
             
@@ -105,7 +105,7 @@ export function GiftCardsSection() {
             </div>
             
             {/* Elegant overlay badge */}
-            <div className="absolute -bottom-6 -right-2 sm:right-6 rounded-2xl bg-white p-4 shadow-xl border border-primary/5 flex items-center gap-3 max-w-xs animate-bounce-slow">
+            <div className="absolute z-30 -bottom-6 -right-2 sm:right-6 rounded-2xl bg-white p-4 shadow-xl border border-primary/5 flex items-center gap-3 max-w-xs animate-bounce-slow">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#1E9A4D]/10 text-[#1E9A4D]">
                 <Send className="h-5.5 w-5.5" />
               </div>

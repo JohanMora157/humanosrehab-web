@@ -8,7 +8,14 @@ export const metadata = {
   description: "Fisioterapia integral, avanzada y especializada, acondicionamiento físico y planes Premium o corporativos en Cali.",
 }
 
-export default function ServiciosPage() {
+export default async function ServiciosPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ servicio?: string | string[] }>
+}) {
+  const { servicio } = await searchParams
+  const selectedService = typeof servicio === "string" ? servicio : undefined
+
   return (
     <PageLayout>
       <PageHeader
@@ -17,7 +24,7 @@ export default function ServiciosPage() {
         description="Atención integral, procedimientos avanzados, especialidades clínicas, acondicionamiento físico y planes de continuidad."
         bgImage="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-uQhlmMcbHYP9AMQ8TbcGpEUG0A71Ud.png"
       />
-      <ServiceCatalog />
+      <ServiceCatalog key={selectedService ?? "default"} initialServiceId={selectedService} />
       <CTASection />
     </PageLayout>
   )
