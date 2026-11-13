@@ -5,7 +5,7 @@ const images = [
     src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-pm1Y5QiXI4Md8qgc8KFxrZ2HKcx0h2.png",
     alt: "Tratamiento personalizado en Camilla Clínica",
     title: "Tratamiento Personalizado",
-    subtitle: "Atención 1:1 focalizada",
+    subtitle: "Atención guiada y personalizada",
     gridClass: "md:col-span-2 md:row-span-2 aspect-[4/3] md:aspect-auto"
   },
   {
@@ -55,7 +55,7 @@ export function GallerySection() {
             Nuestras Instalaciones
           </span>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-4.5xl font-black text-foreground tracking-tight leading-none">
-            Espacios reales, <span className="text-[#1667B7] text-glow">resultados reales</span>
+            Espacios reales para tu <span className="text-[#1667B7] text-glow">movimiento</span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-muted-foreground font-semibold max-w-2xl mx-auto">
             Explora imágenes auténticas de nuestro consultorio en Cali, donde combinamos calidez humana, comodidad e instrumentos de nivel profesional.
