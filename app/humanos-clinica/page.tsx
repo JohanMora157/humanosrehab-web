@@ -1,24 +1,17 @@
+import type { Metadata } from "next"
 import PageLayout from "@/components/page-layout"
-import { CTASection } from "@/components/home/cta-section"
-import { ServiceCatalog } from "@/components/servicios/service-catalog"
-import { PageHeader } from "@/components/ui/page-header"
+import { FisioterapiaContent } from "@/components/fisioterapia/fisioterapia-content"
 
-export const metadata = {
-  title: "Humanos Clínica | Fisioterapia y rehabilitación en Cali",
-  description: "Conoce las líneas de fisioterapia integral, avanzada y especializada de Humanos Clínica.",
+export const metadata: Metadata = {
+  title: "HUMANOS Fisioterapia | Fisioterapia y rehabilitación clínica en Cali",
+  description:
+    "Atención clínica especializada en valoración funcional, fisioterapia musculoesquelética, rehabilitación deportiva, piso pélvico y drenaje linfático en Cali Norte.",
 }
 
 export default function HumanosClinicaPage() {
   return (
     <PageLayout>
-      <PageHeader
-        badge="HUMANOS HUB"
-        title="Humanos Clínica"
-        description="Fisioterapia y rehabilitación para acompañar tu recuperación con atención profesional."
-        bgImage="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-dsYNDGnE85fZdm7sTVQBW43BhvXFS2.png"
-      />
-      <ServiceCatalog />
-      <CTASection />
+      <FisioterapiaContent />
     </PageLayout>
   )
 }

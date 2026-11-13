@@ -7,9 +7,9 @@ const sora = Sora({ subsets: ["latin"], variable: "--font-heading" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: 'Humanos Fisioterapia y Rehabilitación Deportiva | Cali, Colombia',
-  description: 'Fisioterapia y rehabilitación deportiva en Cali. Tratamientos personalizados para aliviar el dolor, recuperar movilidad y volver a tus actividades. Prof. Julian Mauricio Saenz Barahona.',
-  keywords: 'fisioterapia cali, rehabilitación deportiva, terapia manual, dolor de espalda, dolor de cuello, lesiones deportivas, masaje terapéutico',
+  title: 'HUMANOS | Fisioterapia, Readaptación y Movimiento en Cali',
+  description: 'Ecosistema de fisioterapia y movimiento en Cali: atención clínica musculoesquelética, acondicionamiento y fuerza, movilidad asistida y formación profesional en Cali Norte.',
+  keywords: 'fisioterapia cali, rehabilitación deportiva, terapia manual, dolor de espalda, dolor de cuello, lesiones deportivas, acondicionamiento fisico, stretching cali',
   icons: {
     icon: '/favicon.png',
     apple: '/favicon.png',

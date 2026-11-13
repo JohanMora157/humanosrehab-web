@@ -1,10 +1,23 @@
-import { HubDetailPage } from "@/components/hub/hub-detail-page"
+import PageLayout from "@/components/page-layout"
+import { PageHeader } from "@/components/ui/page-header"
+import { AcademiaContent } from "@/components/academia/academia-content"
 
 export const metadata = {
-  title: "Academia Humanos | Cursos y aprendizaje",
-  description: "Propuesta educativa sobre movimiento, autocuidado y fisioterapia para la comunidad y profesionales.",
+  title: "HUMANOS Academia | Formación en fisioterapia y movimiento en Cali",
+  description:
+    "Cursos, talleres y educación continua con razonamiento clínico y práctica guiada para profesionales de la salud, estudiantes y entrenadores en Cali.",
 }
 
 export default function AcademiaPage() {
-  return <HubDetailPage areaId="academia" />
+  return (
+    <PageLayout>
+      <PageHeader
+        badge="HUMANOS HUB · EDUCACIÓN CONTINUA"
+        title="HUMANOS Academia"
+        description="Formación continua en fisioterapia, rehabilitación y movimiento con criterio clínico y práctica supervisada en grupos reducidos en Cali."
+        bgImage="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-pm1Y5QiXI4Md8qgc8KFxrZ2HKcx0h2.png"
+      />
+      <AcademiaContent />
+    </PageLayout>
+  )
 }

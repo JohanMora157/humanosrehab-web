@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Calendar } from "lucide-react"
+import { Calendar, MessageSquare } from "lucide-react"
 
 export function CTASection() {
   return (
@@ -11,22 +11,33 @@ export function CTASection() {
 
       <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-balance">
-          Comienza tu recuperación hoy
+          Comienza tu proceso en HUMANOS
         </h2>
-        <p className="mt-6 text-lg text-primary-foreground/80 max-w-2xl mx-auto">
-          Agenda tu valoración fisioterapéutica y recibe un plan de tratamiento personalizado para tu condición.
+        <p className="mt-6 text-lg text-primary-foreground/85 max-w-2xl mx-auto leading-relaxed">
+          Agenda una valoración fisioterapéutica o solicita orientación para cualquiera de nuestras
+          unidades de movimiento y bienestar en Cali.
         </p>
-        
+
         <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-          <Button asChild size="lg" variant="secondary" className="rounded-2xl px-8 h-14 text-base font-semibold shadow-lg hover:shadow-xl transition-all">
+          <Button
+            asChild
+            size="lg"
+            variant="secondary"
+            className="rounded-2xl px-8 h-14 text-base font-semibold shadow-lg hover:shadow-xl transition-all"
+          >
             <Link href="/agendar-cita" className="flex items-center gap-2">
               <Calendar className="w-5 h-5" />
-              Agendar cita
+              Agendar valoración
             </Link>
           </Button>
-          <Button asChild size="lg" className="rounded-2xl px-8 h-14 text-base font-bold bg-white text-primary border-2 border-transparent hover:bg-[#EBFBF0] hover:text-[#1E9A4D] hover:border-[#25D366] hover:scale-[1.02] shadow-lg transition-all group">
+
+          <Button
+            asChild
+            size="lg"
+            className="rounded-2xl px-8 h-14 text-base font-bold bg-white text-primary border-2 border-transparent hover:bg-[#EBFBF0] hover:text-[#1E9A4D] hover:border-[#25D366] hover:scale-[1.02] shadow-lg transition-all group"
+          >
             <a
-              href="https://wa.me/573180810945?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita"
+              href="https://wa.me/573177995831?text=Hola%2C%20quisiera%20recibir%20orientaci%C3%B3n%20sobre%20los%20servicios%20de%20HUMANOS."
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2"
@@ -43,8 +54,8 @@ export function CTASection() {
           </Button>
         </div>
 
-        <p className="mt-8 text-sm text-primary-foreground/60">
-          Pago inicial de $65.000 COP para confirmar tu cita
+        <p className="mt-8 text-sm text-primary-foreground/70">
+          Atención personalizada con cita previa en Cali Norte · Av. 2D Norte #24N-85
         </p>
       </div>
     </section>
