@@ -6,13 +6,11 @@ import Image from "next/image"
 import {
   Activity,
   ArrowRight,
-  BookOpen,
+  BookOpenCheck,
   Building2,
   Calendar,
   CheckCircle2,
   Compass,
-  Dumbbell,
-  GraduationCap,
   HeartPulse,
   HelpCircle,
   Layers,
@@ -21,9 +19,8 @@ import {
   Route,
   Shield,
   ShieldCheck,
-  Sparkles,
-  Stethoscope,
   Target,
+  Wind,
   Zap,
 } from "lucide-react"
 
@@ -32,7 +29,8 @@ import { Button } from "@/components/ui/button"
 interface EcosystemUnit {
   id: string
   name: string
-  lineName: string
+  tagline: string
+  badgeLabel: string
   purpose: string
   targetAudience: string
   spaceDescription: string
@@ -43,14 +41,15 @@ interface EcosystemUnit {
   href: string
   image: string
   features: string[]
-  icon: typeof Stethoscope
+  icon: typeof HeartPulse
 }
 
 const ecosystemUnits: EcosystemUnit[] = [
   {
     id: "fisioterapia",
     name: "HUMANOS Fisioterapia",
-    lineName: "Unidad Clínica y Asistencial",
+    tagline: "Unidad clínica y rehabilitación",
+    badgeLabel: "Unidad Clínica",
     purpose:
       "Valoración clínica minuciosa, tratamiento y rehabilitación musculoesquelética, y consultorios independientes para piso pélvico y drenaje linfático.",
     targetAudience:
@@ -59,7 +58,7 @@ const ecosystemUnits: EcosystemUnit[] = [
       "5 estaciones clínicas funcionales con camilla + 2 consultorios independientes dedicados a piso pélvico y drenaje.",
     color: "#00B9DB",
     textColor: "text-[#006D82]",
-    borderColor: "border-[#00B9DB]/40",
+    borderColor: "border-[#00B9DB]/30",
     bgColor: "bg-[#00B9DB]/10",
     href: "/humanos-clinica",
     image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-dsYNDGnE85fZdm7sTVQBW43BhvXFS2.png",
@@ -69,12 +68,13 @@ const ecosystemUnits: EcosystemUnit[] = [
       "Consultorio independiente de piso pélvico",
       "Consultorio independiente de drenaje linfático",
     ],
-    icon: Stethoscope,
+    icon: HeartPulse,
   },
   {
     id: "activa",
     name: "HUMANOS Activa",
-    lineName: "Fuerza y Readaptación Física",
+    tagline: "Readaptación física y acondicionamiento",
+    badgeLabel: "Readaptación y Fuerza",
     purpose:
       "Acondicionamiento físico individualizado, desarrollo de fuerza y control motor con supervisión biomecánica para consolidar la salud motriz.",
     targetAudience:
@@ -83,7 +83,7 @@ const ecosystemUnits: EcosystemUnit[] = [
       "Espacio independiente acondicionado con máquinas multifuerza, rack, bancos de fuerza y material fisioterapéutico.",
     color: "#0875D1",
     textColor: "text-[#0862AE]",
-    borderColor: "border-[#0875D1]/40",
+    borderColor: "border-[#0875D1]/30",
     bgColor: "bg-[#0875D1]/10",
     href: "/humanos-activo",
     image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-W7kul7TsRGLitaYXgTnfkQFW5QutbD.png",
@@ -93,12 +93,13 @@ const ecosystemUnits: EcosystemUnit[] = [
       "Control de postura y técnica motriz",
       "Retorno seguro al deporte y la vida activa",
     ],
-    icon: Dumbbell,
+    icon: Activity,
   },
   {
     id: "stretching",
     name: "HUMANOS Stretching Lab",
-    lineName: "Movilidad Asistida y Flexibilidad",
+    tagline: "Elongación asistida y movilidad",
+    badgeLabel: "Movilidad Asistida",
     purpose:
       "Elongación guiada y movilidad corporal asistida para recuperar amplitud articular, modular la rigidez postural y favorecer la relajación física.",
     targetAudience:
@@ -107,22 +108,23 @@ const ecosystemUnits: EcosystemUnit[] = [
       "Zona de movilidad equipada con 3 estaciones funcionales y área de colchonetas para trabajo asistido y activo.",
     color: "#009BB5",
     textColor: "text-[#00687A]",
-    borderColor: "border-[#009BB5]/40",
+    borderColor: "border-[#009BB5]/30",
     bgColor: "bg-[#009BB5]/10",
     href: "/stretching-lab",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-f2228yQ37F2K0h24pXl9P2PzK5m91A.png",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-uQhlmMcbHYP9AMQ8TbcGpEUG0A71Ud.png",
     features: [
       "Elongación asistida sin dolor forzado",
       "Movilidad articular guiada en colchoneta",
       "Diferenciada de descarga muscular clínica",
       "Pautas de movilidad para el día a día",
     ],
-    icon: Sparkles,
+    icon: Wind,
   },
   {
     id: "academia",
     name: "HUMANOS Academia",
-    lineName: "Formación Continua y Cursos Prácticos",
+    tagline: "Educación y formación continua",
+    badgeLabel: "Educación Continua",
     purpose:
       "Espacio formativo para transferir razonamiento clínico, palpación biomecánica y destrezas prácticas a profesionales y estudiantes del movimiento.",
     targetAudience:
@@ -131,7 +133,7 @@ const ecosystemUnits: EcosystemUnit[] = [
       "Sede acondicionada para prácticas presenciales, análisis de casos y talleres intensivos con retroalimentación docente directa.",
     color: "#7771C7",
     textColor: "text-[#524CA8]",
-    borderColor: "border-[#7771C7]/40",
+    borderColor: "border-[#7771C7]/30",
     bgColor: "bg-[#7771C7]/10",
     href: "/academia",
     image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-pm1Y5QiXI4Md8qgc8KFxrZ2HKcx0h2.png",
@@ -141,7 +143,7 @@ const ecosystemUnits: EcosystemUnit[] = [
       "Transparencia sobre constancias académicas",
       "Retroalimentación directa en práctica guiada",
     ],
-    icon: GraduationCap,
+    icon: BookOpenCheck,
   },
 ]
 
@@ -273,83 +275,99 @@ export function EcosistemaContent() {
                 <div
                   key={unit.id}
                   id={unit.id}
-                  className={`scroll-mt-24 rounded-[32px] border ${unit.borderColor} bg-white p-7 sm:p-10 shadow-premium transition-all hover:shadow-2xl`}
+                  className="scroll-mt-24 rounded-3xl border border-border/80 bg-white p-6 sm:p-9 shadow-sm hover:shadow-xl transition-all duration-300"
+                  style={{ borderTop: `4px solid ${unit.color}` }}
                 >
                   <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                     {/* Visual Card Image */}
                     <div className={`lg:col-span-5 ${isEven ? "lg:order-2" : "lg:order-1"}`}>
-                      <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-lg border-2 border-slate-100">
+                      <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-md bg-secondary border border-border/50">
                         <Image
                           src={unit.image}
                           alt={unit.name}
                           fill
-                          className="object-cover"
+                          className="object-cover transition-transform duration-500 hover:scale-105"
                           sizes="(max-width: 1024px) 100vw, 450px"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                        <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-md flex items-center gap-3">
-                          <div
-                            className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                            style={{ backgroundColor: `${unit.color}15`, color: unit.color }}
-                          >
-                            <Icon className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <p className="text-xs font-black text-foreground leading-tight">{unit.name}</p>
-                            <p className="text-[11px] text-muted-foreground font-semibold">{unit.lineName}</p>
-                          </div>
-                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
+
+                        {/* Top-left icon badge (consistent with home hub section) */}
+                        <span
+                          className="absolute left-3.5 top-3.5 flex h-10 w-10 items-center justify-center rounded-xl bg-white/95 shadow-md backdrop-blur-md"
+                          style={{ color: unit.color }}
+                        >
+                          <Icon className="h-5 w-5" aria-hidden="true" />
+                        </span>
+
+                        {/* Top-right label badge (consistent with home hub section) */}
+                        <span
+                          className={`absolute right-3.5 top-3.5 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider shadow-sm backdrop-blur-md ${unit.textColor}`}
+                        >
+                          <span
+                            className="h-2 w-2 rounded-full shrink-0"
+                            style={{ backgroundColor: unit.color }}
+                            aria-hidden="true"
+                          />
+                          {unit.badgeLabel}
+                        </span>
                       </div>
                     </div>
 
                     {/* Text and Details */}
-                    <div className={`lg:col-span-7 space-y-5 ${isEven ? "lg:order-1" : "lg:order-2"}`}>
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider"
-                           style={{ backgroundColor: `${unit.color}15`, color: unit.color }}>
-                        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: unit.color }} />
-                        {unit.lineName}
+                    <div className={`lg:col-span-7 space-y-4 ${isEven ? "lg:order-1" : "lg:order-2"}`}>
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <span
+                          className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-black uppercase tracking-wider ${unit.bgColor} ${unit.textColor}`}
+                        >
+                          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: unit.color }} />
+                          {unit.badgeLabel}
+                        </span>
+                        <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                          {unit.tagline}
+                        </span>
                       </div>
 
                       <h3 className="font-heading text-2xl sm:text-3xl font-black text-foreground">
                         {unit.name}
                       </h3>
 
-                      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed font-medium">
+                      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                         {unit.purpose}
                       </p>
 
-                      <div className="grid sm:grid-cols-2 gap-4 pt-2 text-xs">
-                        <div className="p-3.5 rounded-2xl bg-slate-50 border border-border/70">
-                          <span className="block font-black text-foreground mb-1">
+                      <div className="grid sm:grid-cols-2 gap-3 pt-1 text-xs">
+                        <div className="p-3.5 rounded-xl bg-slate-50/80 border border-border/70">
+                          <span className="block font-bold text-foreground mb-1 text-[11px] uppercase tracking-wider">
                             ¿A quién está dirigida?
                           </span>
                           <p className="text-muted-foreground leading-relaxed">{unit.targetAudience}</p>
                         </div>
 
-                        <div className="p-3.5 rounded-2xl bg-slate-50 border border-border/70">
-                          <span className="block font-black text-foreground mb-1">
+                        <div className="p-3.5 rounded-xl bg-slate-50/80 border border-border/70">
+                          <span className="block font-bold text-foreground mb-1 text-[11px] uppercase tracking-wider">
                             Instalaciones confirmadas:
                           </span>
                           <p className="text-muted-foreground leading-relaxed">{unit.spaceDescription}</p>
                         </div>
                       </div>
 
-                      <div className="space-y-2 pt-2">
+                      <ul className="grid sm:grid-cols-2 gap-2 pt-2 text-xs font-semibold text-foreground/85">
                         {unit.features.map((feature, fIndex) => (
-                          <div key={fIndex} className="flex items-center gap-2 text-xs font-semibold text-foreground/90">
-                            <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: unit.color }} />
-                            <span>{feature}</span>
-                          </div>
+                          <li key={fIndex} className="flex items-start gap-2">
+                            <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" style={{ color: unit.color }} />
+                            <span className="leading-snug">{feature}</span>
+                          </li>
                         ))}
-                      </div>
+                      </ul>
 
-                      <div className="pt-4">
+                      <div className="pt-3">
                         <Button
                           asChild
-                          className="rounded-xl font-bold h-12 px-6 shadow-sm hover:scale-[1.02] transition-transform text-white"
+                          size="lg"
+                          className="rounded-2xl font-bold h-12 px-7 text-white shadow-sm transition-all hover:scale-[1.01]"
                           style={{ backgroundColor: unit.color }}
                         >
-                          <Link href={unit.href} className="flex items-center gap-2">
+                          <Link href={unit.href} className="inline-flex items-center gap-2">
                             Conocer {unit.name}
                             <ArrowRight className="w-4 h-4" />
                           </Link>
