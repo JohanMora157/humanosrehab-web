@@ -10,7 +10,7 @@ const footerUnits = [
 ]
 
 const footerEcosystem = [
-  { label: "El Ecosistema", href: "/ecosistema" },
+  { label: "HUMANOS HUB", href: "/ecosistema" },
   { label: "Directorio de servicios", href: "/servicios" },
   { label: "Preguntas frecuentes", href: "/preguntas-frecuentes" },
   { label: "Tarjetas de regalo", href: "/tarjetas-regalo" },
@@ -86,10 +86,10 @@ export function Footer() {
               </ul>
             </div>
 
-            {/* Column 3 - Ecosistema y Recursos (spans 2 cols) */}
+            {/* Column 3 - HUMANOS HUB y Recursos (spans 2 cols) */}
             <div className="lg:col-span-2">
               <h3 className="font-heading text-xs font-bold uppercase tracking-widest text-white/50 border-l-2 border-[#0875D1] pl-3 mb-5">
-                Ecosistema
+                HUMANOS HUB
               </h3>
               <ul className="space-y-3">
                 {footerEcosystem.map((link) => (

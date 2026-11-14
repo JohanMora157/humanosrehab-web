@@ -194,65 +194,53 @@ export function EcosistemaContent() {
   return (
     <div className="relative overflow-hidden bg-background">
       {/* =========================================================================
-          SECCIÓN 1 — HERO INSTITUCIONAL DEL ECOSISTEMA
+          SECCIÓN 1 — HERO INSTITUCIONAL: HUMANOS HUB
       ========================================================================= */}
-      <section className="relative overflow-hidden bg-transparent pt-8 pb-16 lg:pt-14 lg:pb-24">
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#EEF5FB] via-[#F7FAFD] to-background pt-12 pb-16 lg:pt-20 lg:pb-24 border-b border-border/40">
+        {/* Soft ambient lighting with brand colors */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute -top-28 left-1/2 -translate-x-1/2 w-[760px] h-[360px] bg-gradient-to-tr from-[#00B9DB]/20 via-[#0875D1]/15 to-[#7771C7]/15 blur-3xl opacity-75 rounded-full"
+        />
+        {/* Subtle patterned background for tactile depth */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-[0.035]"
           style={{
-            background:
-              "linear-gradient(110deg, rgba(8, 117, 209, 0.04), transparent 50%, rgba(0, 185, 219, 0.04))",
-            maskImage: "linear-gradient(to bottom, black 65%, transparent 100%)",
+            backgroundImage: `radial-gradient(circle at 1px 1px, #072B4F 1px, transparent 0)`,
+            backgroundSize: "28px 28px",
           }}
         />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-black uppercase tracking-wider mb-6 border border-primary/10 shadow-xs">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-primary text-xs font-black uppercase tracking-wider mb-6 border border-primary/20 shadow-xs">
               <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
-              Ecosistema Integral · Cali Norte
+              HUMANOS HUB · CUATRO UNIDADES
             </div>
 
-            <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground text-balance leading-[1.12]">
-              El ecosistema <span className="text-primary text-glow">HUMANOS</span>
+            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-foreground text-balance leading-[1.12]">
+              HUMANOS <span className="text-primary text-glow">HUB</span>
             </h1>
 
-            <p className="mt-5 text-base sm:text-lg text-muted-foreground font-medium leading-relaxed max-w-2xl mx-auto">
-              Reunimos cuatro unidades complementarias para acompañar tu proceso de recuperación,
-              fortalecimiento, movilidad y formación profesional bajo una misma cultura asistencial.
+            <p className="mt-5 text-base sm:text-lg lg:text-xl text-muted-foreground font-medium leading-relaxed max-w-2xl mx-auto text-balance">
+              Cuatro unidades complementarias en Cali Norte para acompañar cada etapa de tu recuperación,
+              readaptación física, movilidad asistida y formación profesional bajo una misma cultura asistencial.
             </p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Button asChild size="lg" className="rounded-2xl h-14 px-8 font-bold shadow-lg shadow-primary/15">
+              <Button asChild size="lg" className="rounded-2xl h-13 px-8 font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all">
+                <a href="#unidades">
+                  Explorar las 4 unidades
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="rounded-2xl h-13 px-8 font-bold border-border/80 bg-white/90 hover:bg-white transition-all shadow-xs">
                 <a href="#comparador">
-                  <Compass className="mr-2 h-4 w-4" />
+                  <Compass className="mr-2 h-4 w-4 text-primary" />
                   ¿Cuál unidad necesito?
                 </a>
               </Button>
-              <Button asChild variant="outline" size="lg" className="rounded-2xl h-14 px-8 font-bold border-border/80">
-                <a href="#unidades">Ver las 4 unidades</a>
-              </Button>
-            </div>
-
-            {/* Quick credentials */}
-            <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-border/60">
-              <div className="p-3 rounded-2xl bg-white border border-border/70 shadow-xs">
-                <p className="font-heading font-black text-primary text-base">4 Unidades</p>
-                <p className="text-[10px] text-muted-foreground font-bold mt-0.5">Especializadas</p>
-              </div>
-              <div className="p-3 rounded-2xl bg-white border border-border/70 shadow-xs">
-                <p className="font-heading font-black text-primary text-base">Cali Norte</p>
-                <p className="text-[10px] text-muted-foreground font-bold mt-0.5">Av. 2D Norte</p>
-              </div>
-              <div className="p-3 rounded-2xl bg-white border border-border/70 shadow-xs">
-                <p className="font-heading font-black text-primary text-base">Cita previa</p>
-                <p className="text-[10px] text-muted-foreground font-bold mt-0.5">Atención guiada</p>
-              </div>
-              <div className="p-3 rounded-2xl bg-white border border-border/70 shadow-xs">
-                <p className="font-heading font-black text-primary text-base">Sin circuitos</p>
-                <p className="text-[10px] text-muted-foreground font-bold mt-0.5">Paso voluntario</p>
-              </div>
             </div>
           </div>
         </div>
