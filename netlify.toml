@@ -1,5 +1,6 @@
 [build]
-  # Run pnpm through npx so the build works even where pnpm isn't installed globally.
-  # The version matches the pnpm Netlify uses to install dependencies.
-  command = "npx -y pnpm@10.30.3 install --frozen-lockfile && npx -y pnpm@10.30.3 run build"
+  command = "pnpm run build"
   publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"

@@ -6,24 +6,20 @@ import Image from "next/image"
 import {
   Activity,
   ArrowRight,
-  BookOpen,
+  BookOpenCheck,
   Building2,
   Calendar,
   CheckCircle2,
   Compass,
-  Dumbbell,
-  GraduationCap,
   HeartPulse,
   HelpCircle,
   Layers,
   MapPin,
-  MessageSquare,
   Route,
   Shield,
   ShieldCheck,
-  Sparkles,
-  Stethoscope,
   Target,
+  Wind,
   Zap,
 } from "lucide-react"
 
@@ -32,7 +28,8 @@ import { Button } from "@/components/ui/button"
 interface EcosystemUnit {
   id: string
   name: string
-  lineName: string
+  tagline: string
+  badgeLabel: string
   purpose: string
   targetAudience: string
   spaceDescription: string
@@ -43,14 +40,15 @@ interface EcosystemUnit {
   href: string
   image: string
   features: string[]
-  icon: typeof Stethoscope
+  icon: typeof HeartPulse
 }
 
 const ecosystemUnits: EcosystemUnit[] = [
   {
     id: "fisioterapia",
     name: "HUMANOS Fisioterapia",
-    lineName: "Unidad Clínica y Asistencial",
+    tagline: "Unidad clínica y rehabilitación",
+    badgeLabel: "Unidad Clínica",
     purpose:
       "Valoración clínica minuciosa, tratamiento y rehabilitación musculoesquelética, y consultorios independientes para piso pélvico y drenaje linfático.",
     targetAudience:
@@ -59,7 +57,7 @@ const ecosystemUnits: EcosystemUnit[] = [
       "5 estaciones clínicas funcionales con camilla + 2 consultorios independientes dedicados a piso pélvico y drenaje.",
     color: "#00B9DB",
     textColor: "text-[#006D82]",
-    borderColor: "border-[#00B9DB]/40",
+    borderColor: "border-[#00B9DB]/30",
     bgColor: "bg-[#00B9DB]/10",
     href: "/humanos-clinica",
     image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-dsYNDGnE85fZdm7sTVQBW43BhvXFS2.png",
@@ -69,12 +67,13 @@ const ecosystemUnits: EcosystemUnit[] = [
       "Consultorio independiente de piso pélvico",
       "Consultorio independiente de drenaje linfático",
     ],
-    icon: Stethoscope,
+    icon: HeartPulse,
   },
   {
     id: "activa",
     name: "HUMANOS Activa",
-    lineName: "Fuerza y Readaptación Física",
+    tagline: "Readaptación física y acondicionamiento",
+    badgeLabel: "Readaptación y Fuerza",
     purpose:
       "Acondicionamiento físico individualizado, desarrollo de fuerza y control motor con supervisión biomecánica para consolidar la salud motriz.",
     targetAudience:
@@ -83,7 +82,7 @@ const ecosystemUnits: EcosystemUnit[] = [
       "Espacio independiente acondicionado con máquinas multifuerza, rack, bancos de fuerza y material fisioterapéutico.",
     color: "#0875D1",
     textColor: "text-[#0862AE]",
-    borderColor: "border-[#0875D1]/40",
+    borderColor: "border-[#0875D1]/30",
     bgColor: "bg-[#0875D1]/10",
     href: "/humanos-activo",
     image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-W7kul7TsRGLitaYXgTnfkQFW5QutbD.png",
@@ -93,12 +92,13 @@ const ecosystemUnits: EcosystemUnit[] = [
       "Control de postura y técnica motriz",
       "Retorno seguro al deporte y la vida activa",
     ],
-    icon: Dumbbell,
+    icon: Activity,
   },
   {
     id: "stretching",
     name: "HUMANOS Stretching Lab",
-    lineName: "Movilidad Asistida y Flexibilidad",
+    tagline: "Elongación asistida y movilidad",
+    badgeLabel: "Movilidad Asistida",
     purpose:
       "Elongación guiada y movilidad corporal asistida para recuperar amplitud articular, modular la rigidez postural y favorecer la relajación física.",
     targetAudience:
@@ -107,22 +107,23 @@ const ecosystemUnits: EcosystemUnit[] = [
       "Zona de movilidad equipada con 3 estaciones funcionales y área de colchonetas para trabajo asistido y activo.",
     color: "#009BB5",
     textColor: "text-[#00687A]",
-    borderColor: "border-[#009BB5]/40",
+    borderColor: "border-[#009BB5]/30",
     bgColor: "bg-[#009BB5]/10",
     href: "/stretching-lab",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-f2228yQ37F2K0h24pXl9P2PzK5m91A.png",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-uQhlmMcbHYP9AMQ8TbcGpEUG0A71Ud.png",
     features: [
       "Elongación asistida sin dolor forzado",
       "Movilidad articular guiada en colchoneta",
       "Diferenciada de descarga muscular clínica",
       "Pautas de movilidad para el día a día",
     ],
-    icon: Sparkles,
+    icon: Wind,
   },
   {
     id: "academia",
     name: "HUMANOS Academia",
-    lineName: "Formación Continua y Cursos Prácticos",
+    tagline: "Educación y formación continua",
+    badgeLabel: "Educación Continua",
     purpose:
       "Espacio formativo para transferir razonamiento clínico, palpación biomecánica y destrezas prácticas a profesionales y estudiantes del movimiento.",
     targetAudience:
@@ -131,7 +132,7 @@ const ecosystemUnits: EcosystemUnit[] = [
       "Sede acondicionada para prácticas presenciales, análisis de casos y talleres intensivos con retroalimentación docente directa.",
     color: "#7771C7",
     textColor: "text-[#524CA8]",
-    borderColor: "border-[#7771C7]/40",
+    borderColor: "border-[#7771C7]/30",
     bgColor: "bg-[#7771C7]/10",
     href: "/academia",
     image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-pm1Y5QiXI4Md8qgc8KFxrZ2HKcx0h2.png",
@@ -141,7 +142,7 @@ const ecosystemUnits: EcosystemUnit[] = [
       "Transparencia sobre constancias académicas",
       "Retroalimentación directa en práctica guiada",
     ],
-    icon: GraduationCap,
+    icon: BookOpenCheck,
   },
 ]
 
@@ -194,65 +195,71 @@ export function EcosistemaContent() {
   return (
     <div className="relative overflow-hidden bg-background">
       {/* =========================================================================
-          SECCIÓN 1 — HERO INSTITUCIONAL DEL ECOSISTEMA
+          SECCIÓN 1 — HERO INSTITUCIONAL: HUMANOS HUB
       ========================================================================= */}
-      <section className="relative overflow-hidden bg-transparent pt-8 pb-16 lg:pt-14 lg:pb-24">
+      <section className="relative overflow-hidden bg-transparent pt-8 pb-16 lg:pt-14 lg:pb-24 border-b border-border/40">
+        {/* Dynamic kinetic nodes */}
+        <div className="absolute top-[20%] left-[8%] pointer-events-none select-none hidden lg:block animate-float">
+          <span className="relative flex h-3.5 w-3.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00B9DB] opacity-75" />
+            <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#00B9DB]" />
+          </span>
+        </div>
+        <div className="absolute bottom-[24%] right-[10%] pointer-events-none select-none hidden lg:block animate-float delay-200">
+          <span className="relative flex h-3.5 w-3.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0875D1] opacity-75" />
+            <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#0875D1]" />
+          </span>
+        </div>
+
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(110deg, rgba(8, 117, 209, 0.04), transparent 50%, rgba(0, 185, 219, 0.04))",
+              "linear-gradient(110deg, rgba(8, 117, 209, 0.045), transparent 55%, rgba(7, 27, 54, 0.025))",
             maskImage: "linear-gradient(to bottom, black 65%, transparent 100%)",
           }}
         />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-black uppercase tracking-wider mb-6 border border-primary/10 shadow-xs">
-              <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
-              Ecosistema Integral · Cali Norte
+          <div className="max-w-4xl mx-auto text-center bg-white/70 backdrop-blur-md border border-white/80 shadow-premium p-8 sm:p-12 lg:p-14 rounded-[32px] transition-all duration-500">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-extrabold uppercase tracking-wider mb-6 shadow-xs border border-primary/5">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#0875D1] animate-pulse" />
+              HUMANOS HUB · CUATRO UNIDADES
             </div>
 
-            <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground text-balance leading-[1.12]">
-              El ecosistema <span className="text-primary text-glow">HUMANOS</span>
+            <h1 className="font-heading text-4xl sm:text-5xl lg:text-[56px] font-black tracking-tight text-foreground leading-[1.08] text-balance">
+              HUMANOS <span className="text-[#0875D1] text-glow">HUB</span>
             </h1>
 
-            <p className="mt-5 text-base sm:text-lg text-muted-foreground font-medium leading-relaxed max-w-2xl mx-auto">
-              Reunimos cuatro unidades complementarias para acompañar tu proceso de recuperación,
-              fortalecimiento, movilidad y formación profesional bajo una misma cultura asistencial.
+            <p className="mt-6 text-base sm:text-lg text-muted-foreground leading-relaxed font-semibold max-w-2xl mx-auto opacity-90 text-balance">
+              Cuatro unidades complementarias en Cali Norte para acompañar cada etapa de tu recuperación,
+              readaptación física, movilidad asistida y formación profesional bajo una misma cultura asistencial.
             </p>
 
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Button asChild size="lg" className="rounded-2xl h-14 px-8 font-bold shadow-lg shadow-primary/15">
-                <a href="#comparador">
-                  <Compass className="mr-2 h-4 w-4" />
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button
+                asChild
+                size="lg"
+                className="rounded-2xl h-14 px-8 text-base font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform"
+              >
+                <a href="#unidades" className="flex items-center gap-2">
+                  Explorar las 4 unidades
+                  <ArrowRight className="w-5 h-5" />
+                </a>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="rounded-2xl h-14 px-8 text-base font-bold hover:bg-primary/5 hover:scale-[1.02] transition-transform border-border/80 bg-white"
+              >
+                <a href="#comparador" className="flex items-center gap-2">
+                  <Compass className="w-5 h-5 text-[#0875D1]" />
                   ¿Cuál unidad necesito?
                 </a>
               </Button>
-              <Button asChild variant="outline" size="lg" className="rounded-2xl h-14 px-8 font-bold border-border/80">
-                <a href="#unidades">Ver las 4 unidades</a>
-              </Button>
-            </div>
-
-            {/* Quick credentials */}
-            <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-border/60">
-              <div className="p-3 rounded-2xl bg-white border border-border/70 shadow-xs">
-                <p className="font-heading font-black text-primary text-base">4 Unidades</p>
-                <p className="text-[10px] text-muted-foreground font-bold mt-0.5">Especializadas</p>
-              </div>
-              <div className="p-3 rounded-2xl bg-white border border-border/70 shadow-xs">
-                <p className="font-heading font-black text-primary text-base">Cali Norte</p>
-                <p className="text-[10px] text-muted-foreground font-bold mt-0.5">Av. 2D Norte</p>
-              </div>
-              <div className="p-3 rounded-2xl bg-white border border-border/70 shadow-xs">
-                <p className="font-heading font-black text-primary text-base">Cita previa</p>
-                <p className="text-[10px] text-muted-foreground font-bold mt-0.5">Atención guiada</p>
-              </div>
-              <div className="p-3 rounded-2xl bg-white border border-border/70 shadow-xs">
-                <p className="font-heading font-black text-primary text-base">Sin circuitos</p>
-                <p className="text-[10px] text-muted-foreground font-bold mt-0.5">Paso voluntario</p>
-              </div>
             </div>
           </div>
         </div>
@@ -285,83 +292,99 @@ export function EcosistemaContent() {
                 <div
                   key={unit.id}
                   id={unit.id}
-                  className={`scroll-mt-24 rounded-[32px] border ${unit.borderColor} bg-white p-7 sm:p-10 shadow-premium transition-all hover:shadow-2xl`}
+                  className="scroll-mt-24 rounded-3xl border border-border/80 bg-white p-6 sm:p-9 shadow-sm hover:shadow-xl transition-all duration-300"
+                  style={{ borderTop: `4px solid ${unit.color}` }}
                 >
                   <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                     {/* Visual Card Image */}
                     <div className={`lg:col-span-5 ${isEven ? "lg:order-2" : "lg:order-1"}`}>
-                      <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-lg border-2 border-slate-100">
+                      <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-md bg-secondary border border-border/50">
                         <Image
                           src={unit.image}
                           alt={unit.name}
                           fill
-                          className="object-cover"
+                          className="object-cover transition-transform duration-500 hover:scale-105"
                           sizes="(max-width: 1024px) 100vw, 450px"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                        <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-md flex items-center gap-3">
-                          <div
-                            className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                            style={{ backgroundColor: `${unit.color}15`, color: unit.color }}
-                          >
-                            <Icon className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <p className="text-xs font-black text-foreground leading-tight">{unit.name}</p>
-                            <p className="text-[11px] text-muted-foreground font-semibold">{unit.lineName}</p>
-                          </div>
-                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
+
+                        {/* Top-left icon badge (consistent with home hub section) */}
+                        <span
+                          className="absolute left-3.5 top-3.5 flex h-10 w-10 items-center justify-center rounded-xl bg-white/95 shadow-md backdrop-blur-md"
+                          style={{ color: unit.color }}
+                        >
+                          <Icon className="h-5 w-5" aria-hidden="true" />
+                        </span>
+
+                        {/* Top-right label badge (consistent with home hub section) */}
+                        <span
+                          className={`absolute right-3.5 top-3.5 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider shadow-sm backdrop-blur-md ${unit.textColor}`}
+                        >
+                          <span
+                            className="h-2 w-2 rounded-full shrink-0"
+                            style={{ backgroundColor: unit.color }}
+                            aria-hidden="true"
+                          />
+                          {unit.badgeLabel}
+                        </span>
                       </div>
                     </div>
 
                     {/* Text and Details */}
-                    <div className={`lg:col-span-7 space-y-5 ${isEven ? "lg:order-1" : "lg:order-2"}`}>
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider"
-                           style={{ backgroundColor: `${unit.color}15`, color: unit.color }}>
-                        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: unit.color }} />
-                        {unit.lineName}
+                    <div className={`lg:col-span-7 space-y-4 ${isEven ? "lg:order-1" : "lg:order-2"}`}>
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <span
+                          className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-black uppercase tracking-wider ${unit.bgColor} ${unit.textColor}`}
+                        >
+                          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: unit.color }} />
+                          {unit.badgeLabel}
+                        </span>
+                        <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                          {unit.tagline}
+                        </span>
                       </div>
 
                       <h3 className="font-heading text-2xl sm:text-3xl font-black text-foreground">
                         {unit.name}
                       </h3>
 
-                      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed font-medium">
+                      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                         {unit.purpose}
                       </p>
 
-                      <div className="grid sm:grid-cols-2 gap-4 pt-2 text-xs">
-                        <div className="p-3.5 rounded-2xl bg-slate-50 border border-border/70">
-                          <span className="block font-black text-foreground mb-1">
+                      <div className="grid sm:grid-cols-2 gap-3 pt-1 text-xs">
+                        <div className="p-3.5 rounded-xl bg-slate-50/80 border border-border/70">
+                          <span className="block font-bold text-foreground mb-1 text-[11px] uppercase tracking-wider">
                             ¿A quién está dirigida?
                           </span>
                           <p className="text-muted-foreground leading-relaxed">{unit.targetAudience}</p>
                         </div>
 
-                        <div className="p-3.5 rounded-2xl bg-slate-50 border border-border/70">
-                          <span className="block font-black text-foreground mb-1">
+                        <div className="p-3.5 rounded-xl bg-slate-50/80 border border-border/70">
+                          <span className="block font-bold text-foreground mb-1 text-[11px] uppercase tracking-wider">
                             Instalaciones confirmadas:
                           </span>
                           <p className="text-muted-foreground leading-relaxed">{unit.spaceDescription}</p>
                         </div>
                       </div>
 
-                      <div className="space-y-2 pt-2">
+                      <ul className="grid sm:grid-cols-2 gap-2 pt-2 text-xs font-semibold text-foreground/85">
                         {unit.features.map((feature, fIndex) => (
-                          <div key={fIndex} className="flex items-center gap-2 text-xs font-semibold text-foreground/90">
-                            <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: unit.color }} />
-                            <span>{feature}</span>
-                          </div>
+                          <li key={fIndex} className="flex items-start gap-2">
+                            <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" style={{ color: unit.color }} />
+                            <span className="leading-snug">{feature}</span>
+                          </li>
                         ))}
-                      </div>
+                      </ul>
 
-                      <div className="pt-4">
+                      <div className="pt-3">
                         <Button
                           asChild
-                          className="rounded-xl font-bold h-12 px-6 shadow-sm hover:scale-[1.02] transition-transform text-white"
+                          size="lg"
+                          className="rounded-2xl font-bold h-12 px-7 text-white shadow-sm transition-all hover:scale-[1.01]"
                           style={{ backgroundColor: unit.color }}
                         >
-                          <Link href={unit.href} className="flex items-center gap-2">
+                          <Link href={unit.href} className="inline-flex items-center gap-2">
                             Conocer {unit.name}
                             <ArrowRight className="w-4 h-4" />
                           </Link>
@@ -506,15 +529,16 @@ export function EcosistemaContent() {
       {/* =========================================================================
           SECCIÓN 5 — CTA DE ORIENTACIÓN PERSONALIZADA
       ========================================================================= */}
-      <section className="py-20 bg-gradient-to-br from-[#072B4F] to-[#0A4178] text-white relative overflow-hidden">
+      <section className="py-20 lg:py-28 bg-primary text-primary-foreground relative overflow-hidden">
+        {/* Decorative blur matching home CTA */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
 
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black text-balance leading-tight">
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-balance">
             ¿Aún no sabes qué unidad necesitas?
           </h2>
-          <p className="mt-5 text-base sm:text-lg text-white/85 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-6 text-lg text-primary-foreground/85 max-w-2xl mx-auto leading-relaxed">
             Escríbenos directamente o solicita una consulta. Nuestro equipo te escucha, comprende tu
             caso y te orienta hacia la unidad correspondiente antes de agendar tu cita.
           </p>
@@ -523,10 +547,11 @@ export function EcosistemaContent() {
             <Button
               asChild
               size="lg"
-              className="rounded-2xl px-8 h-14 text-base font-bold bg-white text-[#072B4F] hover:bg-white/90 shadow-xl hover:scale-[1.02] transition-transform"
+              variant="secondary"
+              className="rounded-2xl px-8 h-14 text-base font-semibold shadow-lg hover:shadow-xl transition-all"
             >
               <Link href="/agendar-cita" className="flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-primary" />
+                <Calendar className="w-5 h-5" />
                 Agendar u orientarme
               </Link>
             </Button>
@@ -534,7 +559,7 @@ export function EcosistemaContent() {
             <Button
               asChild
               size="lg"
-              className="rounded-2xl px-8 h-14 text-base font-bold bg-[#25D366] text-white hover:bg-[#20BD5A] shadow-xl hover:scale-[1.02] transition-transform"
+              className="rounded-2xl px-8 h-14 text-base font-bold bg-white text-primary border-2 border-transparent hover:bg-[#EBFBF0] hover:text-[#1E9A4D] hover:border-[#25D366] hover:scale-[1.02] shadow-lg transition-all group"
             >
               <a
                 href="https://wa.me/573177995831?text=Hola%2C%20quisiera%20recibir%20orientaci%C3%B3n%20sobre%20las%20unidades%20de%20HUMANOS."
@@ -542,14 +567,20 @@ export function EcosistemaContent() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"
               >
-                <MessageSquare className="w-5 h-5" />
+                <svg
+                  className="w-5 h-5 fill-[#25D366] transition-transform group-hover:scale-110"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.458 5.705 1.459h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                </svg>
                 Escribir por WhatsApp
               </a>
             </Button>
           </div>
 
-          <p className="mt-8 text-xs text-white/70">
-            Atención personalizada en Cali Norte · Av. 2D Norte #24N-85 · Cita previa confirmada
+          <p className="mt-8 text-sm text-primary-foreground/70">
+            Atención personalizada con cita previa en Cali Norte · Av. 2D Norte #24N-85
           </p>
         </div>
       </section>

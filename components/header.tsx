@@ -2,62 +2,22 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import {
   Menu,
   X,
   Phone,
   Calendar,
-  ChevronDown,
-  Stethoscope,
-  Dumbbell,
-  Sparkles,
-  GraduationCap,
-  Layers,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
 import { cn } from "@/lib/utils"
 
-const unitSublinks = [
-  {
-    name: "HUMANOS Fisioterapia",
-    href: "/humanos-clinica",
-    description: "Atención clínica, rehabilitación y consultorios especializados",
-    color: "#00B9DB",
-    icon: Stethoscope,
-  },
-  {
-    name: "HUMANOS Activa",
-    href: "/humanos-activo",
-    description: "Fuerza, control motor y readaptación al ejercicio",
-    color: "#0875D1",
-    icon: Dumbbell,
-  },
-  {
-    name: "HUMANOS Stretching Lab",
-    href: "/stretching-lab",
-    description: "Elongación asistida y movilidad postural guiada",
-    color: "#009BB5",
-    icon: Sparkles,
-  },
-  {
-    name: "HUMANOS Academia",
-    href: "/academia",
-    description: "Formación continua y cursos prácticos de movimiento",
-    color: "#7771C7",
-    icon: GraduationCap,
-  },
-]
-
 export function Header() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [mobileEcosistemaOpen, setMobileEcosistemaOpen] = useState(false)
-  const [ecosistemaDropdownOpen, setEcosistemaDropdownOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,28 +27,20 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Close dropdown on outside click or escape
+  // Close mobile menu on escape
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setEcosistemaDropdownOpen(false)
-      }
-    }
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setEcosistemaDropdownOpen(false)
         setMobileMenuOpen(false)
       }
     }
-    document.addEventListener("mousedown", handleClickOutside)
     document.addEventListener("keydown", handleKeyDown)
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
       document.removeEventListener("keydown", handleKeyDown)
     }
   }, [])
 
-  // Check if current route is part of ecosystem
+  // Check if current route is part of ecosystem / hub
   const isEcosistemaActive =
     pathname === "/ecosistema" ||
     pathname === "/humanos-clinica" ||
@@ -129,98 +81,21 @@ export function Header() {
               )}
             </Link>
 
-            {/* Ecosistema with Dropdown */}
-            <div
-              ref={dropdownRef}
-              className="relative"
-              onMouseEnter={() => setEcosistemaDropdownOpen(true)}
-              onMouseLeave={() => setEcosistemaDropdownOpen(false)}
-            >
-              <button
-                type="button"
-                onClick={() => setEcosistemaDropdownOpen(!ecosistemaDropdownOpen)}
-                aria-expanded={ecosistemaDropdownOpen}
-                aria-haspopup="true"
-                className={cn(
-                  "relative flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-                  isEcosistemaActive
-                    ? "text-primary bg-white shadow-xs"
-                    : "text-foreground/75 hover:text-foreground hover:bg-white/50"
-                )}
-              >
-                <span>Ecosistema</span>
-                <ChevronDown
-                  className={cn(
-                    "w-4 h-4 transition-transform duration-200",
-                    ecosistemaDropdownOpen ? "rotate-180 text-primary" : "text-muted-foreground"
-                  )}
-                />
-                {isEcosistemaActive && (
-                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-primary animate-pulse" />
-                )}
-              </button>
-
-              {/* Dropdown Menu */}
-              {ecosistemaDropdownOpen && (
-                <div
-                  role="menu"
-                  className="absolute top-full left-0 w-80 pt-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
-                >
-                  <div className="rounded-2xl border border-border/80 bg-white p-3 shadow-xl ring-1 ring-black/5">
-                    <Link
-                      href="/ecosistema"
-                      onClick={() => setEcosistemaDropdownOpen(false)}
-                      role="menuitem"
-                      className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-50 transition-colors border-b border-border/50 mb-1"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                        <Layers className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-black text-foreground">Ver Ecosistema Completo</p>
-                        <p className="text-[10px] text-muted-foreground">Comparador de unidades y rutas</p>
-                      </div>
-                    </Link>
-
-                    <div className="space-y-1">
-                      {unitSublinks.map((unit) => {
-                        const Icon = unit.icon
-                        const isCurrent = pathname === unit.href
-                        return (
-                          <Link
-                            key={unit.name}
-                            href={unit.href}
-                            onClick={() => setEcosistemaDropdownOpen(false)}
-                            role="menuitem"
-                            className={cn(
-                              "flex items-start gap-2.5 p-2 rounded-xl transition-colors",
-                              isCurrent
-                                ? "bg-slate-100 font-bold"
-                                : "hover:bg-slate-50"
-                            )}
-                          >
-                            <div
-                              className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
-                              style={{ backgroundColor: `${unit.color}15`, color: unit.color }}
-                            >
-                              <Icon className="w-4 h-4" />
-                            </div>
-                            <div className="min-w-0">
-                              <p className="text-xs font-bold text-foreground leading-tight">
-                                {unit.name}
-                              </p>
-                              <p className="text-[10px] text-muted-foreground truncate mt-0.5">
-                                {unit.description}
-                              </p>
-                            </div>
-                          </Link>
-                        )
-                      })}
-                    </div>
-                  </div>
-                </div>
+            {/* Humanos Hub (Enlace directo sin desplegable) */}
+            <Link
+              href="/ecosistema"
+              className={cn(
+                "relative px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+                isEcosistemaActive
+                  ? "text-primary bg-white shadow-xs"
+                  : "text-foreground/75 hover:text-foreground hover:bg-white/50"
               )}
-            </div>
+            >
+              Humanos Hub
+              {isEcosistemaActive && (
+                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-primary animate-pulse" />
+              )}
+            </Link>
 
             {/* Servicios */}
             <Link
@@ -324,59 +199,19 @@ export function Header() {
               Inicio
             </Link>
 
-            {/* Ecosistema Expandable in Mobile */}
-            <div className="rounded-xl border border-border/60 overflow-hidden bg-slate-50/50">
-              <div className="flex items-center justify-between p-2">
-                <Link
-                  href="/ecosistema"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex-1 px-2 py-1.5 text-sm font-bold text-foreground hover:text-primary"
-                >
-                  Ecosistema (General)
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => setMobileEcosistemaOpen(!mobileEcosistemaOpen)}
-                  aria-label="Ver 4 unidades"
-                  className="p-2 rounded-lg hover:bg-slate-200/60"
-                >
-                  <ChevronDown
-                    className={cn(
-                      "w-4 h-4 transition-transform duration-200",
-                      mobileEcosistemaOpen && "rotate-180 text-primary"
-                    )}
-                  />
-                </button>
-              </div>
-
-              {mobileEcosistemaOpen && (
-                <div className="px-3 pb-3 pt-1 space-y-1 border-t border-border/50 bg-white">
-                  {unitSublinks.map((unit) => {
-                    const Icon = unit.icon
-                    const isCurrent = pathname === unit.href
-                    return (
-                      <Link
-                        key={unit.name}
-                        href={unit.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={cn(
-                          "flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-bold transition-colors",
-                          isCurrent ? "bg-slate-100 text-primary" : "text-foreground/80 hover:bg-slate-50"
-                        )}
-                      >
-                        <div
-                          className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
-                          style={{ backgroundColor: `${unit.color}15`, color: unit.color }}
-                        >
-                          <Icon className="w-3.5 h-3.5" />
-                        </div>
-                        <span>{unit.name}</span>
-                      </Link>
-                    )
-                  })}
-                </div>
+            {/* Humanos Hub */}
+            <Link
+              href="/ecosistema"
+              onClick={() => setMobileMenuOpen(false)}
+              className={cn(
+                "block px-4 py-3 rounded-xl text-sm font-bold transition-all",
+                isEcosistemaActive
+                  ? "bg-primary text-primary-foreground"
+                  : "text-foreground hover:bg-secondary"
               )}
-            </div>
+            >
+              Humanos Hub
+            </Link>
 
             {/* Servicios */}
             <Link
